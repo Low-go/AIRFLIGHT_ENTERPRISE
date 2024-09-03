@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FleetsConfig(AppConfig):
+class CompanyTreeConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'fleets'
+    name = 'company_tree'

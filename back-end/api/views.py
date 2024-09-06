@@ -1,28 +1,28 @@
 
-from rest_framework import viewset
+from rest_framework import viewsets
 from company_tree.models import Company, Contact, Fleet, Aircraft, Part, Note
 from .serializers import CompanySerializer, ContactSerializer, FleetSerializer, AircraftSerializer, PartSerializer, NoteSerializer
 
-class CompanyViewSet(viewset.ModelViewSet):
+class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-class ContactViewset(viewset.ModelViewSet):
+class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-class FleetViewset(viewset.ModelViewSet):
+class FleetViewSet(viewsets.ModelViewSet):
     queryset = Fleet.objects.all()
     serializer_class = FleetSerializer
 
-class AirCraftViewset(viewset.ModelViewSet):
+class AircraftViewSet(viewsets.ModelViewSet):
     queryset = Aircraft.objects.all()
     serializer_class = AircraftSerializer
 
-class PartViewset(viewset.ModelViewSet):
+class PartViewSet(viewsets.ModelViewSet):
     queryset = Part.objects.all()
     serializer_class = PartSerializer
 
-class NoteViewset(viewset.ModelViewSet):
+class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer

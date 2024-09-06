@@ -20,7 +20,7 @@ class Aircraft(models.Model):
     fleet = models.ForeignKey(Fleet, on_delete=models.CASCADE, related_name='aircraft')
     name = models.CharField(max_length=200)
     model = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='aircraft_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='aircraft_images/', blank=True, null=True) # double check if image field is the correct way to bring in images
 
 class Part(models.Model):
     aircraft = models.ForeignKey(Aircraft, on_delete=models.CASCADE, related_name='parts')

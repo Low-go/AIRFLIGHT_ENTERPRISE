@@ -1,8 +1,9 @@
 import './App.css';
+import MainScreen from '../src/Components/MainScreen.js';
 
 function App() {
   return (
-    <h1>test</h1>
+    <MainScreen/>
   );
 }
 

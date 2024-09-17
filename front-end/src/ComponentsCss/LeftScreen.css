@@ -7,23 +7,5 @@
 .left-screen.closed{
     flex: 0 0 0%;
 }
-.toggle-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-  
-.left-screen.closed .toggle-button {
-    right: -40px;
-}
+
   

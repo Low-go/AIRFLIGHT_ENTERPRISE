@@ -13,11 +13,14 @@ function MainScreen() {
 
   return (
     <div className='main-screen'>
-      <LeftScreen isOpen={isLeftPanelOpen} togglePanel={toggleLeftPanel}/>
-      <div className='screen-divider'></div>
-      <RightScreen isLeftPanelOpen={isLeftPanelOpen}/>
+      <LeftScreen isOpen={isLeftPanelOpen} />
+      <div className="screen-divider"></div>
+      <RightScreen isLeftPanelOpen={isLeftPanelOpen} />
+      <button className={`toggle-button ${isLeftPanelOpen ? 'open' : 'closed'}`} onClick={toggleLeftPanel}>
+        {isLeftPanelOpen ? '←' : '→'}
+      </button>
     </div>
-  )
+  );
 }
 
 export default MainScreen

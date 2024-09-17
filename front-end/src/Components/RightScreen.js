@@ -4,20 +4,17 @@ import 'reactflow/dist/style.css';
 import '../ComponentsCss/RightScreen.css';
 
 
-function RightScreen() {
-
+function RightScreen({ isLeftPanelOpen }) {
   const nodes = [];
   const edges = [];
 
   return (
-    //  after the screens are split undo this and play around
-    // <div className='right-screen'>
-    //   <ReactFlow nodes={nodes} edges={edges} fitView>
-    //     <Background color="#aaa" gap={16} /> 
-    //   </ReactFlow>
-    // </div>
-    <h1>test</h1>
-  )
+    <div className={`right-screen ${!isLeftPanelOpen ? 'full-width' : ''}`}>
+      <ReactFlow nodes={nodes} edges={edges} fitView>
+        <Background color="#aaa" gap={16} variant="dots" />
+      </ReactFlow>
+    </div>
+  );
 }
 
 export default RightScreen

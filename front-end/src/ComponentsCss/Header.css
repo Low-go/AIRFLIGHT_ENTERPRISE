@@ -1,16 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+body{
+    font-family: 'Poppins', sans-serif;
+}
 .header {
     background-color: #ffffff;
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 65px;
+    padding: 1rem 80px;
     border-bottom: 1px solid #e0e0e0;
+    font-family: 'Poppins', sans-serif;
 }
   
 .logo {
-    font-weight: 900;
-    font-size: 1.25rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
   
 .header-right {
@@ -31,6 +37,7 @@
     color: #61717c;
     text-decoration: none;
     transition: color 0.2s ease;
+    font-weight: 400;;
 }
   
 .nav-link:hover {
@@ -38,7 +45,7 @@
 }
   
 .search-button {
-    padding: 0.5rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -50,6 +57,8 @@
 
 .search-button span {
     color: #6b7280;
+    margin-left: 0.25rem;
+    font-size: 0.9rem;
 }
   
 .search-button:hover,
@@ -63,13 +72,15 @@
 }
   
 .reset-button {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.75rem;
     background-color: #ff0071;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
   
 .reset-button:hover {

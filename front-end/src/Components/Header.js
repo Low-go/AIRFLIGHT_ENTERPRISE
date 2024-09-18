@@ -6,7 +6,6 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">AIRFLIGHT ENTERPRISE</div>
-      
       <div className="header-right">
         <nav>
           <ul className="nav-list">

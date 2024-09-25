@@ -1,14 +1,24 @@
+import React from 'react';
+import { ReactFlow } from 'react-flow-renderer';
+import Sidebar from './Components/Sidebar';
+import Header from './Components/Header';
+import DiagramArea from './Components/DiagramArea';
+import TableArea from './Components/TableArea';
 import './App.css';
-import MainScreen from '../src/Components/MainScreen.js';
-import Header from './Components/Header.js';
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Header/>
-      <MainScreen/>
-    </>
+    <div className="app-container">
+      <Sidebar />
+      <div className="main-content">
+        <Header />
+        <div className="dashboard-content">
+          <DiagramArea />
+          <TableArea />
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default App;

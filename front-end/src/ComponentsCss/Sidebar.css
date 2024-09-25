@@ -1,0 +1,36 @@
+.sidebar {
+    width: 60px;
+    background-color: white; /*lets change these colors later after we fix the sidebar*/
+    color: black;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.logo {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+  
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.sidebar nav ul li {
+    margin-bottom: 20px;
+}
+  
+.sidebar button {
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font-size: 20px;
+}
+  
+.sidebar button:hover {
+    opacity: 0.8;
+}

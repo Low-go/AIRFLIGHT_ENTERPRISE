@@ -1,8 +1,0 @@
-.right-screen {
-    flex: 1;
-    transition: all 0.3s ease;
-}
-  
-.right-screen.full-width {
-    flex: 1;
-}

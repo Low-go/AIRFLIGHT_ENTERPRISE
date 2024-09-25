@@ -1,0 +1,47 @@
+.table-area {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  
+  .table-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .table-tabs button {
+    background: none;
+    border: none;
+    color: #ff0071;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .table-tabs button.active {
+    background-color: #f0e6ff;
+    font-weight: bold;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  th {
+    font-weight: bold;
+    color: #ff0071;
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
+  }

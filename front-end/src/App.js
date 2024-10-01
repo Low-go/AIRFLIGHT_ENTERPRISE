@@ -1,24 +1,34 @@
-import React from 'react';
-import { ReactFlow } from 'react-flow-renderer';
-import Sidebar from './Components/Sidebar';
-import Header from './Components/Header';
-import DiagramArea from './Components/DiagramArea';
-import TableArea from './Components/TableArea';
 import './App.css';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import Sidebar from './Components/Sidebar';
+import Navbar from './Components/Navbar'; 
+import { SIDEBAR_WIDTH } from './constants';
 
-const App = () => {
+function App() {
   return (
-    <div className="app-container">
+    <Box sx={{ display: 'flex' }}>
       <Sidebar />
-      <div className="main-content">
-        <Header />
-        <div className="dashboard-content">
-          <DiagramArea />
-          <TableArea />
-        </div>
-      </div>
-    </div>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'background.default',
+          width: { sm: `calc(100% - ${SIDEBAR_WIDTH}px)` }
+        }}
+      >
+        <Navbar /> 
+        <Toolbar /> 
+        <Box sx={{ p: 3 }}>
+          <Typography>
+            This is where main content goes
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
-};
+}
 
 export default App;

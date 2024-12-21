@@ -20,19 +20,27 @@ const Topbar = () => {
         {/* SEARCH BAR  */}
         <Box
           display="flex"
-          backgroundColor={colors.primary[400]}
-          borderRadius="3px">
-            <InputBase sx={{ml: 2, flex: 1}} placeholder="Search">
+          backgroundColor={colors.primary[900]}
+          borderRadius="3px"
+          >
+            <InputBase sx={{ml: 2, flex: 1,
+                      color: theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[100],
+                      '&::placeholder': {
+                        color: theme.palette.mode === "dark" ? colors.grey[300] : colors.grey[700],
+                      }
+            }} placeholder="Search">
             </InputBase>
             <IconButton>
-              <SearchIcon type="button" sx={{ p: 1}}/>
+              <SearchIcon type="button" sx={{ p: 1, 
+                color: theme.palette.mode === "dark" ? colors.grey[800] : colors.grey[200]
+              }}/>
             </IconButton>
         </Box>
         {/** ICONS */}
         <Box display="flex">
           {/**Basically if else condition checling which mode when clicked, switches appropriately */}
           <IconButton onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === 'dark' ?(
+            {theme.palette.mode === "dark" ?(
               <DarkModeOutlinedIcon/>
             ) :(
               <LightModeOutlinedIcon/>

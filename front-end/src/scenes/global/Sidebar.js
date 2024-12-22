@@ -8,6 +8,7 @@ import  HomeOutlinedIcon  from "@mui/icons-material/HomeOutlined";
 import  FeedOutlinedIcon  from "@mui/icons-material/FeedOutlined";
 import  HubOutlinedIcon  from "@mui/icons-material/HubOutlined";
 import  QuizOutlinedIcon  from "@mui/icons-material/QuizOutlined";
+import MenuOutlinedIcon  from "@mui/icons-material/MenuOutlined";
 // maybe i should do a calander not sure yet
 
 const Sidebar = () => {
@@ -18,9 +19,51 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard"); // which page we are at
 
   return (
-    <div>
-      Sidebar
-    </div>
+    <Box
+      sx={{
+        "& .pro-sidebar-inner": {
+          background: `${colors.primary[400]} !important`
+        },
+        "& .pro-icon-wrapper":{
+          backgroundColor: "transparent !important" 
+        },
+        "& .pro-inner-item":{
+          padding: "5px 36px 5px 20px !important"
+        },
+        "& .pro-inner-item:hover":{
+          color: "#868dfb !important"
+        },
+        "& .pro-menu-item.active":{
+          color: "#6870fa !important"
+        }
+      }}
+    >
+      <ProSidebar collapsed={isCollapsed}>
+        <Menu iconShape="square">
+          {/** Logo and Menu */}
+          {/**Logic here is a if collpased versus isnt type of logic */}
+          <MenuItem 
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={!isCollapsed ? <MenuOutlinedIcon/> : undefined}
+            style={{
+              margin: "10px 0 20px 0",
+              color: colors.grey[100],
+            }}
+          >
+            {!isCollapsed &&(
+              <Box>
+                <Typography>
+                  AIRFLIGHT-ENTERPRISE
+                </Typography>
+                <IconButton>
+                  <MenuOutlinedIcon/>
+                </IconButton>
+              </Box>
+            )}
+          </MenuItem>
+        </Menu>
+      </ProSidebar>
+    </Box>
   )
 }
 

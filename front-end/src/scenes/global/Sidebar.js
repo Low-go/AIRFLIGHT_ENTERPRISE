@@ -22,41 +22,45 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`
+          background: `${colors.primary[400]} !important`,
         },
-        "& .pro-icon-wrapper":{
-          backgroundColor: "transparent !important" 
+        "& .pro-icon-wrapper": {
+          backgroundColor: "transparent !important",
         },
-        "& .pro-inner-item":{
-          padding: "5px 36px 5px 20px !important"
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
         },
-        "& .pro-inner-item:hover":{
-          color: "#868dfb !important"
+        "& .pro-inner-item:hover": {
+          color: "#868dfb !important",
         },
-        "& .pro-menu-item.active":{
-          color: "#6870fa !important"
-        }
+        "& .pro-menu-item.active": {
+          color: "#6870fa !important",
+        },
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
-          {/** Logo and Menu */}
-          {/**Logic here is a if collpased versus isnt type of logic */}
-          <MenuItem 
+          {/* LOGO AND MENU ICON */}
+          <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={!isCollapsed ? <MenuOutlinedIcon/> : undefined}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
               color: colors.grey[100],
             }}
           >
-            {!isCollapsed &&(
-              <Box>
-                <Typography>
-                  AIRFLIGHT-ENTERPRISE
+            {!isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
+                <Typography variant="h3" color={colors.grey[100]}>
+                  ADMINIS
                 </Typography>
-                <IconButton>
-                  <MenuOutlinedIcon/>
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}

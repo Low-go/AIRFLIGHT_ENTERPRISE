@@ -9,7 +9,25 @@ import  FeedOutlinedIcon  from "@mui/icons-material/FeedOutlined";
 import  HubOutlinedIcon  from "@mui/icons-material/HubOutlined";
 import  QuizOutlinedIcon  from "@mui/icons-material/QuizOutlined";
 import MenuOutlinedIcon  from "@mui/icons-material/MenuOutlined";
+import PublicIcon from '@mui/icons-material/Public';
 // maybe i should do a calander not sure yet
+
+const Item = ({ title, to, icon, selected, setSelected}) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  return ( // so we do not have to repeat for each menu item
+    <MenuItem 
+      active={selected === title} 
+      style={{color : colors.grey[100]}} 
+      onClick={(() => setSelected(title))} 
+      icon={icon}>
+
+      <Typography>{title}</Typography>
+      <Link to={to}/>
+    </MenuItem>
+  )
+}
 
 const Sidebar = () => {
 
@@ -72,6 +90,59 @@ const Sidebar = () => {
               </Box>
             )}
           </MenuItem>
+
+          {/**More menu item type stuff */}
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item 
+              title ="Dashboard"
+              to="/"
+              icon={<HomeOutlinedIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Typography
+              variant="h6"
+              colors = {colors.grey[300]}
+              sx={{m : "15px 0 5px 20px"}}
+            > Info </Typography>
+
+            <Item 
+              title ="Nodes"
+              to="/nodes"
+              icon={<HubOutlinedIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item 
+              title ="Reports"
+              to="/reports"
+              icon={<FeedOutlinedIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item 
+              title ="Geography"
+              to="/geography"
+              icon={<PublicIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Typography
+              variant="h6"
+              colors = {colors.grey[300]}
+              sx={{m : "15px 0 5px 20px"}}
+            > Help </Typography>
+
+            <Item 
+              title ="FAQ"
+              to="/faq"
+              icon={<QuizOutlinedIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
         </Menu>
       </ProSidebar>
     </Box>

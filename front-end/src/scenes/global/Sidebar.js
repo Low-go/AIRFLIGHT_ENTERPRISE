@@ -18,6 +18,13 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false); // collapse sidebar or not
   const [selected, setSelected] = useState("Dashboard"); // which page we are at
 
+  // main compliment color to be used
+  const sxHoverStyles = { // need to come back to this, its being cut out
+    '&:hover':{
+      outline: `2px solid ${colors.customAccent.main}`, 
+    },
+  }
+
   return (
     <Box
       sx={{
@@ -39,7 +46,7 @@ const Sidebar = () => {
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
+        <Menu iconShape="square" >
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -56,10 +63,10 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  STANDIN
+                <Typography variant="h5" color={colors.grey[100]}>
+                  AIRFLIGHT-ENTERPRISE
                 </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} sx={sxHoverStyles}>
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>

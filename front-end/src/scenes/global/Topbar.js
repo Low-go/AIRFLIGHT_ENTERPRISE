@@ -15,9 +15,6 @@ const Topbar = () => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
-  console.log("Current mode:", theme.palette.mode); // do comment this out
-  console.log("Current custom accent:", colors.customAccent.main);
-
   const sxHoverStyles = {
     
     '&:hover':{

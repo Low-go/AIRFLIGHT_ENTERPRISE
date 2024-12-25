@@ -3,8 +3,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import { Dashboard } from "@mui/icons-material";
-// import Dashboard from "./scenes/global/index";
+import Dashboard from "./scenes/dashboard";
 //import Geography from "./scenes/Geography";
 // do their respective imports here
 
@@ -18,7 +17,7 @@ function App() {
           <main className="content">
             <Topbar/>
             <Routes>
-              <Route path="/" element={<Dashboard/>} />
+              <Route path="/" element={<Dashboard/>} /> 
               {/* <Route path="/mainInfo" element={<MainInfo/>} />
               <Route path="/nodesPage" element={ <NodePage/>} />
               <Route path="/geography" element={<Geography/>} />

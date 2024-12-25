@@ -60,6 +60,11 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        customAccent: {
+          main: "#00b3b3",
+          light: "#8a2be2",
+          dark: "#4b0082",
+        },
       }
     : {
         grey: {
@@ -117,6 +122,11 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        customAccent: {
+          main: "#ff0071", // react flow based color
+          light: "#ff3391",
+          dark: "#cc005a",
+        },
       }),
 });
 
@@ -143,6 +153,12 @@ export const themeSettings = (mode) => {
             background: {
               default: colors.primary[500],
             },
+            customAccent: {
+              main: colors.customAccent.main,
+              light: colors.customAccent.light,
+              dark: colors.customAccent.dark,
+            },
+
           }
         : {
             // palette values for light mode
@@ -159,6 +175,11 @@ export const themeSettings = (mode) => {
             },
             background: {
               default: "#fcfcfc",
+            },
+            customAccent: {
+              main: colors.customAccent.main,
+              light: colors.customAccent.light,
+              dark: colors.customAccent.dark,
             },
           }),
     },

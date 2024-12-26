@@ -27,7 +27,7 @@ const Dashboard = () => {
           flex="1" // Equal with using flex 1 for both containers
           bgcolor={colors.primary[400]}
           p="20px"
-          borderRadius="8px"
+          borderRadius="4px"
           overflow="scroll" // left box should probably have this
         >
           <Typography variant="h6" color={colors.grey[100]}>
@@ -38,9 +38,9 @@ const Dashboard = () => {
          {/**Right Box */}
         <Box 
           flex="1" 
-          bgcolor={colors.primary[600]}
+          bgcolor={colors.primary[400]}
           p="20px"
-          borderRadius="8px"
+          borderRadius="4px"
         >
           <Typography variant="h6" color={colors.grey[100]}>
             Right Grid Content

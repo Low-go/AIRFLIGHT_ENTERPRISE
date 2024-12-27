@@ -10,7 +10,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-const Topbar = () => {
+const Topbar = () => { 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -65,3 +65,5 @@ const Topbar = () => {
 };
 
 export default Topbar;
+
+

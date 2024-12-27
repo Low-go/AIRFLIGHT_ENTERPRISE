@@ -56,7 +56,7 @@ const Sidebar = () => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
-          color: `${colors.customAccent.main} !important`,
+          color: `${colors.customAccent.light} !important`, // need a slight variation to replace you
         },
         "& .pro-menu-item.active": {
           color: `${colors.customAccent.main} !important`,

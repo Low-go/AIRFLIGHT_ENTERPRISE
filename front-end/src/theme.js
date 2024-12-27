@@ -62,7 +62,7 @@ export const tokens = (mode) => ({
         },
         customAccent: {
           main: "#00b3b3",
-          light: "#8a2be2",
+          light: "#99cccc",
           dark: "#4b0082",
         },
       }
@@ -124,7 +124,7 @@ export const tokens = (mode) => ({
         },
         customAccent: {
           main: "#ff0071", // react flow based color
-          light: "#ff3391",
+          light: "#ff66a1",
           dark: "#cc005a",
         },
       }),

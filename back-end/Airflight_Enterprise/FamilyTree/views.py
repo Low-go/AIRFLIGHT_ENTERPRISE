@@ -15,7 +15,6 @@ class FleetViewSet(viewsets.ModelViewSet):
     queryset = Fleet.objects.all()
     serializer_class = FleetSerializer
 
-
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer

@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "FamilyTree",
+    "familytree",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

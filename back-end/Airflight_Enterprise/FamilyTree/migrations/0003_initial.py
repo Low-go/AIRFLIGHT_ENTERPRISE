@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('FamilyTree', '0002_delete_teacher'),
+        ('familytree', '0002_delete_teacher'),
     ]
 
     operations = [
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(max_length=50)),
                 ('role', models.CharField(max_length=30)),
                 ('email', models.EmailField(max_length=254)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contacts', to='FamilyTree.company')),
+                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contacts', to='familytree.company')),
             ],
         ),
         migrations.CreateModel(
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('model', models.CharField(max_length=50)),
                 ('fabrication_date', models.DateField(blank=True, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fleets', to='FamilyTree.company')),
+                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fleets', to='familytree.company')),
             ],
         ),
         migrations.CreateModel(
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ('expected_lifespan', models.IntegerField(blank=True, null=True)),
                 ('manufacturer', models.CharField(blank=True, max_length=100, null=True)),
                 ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
-                ('fleet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='parts', to='FamilyTree.fleet')),
+                ('fleet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='parts', to='familytree.fleet')),
             ],
         ),
     ]

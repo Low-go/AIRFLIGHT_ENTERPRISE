@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
+from rest_framework.viewsets import GenericViewSet
 
 # import local data
 from .serializers import CompanySerializer, FleetSerializer, ContactSerializer, PartSerializer
@@ -7,11 +8,21 @@ from .models import Company, Fleet, Contact, Part
 
 # ViewSets for API endpoint.
 
-class CompanyViewSet(viewsets.ModelViewSet):
+#disallow delete 
+class CompanyViewSet(mixins.CreateModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    GenericViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-class FleetViewSet(viewsets.ModelViewSet):
+# same thing
+class FleetViewSet(mixins.CreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.ListModelMixin,
+                  GenericViewSet):
     queryset = Fleet.objects.all()
     serializer_class = FleetSerializer
 

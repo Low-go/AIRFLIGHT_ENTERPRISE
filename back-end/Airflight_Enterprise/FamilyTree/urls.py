@@ -1,4 +1,6 @@
 from django.urls import path, include
+
+# I don't know why the import does not resolve on my IDE but it works??
 from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 from .views import CompanyViewSet, FleetViewSet, ContactViewSet, PartViewSet
 

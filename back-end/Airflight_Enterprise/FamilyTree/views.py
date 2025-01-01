@@ -1,36 +1,39 @@
 from django.shortcuts import render
 from rest_framework import viewsets, mixins
 from rest_framework.viewsets import GenericViewSet
-
-# import local data
 from .serializers import CompanySerializer, FleetSerializer, ContactSerializer, PartSerializer
 from .models import Company, Fleet, Contact, Part
 
-# ViewSets for API endpoint.
-
-#disallow delete 
+# Disallow delete actions
 class CompanyViewSet(mixins.CreateModelMixin,
-                    mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.ListModelMixin,
-                    GenericViewSet):
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.ListModelMixin,
+                     GenericViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-# same thing
 class FleetViewSet(mixins.CreateModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  mixins.ListModelMixin,
-                  GenericViewSet):
-    queryset = Fleet.objects.all()
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     serializer_class = FleetSerializer
 
+    def get_queryset(self):
+        company_id = self.kwargs.get('company_pk')
+        return Fleet.objects.filter(company_id=company_id)
+
 class ContactViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
+    def get_queryset(self):
+        company_id = self.kwargs.get('company_pk')
+        return Contact.objects.filter(company_id=company_id)
+
 class PartViewSet(viewsets.ModelViewSet):
-    queryset = Part.objects.all()
     serializer_class = PartSerializer
 
+    def get_queryset(self):
+        fleet_id = self.kwargs.get('fleet_pk')
+        return Part.objects.filter(fleet_id=fleet_id)

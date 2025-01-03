@@ -2,6 +2,9 @@ import React from 'react'
 import { Box, Modal, Typography, useTheme } from "@mui/material";
 import ReactDOM from 'react-dom';
 import { tokens } from '../../theme';
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import { IconButton } from "@mui/material";
 
 
 // basic modal test
@@ -12,16 +15,16 @@ const SearchModal = ({ open, onClose}) => {
    
    const style = {
         position: 'absolute',
-        top: '50%',
+        top: '26%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: colors.primary[400],
         color: colors.grey[100],
-        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-        border: '1px solid red'
+        borderRadius: 1.5,
+        border: `2px solid ${colors.customAccent.main}`,
    };
 
   return ReactDOM.createPortal(
@@ -31,14 +34,17 @@ const SearchModal = ({ open, onClose}) => {
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
     >
-        <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-        </Box>
+    <Box
+        display="flex"
+        backgroundColor={colors.primary[400]}
+        borderRadius="3px"
+        sx={style}
+        >
+        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search Company Name" />
+        <IconButton type="button" sx={{ p: 1 }}>
+            <SearchIcon />
+        </IconButton>
+    </Box>
     </Modal>,
     document.getElementById('modal-root')
   )

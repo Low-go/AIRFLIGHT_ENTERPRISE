@@ -21,13 +21,12 @@ const SearchModal = ({ open, onClose}) => {
 
   return ReactDOM.createPortal(
     <Modal
-    sx={style}
     open={open}
     onClose={onClose}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
     >
-        <Box >
+        <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
             Text in a modal
             </Typography>

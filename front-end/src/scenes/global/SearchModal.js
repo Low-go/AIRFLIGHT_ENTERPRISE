@@ -1,12 +1,27 @@
 import React from 'react'
 import { Box, Modal, Typography } from "@mui/material";
+import ReactDOM from 'react-dom';
 
 // basic modal test
 const SearchModal = ({ open, onClose}) => {
+  
 
-  // remember to sx add style to modal later
-  return (
+   const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+        border: '1px solid red'
+   };
+
+  return ReactDOM.createPortal(
     <Modal
+    sx={style}
     open={open}
     onClose={onClose}
     aria-labelledby="modal-modal-title"
@@ -20,7 +35,8 @@ const SearchModal = ({ open, onClose}) => {
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
         </Box>
-    </Modal>
+    </Modal>,
+    document.getElementById('modal-root')
   )
 }
 

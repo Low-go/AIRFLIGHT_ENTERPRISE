@@ -24,11 +24,6 @@ const Topbar = () => {
     }
   }
 
-  // handle modal popping up
-  const searchBarClick = () => {
-    console.log("Search bar clicked");
-  }
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModel = () => setIsModalOpen(true);
@@ -43,13 +38,18 @@ const Topbar = () => {
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
         sx={sxHoverStyles}
-        onClick={searchBarClick}
+        onClick={handleOpenModel}
       >
         <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
       </Box>
+
+      <SearchModal 
+        open={isModalOpen} 
+        onClose={handleCloseModel}
+      />
 
       {/* ICONS */}
       <Box display="flex">

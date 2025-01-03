@@ -10,6 +10,7 @@ import  HubOutlinedIcon  from "@mui/icons-material/HubOutlined";
 import  QuizOutlinedIcon  from "@mui/icons-material/QuizOutlined";
 import MenuOutlinedIcon  from "@mui/icons-material/MenuOutlined";
 import PublicIcon from '@mui/icons-material/Public';
+import { useSidebar } from "../../contexts/SidebarContext";
 // maybe i should do a calander not sure yet
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
@@ -33,8 +34,9 @@ const Sidebar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false); // collapse sidebar or not
+  //const [isCollapsed, setIsCollapsed] = useState(false); // collapse sidebar or not
   const [selected, setSelected] = useState("Dashboard"); // which page we are at
+  const { isCollapsed, setIsCollapsed } = useSidebar(); // custom hook
 
   // main compliment color to be used
   const sxHoverStyles = { // need to come back to this, its being cut out

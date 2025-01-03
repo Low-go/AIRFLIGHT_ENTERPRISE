@@ -5,6 +5,7 @@ import { tokens } from '../../theme';
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
+import { useSidebar } from '../../contexts/SidebarContext';
 
 
 // basic modal test
@@ -12,11 +13,15 @@ const SearchModal = ({ open, onClose}) => {
   
    const theme = useTheme();
    const colors = tokens(theme.palette.mode);
+   const { isCollapsed } = useSidebar();
+
+   // gonna be used to move modal if sidebar open or not
+   const sidebarWidth = isCollapsed ? 75 : 250;
    
    const style = {
         position: 'absolute',
         top: '26%',
-        left: '50%',
+        left: isCollapsed ? '50%' : `calc(50% + ${sidebarWidth / 2}px)`,
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: colors.primary[400],
@@ -25,6 +30,7 @@ const SearchModal = ({ open, onClose}) => {
         p: 4,
         borderRadius: 1.5,
         border: `2px solid ${colors.customAccent.main}`,
+   
    };
 
   return ReactDOM.createPortal(

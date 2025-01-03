@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
@@ -9,6 +10,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import SearchModal from "./SearchModal";
 
 const Topbar = () => { 
   const theme = useTheme();
@@ -26,6 +28,11 @@ const Topbar = () => {
   const searchBarClick = () => {
     console.log("Search bar clicked");
   }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModel = () => setIsModalOpen(true);
+  const handleCloseModel = () => setIsModalOpen(false);
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>

@@ -1,18 +1,23 @@
 import React from 'react'
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal, Typography, useTheme } from "@mui/material";
 import ReactDOM from 'react-dom';
+import { tokens } from '../../theme';
+
 
 // basic modal test
 const SearchModal = ({ open, onClose}) => {
   
-
+   const theme = useTheme();
+   const colors = tokens(theme.palette.mode);
+   
    const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: 'background.paper',
+        bgcolor: colors.primary[400],
+        color: colors.grey[100],
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,

@@ -20,7 +20,26 @@ const SearchModal = ({ open, onClose}) => {
 
    // Input variables
    const [input, setInput] = useState("");
+
+  // TODO: Come back here and replace this for some .env variable for these api calls
+  const fetchData = (value) => {
+    fetch('http://127.0.0.1:8000/api/companies')
+      .then((response) => response.json())
+      .then(json => {
+        const results = json.filter((company) => {
+          const searchTerm = value.toLowerCase().trim();
+          const companyName = company.company_name.toLowerCase();
+          return company && company.company_name && companyName.includes(searchTerm);
+        });
+        console.log(results);
+      });
+  };
    
+   const handleChange = (value) => {
+    setInput(value)
+    fetchData(value)
+   }
+
    const style = {
         position: 'absolute',
         top: '26%',
@@ -57,7 +76,7 @@ const SearchModal = ({ open, onClose}) => {
           <InputBase sx={{ ml: 2, flex: 1 }} 
             placeholder="Search Company Names..."
             value = {input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
           />
           <IconButton type="button" sx={{ p: 1}}>
               <SearchIcon />

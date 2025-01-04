@@ -8,19 +8,19 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   //test
-  const [companies, setCompanies] = useState([]);
+  // const [companies, setCompanies] = useState([]);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/companies')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Companies data:', data);  
-        setCompanies(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://127.0.0.1:8000/api/companies')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('Companies data:', data);  
+  //       setCompanies(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // }, []);
 
   return (
     <Box m="20px">

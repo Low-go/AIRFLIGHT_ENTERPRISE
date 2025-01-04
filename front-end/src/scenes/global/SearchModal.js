@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Box, Modal, Typography, useTheme } from "@mui/material";
 import ReactDOM from 'react-dom';
 import { tokens } from '../../theme';
@@ -17,6 +17,9 @@ const SearchModal = ({ open, onClose}) => {
 
    // gonna be used to move modal if sidebar open or not
    const sidebarWidth = isCollapsed ? 75 : 250;
+
+   // Input variables
+   const [input, setInput] = useState("");
    
    const style = {
         position: 'absolute',
@@ -46,10 +49,20 @@ const SearchModal = ({ open, onClose}) => {
         borderRadius="3px"
         sx={style}
         >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search Company Name" />
-        <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-        </IconButton>
+        <Box sx={{ border: "1px solid #ccc", 
+          flex: 1, 
+          borderRadius: "4px", 
+          display: "flex",
+          padding: "2px"}}>
+          <InputBase sx={{ ml: 2, flex: 1 }} 
+            placeholder="Search Company Names..."
+            value = {input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <IconButton type="button" sx={{ p: 1}}>
+              <SearchIcon />
+          </IconButton>
+        </Box>
     </Box>
     </Modal>,
     document.getElementById('modal-root')

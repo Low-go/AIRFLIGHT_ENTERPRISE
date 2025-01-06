@@ -6,6 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
 import { useSidebar } from '../../contexts/SidebarContext';
+import SearchResultsList from '../../Components/SearchResultsList';
 
 
 // basic modal test
@@ -20,6 +21,7 @@ const SearchModal = ({ open, onClose}) => {
 
    // Input variables
    const [input, setInput] = useState("");
+   const [results, setResults] = useState([]);
 
   // TODO: Come back here and replace this for some .env variable for these api calls
   const fetchData = (value) => {
@@ -29,8 +31,9 @@ const SearchModal = ({ open, onClose}) => {
         const results = json.filter((company) => {
           const searchTerm = value.toLowerCase().trim();
           const companyName = company.company_name.toLowerCase();
-          return company && company.company_name && companyName.includes(searchTerm);
+          return value && company && company.company_name && companyName.includes(searchTerm);
         });
+        setResults(results);
         console.log(results);
       });
   };
@@ -52,6 +55,9 @@ const SearchModal = ({ open, onClose}) => {
         p: 4,
         borderRadius: 1.5,
         border: `2px solid ${colors.customAccent.main}`,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
    
    };
 
@@ -82,6 +88,13 @@ const SearchModal = ({ open, onClose}) => {
               <SearchIcon />
           </IconButton>
         </Box>
+
+        {/* Search Results relative to modal position*/}
+        {results.length > 0 && (
+          <Box sx={{ position: 'relative', mt: 1 }}>
+            <SearchResultsList results={results}/>
+          </Box>
+        )}
     </Box>
     </Modal>,
     document.getElementById('modal-root')

@@ -12,10 +12,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchModal from "./SearchModal";
 
+
 const Topbar = () => { 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+
+  //SearchModel uses this
+
 
   const sxHoverStyles = {
     
@@ -49,6 +53,7 @@ const Topbar = () => {
       <SearchModal 
         open={isModalOpen} 
         onClose={handleCloseModel}
+        // setResults={setResults}
       />
 
       {/* ICONS */}

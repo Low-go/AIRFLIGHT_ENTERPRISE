@@ -18,7 +18,7 @@ const SearchModal = ({ open, onClose}) => {
 
    // gonna be used to move modal if sidebar open or not
    const sidebarWidth = isCollapsed ? 75 : 250;
-
+   
    // Input variables
    const [input, setInput] = useState("");
    const [results, setResults] = useState([]);
@@ -34,13 +34,17 @@ const SearchModal = ({ open, onClose}) => {
           return value && company && company.company_name && companyName.includes(searchTerm);
         });
         setResults(results);
-        console.log(results);
+        console.log(results); // remove when done testing
       });
   };
    
    const handleChange = (value) => {
     setInput(value)
     fetchData(value)
+   }
+
+   const handleResultClick = () => {
+    onClose();
    }
 
    const style = {
@@ -92,7 +96,7 @@ const SearchModal = ({ open, onClose}) => {
         {/* Search Results relative to modal position*/}
         {results.length > 0 && (
           <Box sx={{ position: 'relative', mt: 1 }}>
-            <SearchResultsList results={results}/>
+            <SearchResultsList results={results} onResultClick={handleResultClick}/>
           </Box>
         )}
     </Box>

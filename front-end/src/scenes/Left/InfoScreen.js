@@ -24,7 +24,7 @@ const InfoScreen = () => {
         p="15px"
       >
         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-          Recent Transactions
+          Info Screen
         </Typography>
       </Box>
 

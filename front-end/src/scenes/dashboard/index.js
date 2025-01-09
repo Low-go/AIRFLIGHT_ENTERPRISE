@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Components/Header";
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from "../../theme";
+import InfoScreen from '../Left/InfoScreen';
 
 const Dashboard = () => {
 
@@ -25,17 +26,7 @@ const Dashboard = () => {
         
       >
         {/**Left Box */}
-        <Box 
-          flex="1" // Equal with using flex 1 for both containers
-          bgcolor={colors.primary[400]}
-          p="20px"
-          borderRadius="4px"
-          overflow="scroll" // left box should probably have this
-        >
-          <Typography variant="h6" color={colors.grey[100]}>
-            Left Grid Content
-          </Typography>
-        </Box>
+        <InfoScreen/>
 
          {/**Right Box */}
         <Box 

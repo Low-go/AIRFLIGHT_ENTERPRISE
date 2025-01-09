@@ -8,65 +8,36 @@ const InfoScreen = () => {
   return (
     <Box
       flex="1"
-      sx={{
-        backgroundColor: colors.primary[400],
-        borderRadius: "8px",
-        boxShadow: theme.palette.mode === "dark" 
-          ? "0 4px 6px rgba(0, 0, 0, 0.6)" 
-          : "0 4px 6px rgba(0, 0, 0, 0.1)",
-        overflow: "hidden",
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      bgcolor={colors.primary[400]}
+      p="20px"
+      borderRadius="4px"
+      display="flex"
+      flexDirection="column"
     >
-      {/* Top Border Gradient */}
-      <Box
-        sx={{
-          height: "4px",
-          background: `linear-gradient(90deg, ${colors.customAccent.main}, transparent)`,
-        }}
-      />
-
       {/* Header */}
       <Box
-        sx={{
-          padding: "16px",
-          borderBottom: `1px solid ${colors.primary[500]}`,
-          backgroundColor: theme.palette.mode === "dark" 
-            ? colors.primary[600] 
-            : colors.primary[300],
-        }}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        borderBottom={`4px solid ${colors.primary[500]}`}
+        color={colors.grey[100]}
+        p="15px"
       >
-        <Typography
-          variant="h6"
-          color={colors.grey[100]}
-          fontWeight="600"
-        >
-          Information Panel
+        <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+          Recent Transactions
         </Typography>
       </Box>
 
-      {/* Content */}
+      {/* Placeholder for transaction list */}
       <Box
-        sx={{
-          flex: 1,
-          padding: "16px",
-          overflow: "auto",
-          "&::-webkit-scrollbar": {
-            width: "6px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: colors.primary[500],
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: colors.customAccent.main,
-            borderRadius: "3px",
-          },
-        }}
+        flex="1"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        color={colors.grey[100]}
       >
-        <Typography color={colors.grey[100]}>
-          This panel will display detailed, scrollable, and collapsible information. Add components dynamically here.
+        <Typography variant="h6" color={colors.grey[100]}>
+          No transactions to display
         </Typography>
       </Box>
     </Box>

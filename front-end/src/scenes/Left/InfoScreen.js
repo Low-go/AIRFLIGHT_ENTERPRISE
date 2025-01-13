@@ -19,9 +19,9 @@ const InfoScreen = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        borderBottom={`4px solid ${colors.primary[500]}`}
+        borderBottom={`4px solid ${colors.customAccent.main}`}
         color={colors.grey[100]}
-        p="15px"
+        p="8px"
       >
         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
           Info Screen

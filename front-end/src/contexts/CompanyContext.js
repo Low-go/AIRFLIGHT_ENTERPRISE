@@ -6,6 +6,8 @@ const CompanyContext = createContext();
 export const CompanyProvider = ({ children }) => {
 
     const [selectedCompany, setSelectedCompany ] = useState(null);
+    const [companyContacts, setCompanyContacts] = useState(null);
+    const [companyFleets, setCompanyFleets] = useState(null);
 
     const handleCompanySelect = (company) => {
         setSelectedCompany(company); // current comapany user has selected
@@ -16,7 +18,28 @@ export const CompanyProvider = ({ children }) => {
             "Phone Number": company.phone_number,
             "Notes": company.notes
         });
+
+        // Reset Children when new company selected
+        setCompanyContacts(null);
+        setCompanyFleets(null);
     };
+
+    //
+    const fetchCompanyContacts = async (companyId) => {
+        if (!companyContacts){
+            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/contacts`); // double check this
+            const data = await response.json();
+            setCompanyContacts(data);
+        }
+    }
+
+    const fetchCompanyFleets = async (companyId) => {
+        if (!companyFleets){
+            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets`); // double check this
+            const data = await response.json();
+            setCompanyFleets(data);
+        }
+    }
 
     return (
         <CompanyContext.Provider value={{
@@ -35,3 +58,6 @@ export const useCompany = () => {
     }
     return context;
 };
+
+
+//TODO replace urls in the future

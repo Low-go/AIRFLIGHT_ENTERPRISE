@@ -64,6 +64,7 @@ export const tokens = (mode) => ({
           main: "#00b3b3",
           light: "#99cccc",
           dark: "#4b0082",
+          gradient: "linear-gradient(90deg, #4b0082 0%, #00b3b3 50%, #99cccc 100%)"
         },
       }
     : {
@@ -126,6 +127,7 @@ export const tokens = (mode) => ({
           main: "#ff0071", // react flow based color
           light: "#ff66a1",
           dark: "#cc005a",
+          gradient: "linear-gradient(90deg, #cc005a 0%, #ff0071 50%, #ff66a1 100%)"
         },
       }),
 });

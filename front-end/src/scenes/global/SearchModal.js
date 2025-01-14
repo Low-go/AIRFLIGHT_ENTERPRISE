@@ -34,7 +34,7 @@ const SearchModal = ({ open, onClose}) => {
           return value && company && company.company_name && companyName.includes(searchTerm);
         });
         setResults(results);
-        console.log(results); // remove when done testing
+        console.log(results); // TODO remove print when done testing
       });
   };
    

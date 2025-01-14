@@ -3,7 +3,7 @@ import { Box, List, useTheme } from '@mui/material';
 import { tokens } from '../theme';
 import SearchResult from './SearchResult';
 
-export const SearchResultsList = ({ results }) => {
+export const SearchResultsList = ({ results, onResultClick }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     
@@ -23,7 +23,9 @@ export const SearchResultsList = ({ results }) => {
       >
         <List sx={{ p: 0 }}>
           {results.map((result, id) => (
-            <SearchResult result={result} key={id} />
+            <SearchResult result={result} 
+            key={id} 
+            onResultClick={onResultClick}/>
           ))}
         </List>
       </Box>

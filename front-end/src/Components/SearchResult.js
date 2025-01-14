@@ -4,7 +4,7 @@ import { tokens } from '../theme';
 import { useCompany } from '../contexts/CompanyContext';
 
 
-const SearchResult = ({ result }) => {
+const SearchResult = ({ result, onResultClick }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { handleCompanySelect } = useCompany();
@@ -12,6 +12,7 @@ const SearchResult = ({ result }) => {
     // calls company context
     const handleClick = () => {
       handleCompanySelect(result);
+      onResultClick(result); // notify parent on selection
     }
     
     return (

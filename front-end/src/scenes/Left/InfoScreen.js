@@ -1,9 +1,30 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme } from "@mui/material";
+import { useCompany } from "../../contexts/CompanyContext";
 import { tokens } from "../../theme";
 
 const InfoScreen = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { selectedCompany, companyContacts, companyFleets, fetchCompanyContacts, fetchCompanyFleets } = useCompany();
+
+  if (!selectedCompany) {
+    return (
+      <Box
+        flex="1"
+        bgcolor={colors.primary[400]}
+        p="20px"
+        borderRadius="4px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography variant="h6" color={colors.grey[100]}>
+          Please select a company to view information.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -24,21 +45,59 @@ const InfoScreen = () => {
         p="8px"
       >
         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-          Info Screen
+          {selectedCompany.company_name}
         </Typography>
       </Box>
 
-      {/* Placeholder for transaction list */}
-      <Box
-        flex="1"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        color={colors.grey[100]}
-      >
+      {/* Contacts and Fleet Buttons */}
+      <Box display="flex" justifyContent="space-between" mt="20px">
+        <Button
+          variant="contained"
+          onClick={() => fetchCompanyContacts(selectedCompany.id)}
+          sx={{ backgroundColor: colors.customAccent.main }}
+        >
+          Load Contacts
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => fetchCompanyFleets(selectedCompany.id)}
+          sx={{ backgroundColor: colors.customAccent.main }}
+        >
+          Load Fleets
+        </Button>
+      </Box>
+
+      {/* Contacts and Fleet Information */}
+      <Box mt="20px" display="flex" flexDirection="column" gap="16px">
         <Typography variant="h6" color={colors.grey[100]}>
-          No transactions to display
+          Contacts:
         </Typography>
+        {companyContacts ? (
+          companyContacts.map((contact, index) => (
+            <Typography key={index} variant="body1" color={colors.grey[100]}>
+              {contact.name} - {contact.phone}
+            </Typography>
+          ))
+        ) : (
+          <Typography variant="body2" color={colors.grey[100]}>
+            No contacts loaded.
+          </Typography>
+        )}
+
+        <Typography variant="h6" color={colors.grey[100]}>
+          Fleet:
+        </Typography>
+        {companyFleets ? (
+          companyFleets.map((fleet, index) => (
+            <Typography key={index} variant="body1" color={colors.grey[100]}>
+              {fleet.name} - {fleet.description}
+            </Typography>
+          ))
+        ) : (
+          <Typography variant="body2" color={colors.grey[100]}>
+            No fleet data loaded.
+          </Typography>
+        )}
       </Box>
     </Box>
   );

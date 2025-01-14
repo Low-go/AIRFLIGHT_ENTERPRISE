@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Components/Header";
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from "../../theme";
-import InfoScreen from '../Left/InfoScreen';
+import InfoScreen from '../Left';
 
 const Dashboard = () => {
 

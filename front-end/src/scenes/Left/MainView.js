@@ -2,11 +2,12 @@ import { Box, Typography, Button, useTheme } from "@mui/material";
 import { useCompany } from "../../contexts/CompanyContext";
 import { tokens } from "../../theme";
 
-const InfoScreen = () => {
+const MainView = ({ onNavigateToFleet }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedCompany, companyContacts, companyFleets, fetchCompanyContacts, fetchCompanyFleets } = useCompany();
+  const { selectedCompany, companyContacts, fetchCompanyContacts } = useCompany();
 
+  // if no company is selected blank slate displayed
   if (!selectedCompany) {
     return (
       <Box
@@ -26,6 +27,8 @@ const InfoScreen = () => {
     );
   }
 
+  // when a company is selected/field full we display both options
+  // and buttons
   return (
     <Box
       flex="1"
@@ -60,15 +63,15 @@ const InfoScreen = () => {
         </Button>
         <Button
           variant="contained"
-          onClick={() => fetchCompanyFleets(selectedCompany.id)}
+          onClick={onNavigateToFleet}
           sx={{ backgroundColor: colors.customAccent.main }}
         >
           Load Fleets
         </Button>
       </Box>
 
-      {/* Contacts and Fleet Information */}
-      <Box mt="20px" display="flex" flexDirection="column" gap="16px">
+      {/* Contacts Information */}
+      <Box mt="20px">
         <Typography variant="h6" color={colors.grey[100]}>
           Contacts:
         </Typography>
@@ -83,24 +86,9 @@ const InfoScreen = () => {
             No contacts loaded.
           </Typography>
         )}
-
-        <Typography variant="h6" color={colors.grey[100]}>
-          Fleet:
-        </Typography>
-        {companyFleets ? (
-          companyFleets.map((fleet, index) => (
-            <Typography key={index} variant="body1" color={colors.grey[100]}>
-              {fleet.name} - {fleet.description}
-            </Typography>
-          ))
-        ) : (
-          <Typography variant="body2" color={colors.grey[100]}>
-            No fleet data loaded.
-          </Typography>
-        )}
       </Box>
     </Box>
   );
 };
 
-export default InfoScreen;
+export default MainView;

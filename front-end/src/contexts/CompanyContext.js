@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from 'react';
 
-
 const CompanyContext = createContext();
 
 export const CompanyProvider = ({ children }) => {
@@ -44,7 +43,11 @@ export const CompanyProvider = ({ children }) => {
     return (
         <CompanyContext.Provider value={{
             selectedCompany,
-            handleCompanySelect
+            companyContacts,
+            companyFleets,
+            handleCompanySelect,
+            fetchCompanyContacts,
+            fetchCompanyFleets
         }}>
             {children}
         </CompanyContext.Provider>

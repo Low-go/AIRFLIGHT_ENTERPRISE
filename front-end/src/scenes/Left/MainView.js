@@ -129,7 +129,7 @@ const MainView = ({ onNavigateToFleet }) => {
       }}
     >
       {/* Header */}
-      <Fade in={true} timeout={500}>
+      <Fade in={true} timeout={500}> 
         <Box
           display="flex"
           justifyContent="space-between"

@@ -22,9 +22,21 @@ const FleetView = ({ onBack}) => {
         catch(err){
           setError('Failed to fetch fleet information.')
         }
+        finally {
+          setLoading(false);
+        }
       }
-    }
-  });
+    };
+    fetchData();
+  }, [selectedCompany, fetchCompanyFleets]);
+
+  // temp ugly loading for now
+  if (loading) return <div>Loading fleets..</div>
+  if (error) return <div>Error: {error}</div>
+
+  // I don't remember if they all have fleets yet
+  if (!companyFleets || companyFleets.length === 0)
+    return <div>No fleets available for this company.</div>;
 
   return (
     <Box
@@ -35,9 +47,11 @@ const FleetView = ({ onBack}) => {
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        alignItems="center"
+      alignItems="center"
     >
-      test
+      {companyFleets.map((fleet) => (
+        <div key={fleet.id}>{fleet.model}</div>
+      ))}
       <Button
         onClick={onBack}
       >

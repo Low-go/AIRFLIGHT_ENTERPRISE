@@ -1,33 +1,34 @@
-import { Box, Typography, Button, Paper, Fade, IconButton, useTheme } from "@mui/material";
+import { Box, Typography, Paper, Fade, useTheme } from "@mui/material";
 import { useCompany } from "../../contexts/CompanyContext";
 import { tokens } from "../../theme";
 import BusinessIcon from '@mui/icons-material/Business';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
+import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const MainView = ({ onNavigateToFleet }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedCompany, companyContacts, fetchCompanyContacts } = useCompany();
+  const { selectedCompany, fetchCompanyContacts } = useCompany();
 
+  // Enhanced MenuCard component with modern styling
   const MenuCard = ({ icon: Icon, title, onClick, delay }) => (
     <Fade 
       in={true} 
-      timeout={800} // Increased initial fade-in animation
+      timeout={500} 
       style={{ transitionDelay: delay }}
     >
       <Paper
         elevation={3}
         sx={{
-          p: 2,
+          p: 3,
           bgcolor: colors.primary[400],
           borderRadius: 2,
           cursor: 'pointer',
-          transition: 'transform 2s ease-in-out, box-shadow 2s ease-in-out', // Increased both transitions to 2 seconds
+          transition: 'all 0.3s ease',
           '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+            transform: 'scale(1.02)',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
           },
         }}
         onClick={onClick}
@@ -39,10 +40,31 @@ const MainView = ({ onNavigateToFleet }) => {
           color={colors.grey[100]}
         >
           <Box display="flex" alignItems="center" gap={2}>
-            <Icon sx={{ fontSize: 28, color: colors.customAccent.main }} />
-            <Typography variant="h6">{title}</Typography>
+            <Icon sx={{ 
+              fontSize: 28, 
+              color: colors.customAccent.main,
+              transition: 'transform 0.2s ease',
+              '&:hover': {
+                transform: 'scale(1.1)',
+              }
+            }} />
+            <Typography 
+              variant="h6"
+              sx={{
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}
+            >
+              {title}
+            </Typography>
           </Box>
-          <KeyboardArrowRightIcon />
+          <KeyboardArrowRightIcon sx={{ 
+            color: colors.grey[300],
+            transition: 'transform 0.2s ease',
+            '&:hover': {
+              transform: 'translateX(4px)',
+            }
+          }} />
         </Box>
       </Paper>
     </Fade>
@@ -56,14 +78,34 @@ const MainView = ({ onNavigateToFleet }) => {
         flex="1"
         bgcolor={colors.primary[400]}
         p={4}
-        borderRadius="4px"
+        borderRadius="8px"
         display="flex"
         flexDirection="column"
         alignItems="center"
         gap={2}
+        sx={{
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          }
+        }}
       >
-        <BusinessIcon sx={{ fontSize: 48, color: colors.grey[500] }} />
-        <Typography variant="h6" color={colors.grey[100]} textAlign="center">
+        <BusinessIcon sx={{ 
+          fontSize: 48, 
+          color: colors.grey[500],
+          animation: 'pulse 2s infinite ease-in-out',
+          '@keyframes pulse': {
+            '0%': { opacity: 0.6 },
+            '50%': { opacity: 1 },
+            '100%': { opacity: 0.6 }
+          }
+        }} />
+        <Typography 
+          variant="h6" 
+          color={colors.grey[100]} 
+          textAlign="center"
+          sx={{ fontWeight: 500 }}
+        >
           Please select a company to view information
         </Typography>
       </Box>
@@ -74,14 +116,20 @@ const MainView = ({ onNavigateToFleet }) => {
     <Box
       flex="1"
       bgcolor={colors.primary[400]}
-      p={3}
-      borderRadius="4px"
+      p={4}
+      borderRadius="8px"
       display="flex"
       flexDirection="column"
       gap={3}
+      sx={{
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        }
+      }}
     >
       {/* Header */}
-      <Fade in={true}>
+      <Fade in={true} timeout={500}>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -90,8 +138,23 @@ const MainView = ({ onNavigateToFleet }) => {
           pb={2}
         >
           <Box display="flex" alignItems="center" gap={2}>
-            <BusinessIcon sx={{ color: colors.customAccent.main, fontSize: 32 }} />
-            <Typography color={colors.grey[100]} variant="h4" fontWeight="600">
+            <BusinessIcon sx={{ 
+              color: colors.customAccent.main, 
+              fontSize: 36,
+              transition: 'transform 0.2s ease',
+              '&:hover': {
+                transform: 'scale(1.1)',
+              }
+            }} />
+            <Typography 
+              color={colors.grey[100]} 
+              variant="h4" 
+              sx={{
+                fontWeight: 600,
+                letterSpacing: '0.5px',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+              }}
+            >
               {selectedCompany.company_name}
             </Typography>
           </Box>
@@ -108,11 +171,11 @@ const MainView = ({ onNavigateToFleet }) => {
         <MenuCard
           icon={ContactsIcon}
           title="Company Contacts"
-          onClick={() => fetchCompanyContacts(selectedCompany.id)}
+          onClick={console.log("Contacts clicked")} // replace later
           delay="100ms"
         />
         <MenuCard
-          icon={DirectionsBoatIcon}
+          icon={AirplanemodeActiveIcon}
           title="Fleet Management"
           onClick={onNavigateToFleet}
           delay="200ms"

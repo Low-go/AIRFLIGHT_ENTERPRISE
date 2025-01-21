@@ -1,28 +1,24 @@
-import {React, useEffect, useState} from 'react';
+import { React, useEffect, useState } from 'react';
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { useCompany } from '../../contexts/CompanyContext';
 
-const FleetView = ({ onBack}) => {
-  
+const FleetView = ({ onBack }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, companyFleets, fetchCompanyFleets } = useCompany();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // so a useEffect is used when managing side effects?
-  useEffect(() =>{
+  useEffect(() => {
     const fetchData = async () => {
-      if (selectedCompany){ // if company has been selected/data is loaded
-        try{
+      if (selectedCompany) {
+        try {
           setLoading(true);
           await fetchCompanyFleets(selectedCompany.id);
-        }
-        catch(err){
+        } catch (err) {
           setError('Failed to fetch fleet information.')
-        }
-        finally {
+        } finally {
           setLoading(false);
         }
       }
@@ -30,35 +26,91 @@ const FleetView = ({ onBack}) => {
     fetchData();
   }, [selectedCompany, fetchCompanyFleets]);
 
-  // temp ugly loading for now
   if (loading) return <div>Loading fleets..</div>
   if (error) return <div>Error: {error}</div>
-
-  // I don't remember if they all have fleets yet
   if (!companyFleets || companyFleets.length === 0)
     return <div>No fleets available for this company.</div>;
 
   return (
     <Box
-        flex="1"
-        bgcolor={colors.primary[400]}
-        p="20px"
-        borderRadius="4px"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-      alignItems="center"
+      gridColumn="span 4"
+      gridRow="span 2"
+      backgroundColor={colors.primary[400]}
+      overflow="auto"
+      flex = "1"
+      p ="20px"
     >
-      {companyFleets.map((fleet) => (
-        <div key={fleet.id}>{fleet.model}</div>
-      ))}
-      <Button
-        onClick={onBack}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        borderBottom={`4px solid ${colors.primary[500]}`}
+        colors={colors.grey[100]}
+        p="15px"
       >
-        Back to Main
-      </Button>
+        <Typography
+          color={colors.grey[100]}
+          variant="h5"
+          fontWeight="600"
+        >
+          Fleets
+        </Typography>
+      </Box>
+      
+      {companyFleets.map((fleet, i) => (
+        <Box
+          key={`${fleet.id}-${i}`}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          borderBottom={`4px solid ${colors.primary[500]}`}
+          p="15px"
+        >
+          <Box>
+            <Typography
+              color={colors.greenAccent[500]}
+              variant="h5"
+              fontWeight="600"
+            >
+              {fleet.model}
+            </Typography>
+            <Typography color={colors.grey[100]}>
+              ID: {fleet.id}
+            </Typography>
+          </Box>
+          
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: colors.greenAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "5px 10px",
+            }}
+          >
+            Info
+          </Button>
+        </Box>
+      ))}
+      
+      <Box display="flex" justifyContent="center" p="15px">
+        <Button
+          onClick={onBack}
+          variant="contained"
+          sx={{
+            backgroundColor: colors.greenAccent[500],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+        >
+          Back to Main
+        </Button>
+      </Box>
     </Box>
-  )
+  );
 }
 
-export default FleetView
+export default FleetView;

@@ -13,11 +13,11 @@ const MainView = ({ onNavigateToFleet }) => {
 
   // Enhanced MenuCard component with modern styling
   const MenuCard = ({ icon: Icon, title, onClick, delay }) => (
-    <Fade 
-      in={true} 
-      timeout={500} 
-      style={{ transitionDelay: delay }}
-    >
+    // <Fade 
+    //   in={true} 
+    //   timeout={500} 
+    //   style={{ transitionDelay: delay }}
+    // >
       <Paper
         elevation={3}
         sx={{
@@ -67,7 +67,7 @@ const MainView = ({ onNavigateToFleet }) => {
           }} />
         </Box>
       </Paper>
-    </Fade>
+    //</Fade>
   );
 
   // If no company has been selected or is saved as a global variable
@@ -129,7 +129,7 @@ const MainView = ({ onNavigateToFleet }) => {
       }}
     >
       {/* Header */}
-      <Fade in={true} timeout={500}> 
+      {/* <Fade in={true} timeout={500}>  */}
         <Box
           display="flex"
           justifyContent="space-between"
@@ -159,7 +159,7 @@ const MainView = ({ onNavigateToFleet }) => {
             </Typography>
           </Box>
         </Box>
-      </Fade>
+      {/* </Fade> */}
 
       {/* Navigation Cards */}
       <Box

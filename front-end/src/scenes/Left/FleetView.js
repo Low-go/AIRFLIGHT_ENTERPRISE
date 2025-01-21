@@ -44,7 +44,7 @@ const FleetView = ({ onBack }) => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        borderBottom={`4px solid ${colors.primary[500]}`}
+        borderBottom={`4px solid ${colors.customAccent.main}`}
         colors={colors.grey[100]}
         p="15px"
       >
@@ -63,12 +63,12 @@ const FleetView = ({ onBack }) => {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          borderBottom={`4px solid ${colors.primary[500]}`}
+          borderBottom={`4px solid ${colors.grey.border}`}
           p="15px"
         >
           <Box>
             <Typography
-              color={colors.greenAccent[500]}
+              color={colors.customAccent.light}
               variant="h5"
               fontWeight="600"
             >

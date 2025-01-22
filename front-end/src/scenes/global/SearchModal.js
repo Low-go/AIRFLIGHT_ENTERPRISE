@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Modal, Typography, useTheme } from "@mui/material";
 import ReactDOM from 'react-dom';
 import { tokens } from '../../theme';
@@ -22,6 +22,14 @@ const SearchModal = ({ open, onClose}) => {
    // Input variables
    const [input, setInput] = useState("");
    const [results, setResults] = useState([]);
+
+   // reset model field when it is open
+   useEffect( () => {
+    if (open){
+      setInput('');
+      setResults([]);
+    }
+   }, [open])
 
   // TODO: Come back here and replace this for some .env variable for these api calls
   const fetchData = (value) => {

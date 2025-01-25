@@ -28,10 +28,24 @@ const FleetView = ({ onBack, onCreateNew }) => {
 
   if (loading) return <div>Loading fleets..</div>
   if (error) return <div>Error: {error}</div>
+  
   if (!companyFleets || companyFleets.length === 0)
-    return <div>No fleets available for this company.</div>;
+    return (
+      <Box
+        gridColumn="span 4"
+        gridRow="span 2"
+        backgroundColor={colors.primary[400]}
+        overflow="auto"
+        flex = "1"
+        p ="20px"
+        borderRadius="5px"
+      >
+        No fleets available for this company.
+      </Box>
+    );
 
   return (
+   
     <Box
       gridColumn="span 4"
       gridRow="span 2"
@@ -39,6 +53,7 @@ const FleetView = ({ onBack, onCreateNew }) => {
       overflow="auto"
       flex = "1"
       p ="20px"
+      borderRadius= "5px"
     >
       <Box
         display="flex"

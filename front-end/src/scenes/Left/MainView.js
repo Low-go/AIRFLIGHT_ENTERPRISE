@@ -6,7 +6,7 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-const MainView = ({ onNavigateToFleet }) => {
+const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
@@ -78,7 +78,7 @@ const MainView = ({ onNavigateToFleet }) => {
         flex="1"
         bgcolor={colors.primary[400]}
         p={4}
-        borderRadius="8px"
+        borderRadius="5px"
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -117,7 +117,7 @@ const MainView = ({ onNavigateToFleet }) => {
       flex="1"
       bgcolor={colors.primary[400]}
       p={4}
-      borderRadius="8px"
+      borderRadius="5px"
       display="flex"
       flexDirection="column"
       gap={3}
@@ -171,8 +171,9 @@ const MainView = ({ onNavigateToFleet }) => {
         <MenuCard
           icon={ContactsIcon}
           title="Company Contacts"
-          onClick={console.log("Contacts clicked")} // replace later
+          onClick={onNavigateToContacts}
           delay="100ms"
+
         />
         <MenuCard
           icon={AirplanemodeActiveIcon}

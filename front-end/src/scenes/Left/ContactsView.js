@@ -75,6 +75,32 @@ const ContactsView = ({ onBack }) => {
           Contacts
         </Typography>
       </Box>
+
+      {companyContacts.map((contact, i) => (
+        <Box
+          key={`${contact.id}-${i}`}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          borderBottom={`4px solid ${colors.grey.border}`}
+          p="15px"
+        >
+          <Box>
+            <Typography
+              color={colors.customAccent.light}
+              variant="h5"
+              fontWeight="600"
+            >
+              {contact.first_name}
+            </Typography>
+            <Typography color={colors.grey[100]}>
+              test
+            </Typography>
+          </Box>
+        </Box>  
+      ))}
+
+      <Box display="flex" justifyContent={"center"} p="15px">
         <Button
             onClick={onBack}
             variant="contained"
@@ -87,8 +113,9 @@ const ContactsView = ({ onBack }) => {
               mr: 2,
             }}
         >
-            Test Back
+            BACK TO MAIN
         </Button>
+      </Box>
     </Box>
   )
 }

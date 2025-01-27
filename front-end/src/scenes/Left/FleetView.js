@@ -38,13 +38,41 @@ const FleetView = ({ onBack, onCreateNew }) => {
         gridRow="span 2"
         backgroundColor={colors.primary[400]}
         overflow="auto"
+        display="flex"
         flex = "1"
-        p ="20px"
+        flexDirection="column"
+        p="20px"
         borderRadius="5px"
+
       >
-        No fleets available for this company.
+        <Typography color={colors.grey[100]}>
+          No fleets available for this company.
+        </Typography>
+
+        <Box 
+          display="flex" 
+          justifyContent="center" 
+          p="15px" 
+          mt="auto"
+          width="100%"    // Add this to ensure button container takes full width
+        >
+          <Button
+            onClick={onBack}
+            variant="contained"
+            sx={{
+              backgroundColor: colors.greenAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+              mr: 2,
+            }}
+          >
+            Back to Main
+          </Button>
+        </Box>
       </Box>
-    );
+    )
 
   return (
    

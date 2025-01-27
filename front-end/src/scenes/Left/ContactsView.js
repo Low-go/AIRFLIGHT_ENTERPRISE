@@ -14,6 +14,7 @@ const ContactsView = ({ onBack }) => {
   
   //sets loading to be tru and utilizes the global company id we have
   // saved and passes it into our global function for making api calls for contacts
+  
   useEffect(() =>{
     const fetchData = async () => {
       if (selectedCompany){
@@ -94,9 +95,23 @@ const ContactsView = ({ onBack }) => {
               {contact.first_name}
             </Typography>
             <Typography color={colors.grey[100]}>
-              test
+              {contact.role}
             </Typography>
+          
           </Box>
+
+            <Button
+              variant="contained"
+                sx={{
+                    backgroundColor: colors.greenAccent[500],
+                    color: colors.grey[100],
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "5px 10px",
+                  }}
+                  >
+                  Info
+            </Button>
         </Box>  
       ))}
 
@@ -115,9 +130,24 @@ const ContactsView = ({ onBack }) => {
         >
             BACK TO MAIN
         </Button>
+
+        {/* create Contact button */}
+        <Button
+            // onClick={onCreateNew}
+            variant="contained"
+            sx={{
+            backgroundColor: colors.blueAccent[500],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "8px 16px",
+            }}
+            >
+            New Contact
+        </Button>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default ContactsView

@@ -10,6 +10,8 @@ const FleetView = ({ onBack, onCreateNew }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //sets loading to be tru and utilizes the global company id we have
+  // saved and passes it into our global function for making api calls for fleets
   useEffect(() => {
     const fetchData = async () => {
       if (selectedCompany) {

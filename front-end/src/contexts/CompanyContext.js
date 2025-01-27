@@ -8,6 +8,9 @@ export const CompanyProvider = ({ children }) => {
     const [companyContacts, setCompanyContacts] = useState(null);
     const [companyFleets, setCompanyFleets] = useState(null);
 
+    // the current view state of info screen is also saved and maintained
+    const [currentView, setCurrentView] = useState("main");
+
     const handleCompanySelect = (company) => {
         setSelectedCompany(company); // current comapany user has selected
 
@@ -45,9 +48,11 @@ export const CompanyProvider = ({ children }) => {
             selectedCompany,
             companyContacts,
             companyFleets,
+            currentView,
+            setCurrentView,
             handleCompanySelect,
             fetchCompanyContacts,
-            fetchCompanyFleets
+            fetchCompanyFleets,
         }}>
             {children}
         </CompanyContext.Provider>

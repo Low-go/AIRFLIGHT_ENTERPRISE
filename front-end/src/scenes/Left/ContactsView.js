@@ -69,9 +69,9 @@ const ContactsView = ({ onBack }) => {
         p="15px"
       >
         <Typography
-          colors={colors.grey[100]}
+          color={colors.grey[100]}
           variant="h5"
-          fontweight="600"
+          fontWeight="600"
         >
           Contacts
         </Typography>

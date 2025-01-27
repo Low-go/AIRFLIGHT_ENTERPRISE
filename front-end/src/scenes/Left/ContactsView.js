@@ -36,19 +36,61 @@ const ContactsView = ({ onBack }) => {
   if (error) return <div>Error: {error}</div>
 
   if (!companyContacts || companyContacts.length === 0)
-      return (
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          overflow="auto"
-          flex = "1"
-          p ="20px"
-          borderRadius="5px"
+    return ( 
+      <Box
+        gridColumn="span 4"
+        gridRow="span 2"
+        backgroundColor={colors.primary[400]}
+        overflow="auto"
+        display="flex"
+        flex = "1"
+        flexDirection="column"
+        p="20px"
+        borderRadius="5px"
+
+      >
+        <Typography color={colors.grey[100]}>
+          No Contacts.
+        </Typography>
+
+        <Box 
+          display="flex" 
+          justifyContent="center" 
+          p="15px" 
+          mt="auto"
+          width="100%"    
         >
-          No Contacts available.
+          <Button
+            onClick={onBack}
+            variant="contained"
+            sx={{
+              backgroundColor: colors.greenAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+              mr: 2,
+            }}
+          >
+            Back to Main
+          </Button>
+
+          <Button
+            // onClick={onCreateNew}
+            variant="contained"
+            sx={{
+              backgroundColor: colors.blueAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+            }}
+          >
+            New Contact
+        </Button>
         </Box>
-      );
+      </Box>
+    )
 
   return (
     <Box

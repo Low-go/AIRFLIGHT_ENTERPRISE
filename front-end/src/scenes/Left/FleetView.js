@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme, Skeleton } from "@mui/material";
 import { tokens } from "../../theme";
 import { useCompany } from '../../contexts/CompanyContext';
 
@@ -28,7 +28,56 @@ const FleetView = ({ onBack, onCreateNew }) => {
     fetchData();
   }, [selectedCompany, fetchCompanyFleets]);
 
-  if (loading) return <div>Loading fleets..</div>
+  // mui skeleton loading component
+  const LoadingSkeleton = () => (
+      <Box
+        gridColumn="span 4"
+        gridRow="span 2"
+        backgroundColor={colors.primary[400]}
+        overflow="auto"
+        display="flex"
+        flex = "1"
+        flexDirection="column"
+        p="20px"
+        borderRadius="5px"
+      >
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          borderBottom={`4px solid ${colors.customAccent.main}`}
+          p="15px"
+        >
+          <Skeleton variant="text" width={120} height={32} />
+        </Box>
+        
+        {/* Skeleton items placeholders */}
+        {[1, 2, 3].map((item) => (
+          <Box
+            key={item}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            borderBottom={`4px solid ${colors.grey.border}`}
+            p="15px"
+          >
+            <Box>
+              <Skeleton variant="text" width={150} height={28} />
+              <Skeleton variant="text" width={100} height={24} />
+            </Box>
+            <Skeleton variant="rectangular" width={60} height={36} />
+          </Box>
+        ))}
+        
+        <Box display="flex" justifyContent="center" p="15px">
+          <Skeleton variant="rectangular" width={120} height={40} sx={{ mr: 2 }} />
+          <Skeleton variant="rectangular" width={120} height={40} />
+        </Box>
+      </Box>
+  );
+
+
+  if (loading) return <div><LoadingSkeleton/></div>
   if (error) return <div>Error: {error}</div>
   
   if (!companyFleets || companyFleets.length === 0)
@@ -54,7 +103,7 @@ const FleetView = ({ onBack, onCreateNew }) => {
           justifyContent="center" 
           p="15px" 
           mt="auto"
-          width="100%"    // Add this to ensure button container takes full width
+          width="100%"    
         >
           <Button
             onClick={onBack}

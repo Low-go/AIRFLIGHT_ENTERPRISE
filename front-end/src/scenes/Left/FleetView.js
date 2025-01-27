@@ -32,7 +32,7 @@ const FleetView = ({ onBack, onCreateNew }) => {
   if (error) return <div>Error: {error}</div>
   
   if (!companyFleets || companyFleets.length === 0)
-    return (
+    return ( 
       <Box
         gridColumn="span 4"
         gridRow="span 2"
@@ -70,6 +70,20 @@ const FleetView = ({ onBack, onCreateNew }) => {
           >
             Back to Main
           </Button>
+
+          <Button
+            onClick={onCreateNew}
+            variant="contained"
+            sx={{
+              backgroundColor: colors.blueAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+            }}
+          >
+            New Fleet
+        </Button>
         </Box>
       </Box>
     )
@@ -175,3 +189,5 @@ const FleetView = ({ onBack, onCreateNew }) => {
 }
 
 export default FleetView;
+
+// TODO change button colors in light mode

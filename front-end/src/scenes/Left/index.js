@@ -3,9 +3,10 @@ import MainView from "./MainView"; // Main content view
 import FleetView from "./FleetView"; // Fleet-specific view
 import CreateFleetView from "./CreateFleetView";
 import ContactsView from "./ContactsView";
+import { useCompany } from "../../contexts/CompanyContext";
 
 const InfoScreen = () => {
-  const [currentView, setCurrentView] = useState("main");
+  const {currentView, setCurrentView} = useCompany();
 
   return (
     <>

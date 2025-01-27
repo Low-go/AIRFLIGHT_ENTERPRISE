@@ -24,6 +24,9 @@ export const CompanyProvider = ({ children }) => {
         // Reset Children when new company selected
         setCompanyContacts(null);
         setCompanyFleets(null);
+
+        //set info screen back to main
+        setCurrentView('main');
     };
 
     //

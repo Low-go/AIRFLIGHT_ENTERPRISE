@@ -115,6 +115,7 @@ const ContactsView = ({ onBack }) => {
         </Box>  
       ))}
 
+      {/* create Contact and back buttons */}
       <Box display="flex" justifyContent={"center"} p="15px">
         <Button
             onClick={onBack}
@@ -131,7 +132,7 @@ const ContactsView = ({ onBack }) => {
             BACK TO MAIN
         </Button>
 
-        {/* create Contact button */}
+        
         <Button
             // onClick={onCreateNew}
             variant="contained"

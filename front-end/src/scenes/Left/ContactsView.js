@@ -3,7 +3,7 @@ import { Box, useTheme, Button, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const ContactsView = ({ onBack }) => {
+const ContactsView = ({ onBack, onCreateNew }) => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -76,7 +76,7 @@ const ContactsView = ({ onBack }) => {
           </Button>
 
           <Button
-            // onClick={onCreateNew}
+            onClick={onCreateNew}
             variant="contained"
             sx={{
               backgroundColor: colors.blueAccent[500],
@@ -176,7 +176,7 @@ const ContactsView = ({ onBack }) => {
 
         
         <Button
-            // onClick={onCreateNew}
+            onClick={onCreateNew}
             variant="contained"
             sx={{
             backgroundColor: colors.blueAccent[500],

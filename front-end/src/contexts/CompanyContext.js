@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 
 const CompanyContext = createContext();
 
@@ -29,22 +29,19 @@ export const CompanyProvider = ({ children }) => {
         setCurrentView('main');
     };
 
-    //
-    const fetchCompanyContacts = async (companyId) => {
-        if (!companyContacts){
+
+    const fetchCompanyContacts = useCallback(async (companyId) => {
+    
             const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/contacts`); // double check this
             const data = await response.json();
             setCompanyContacts(data);
-        }
-    }
+    }, []);
 
-    const fetchCompanyFleets = async (companyId) => {
-        if (!companyFleets){
-            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets`); // double check this
-            const data = await response.json();
-            setCompanyFleets(data);
-        }
-    }
+    const fetchCompanyFleets = useCallback(async (companyId) => {
+        const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets`);
+        const data = await response.json();
+        setCompanyFleets(data);
+    }, []);
 
     return (
         <CompanyContext.Provider value={{

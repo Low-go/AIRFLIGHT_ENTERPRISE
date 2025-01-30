@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const CreateFleetView = ({ onBack }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedCompany } = useCompany();
+  const { selectedCompany, fetchCompanyFleets } = useCompany();
   
   const [formData, setFormData] = useState({
     model: '',
@@ -84,9 +84,14 @@ const CreateFleetView = ({ onBack }) => {
 
       // Success! Navigate back
       openSnackBar();
+
+
+      // if it was successful we refetch fleet data so that its updated
+      await fetchCompanyFleets(selectedCompany.id)
+
       setTimeout(() => {
         onBack();
-      }, 2000);
+      }, 700);
       // onBack();
     } catch (err) {
       setError(err.message);
@@ -96,7 +101,7 @@ const CreateFleetView = ({ onBack }) => {
   };
 
   return (
-    <Box
+  <Box
       gridColumn="span 4"
       gridRow="span 2"
       backgroundColor={colors.primary[400]}

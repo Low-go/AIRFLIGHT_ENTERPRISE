@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import React from 'react';
+import { Box, Button, TextField, Typography, useTheme, Snackbar } from "@mui/material";
 import { tokens } from "../../theme";
 import { useCompany } from '../../contexts/CompanyContext';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const CreateFleetView = ({ onBack }) => {
   const theme = useTheme();
@@ -15,6 +18,45 @@ const CreateFleetView = ({ onBack }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // The following section is variables for the Snackbar and its function
+  // ------------------------------------------------
+  const[open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  // this should be called in handlesubmit to open the snackbar/toast when request is sucessful 
+  const openSnackBar = () => {
+    setOpen(true);
+  }
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  //----------------------------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +83,11 @@ const CreateFleetView = ({ onBack }) => {
       }
 
       // Success! Navigate back
-      onBack();
+      openSnackBar();
+      setTimeout(() => {
+        onBack();
+      }, 2000);
+      // onBack();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -132,6 +178,7 @@ const CreateFleetView = ({ onBack }) => {
             </Typography>
           )}
 
+          {/* two buttons displayed here */}
           <Box display="flex" justifyContent="center" gap="16px" mt="20px">
             <Button
               onClick={onBack}
@@ -149,6 +196,7 @@ const CreateFleetView = ({ onBack }) => {
             <Button
               type="submit"
               variant="contained"
+              // this here checks if the required Fleet modal data has been inputed
               disabled={loading || !formData.model}
               sx={{
                 backgroundColor: colors.blueAccent[500],
@@ -163,6 +211,13 @@ const CreateFleetView = ({ onBack }) => {
           </Box>
         </Box>
       </form>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Fleet created successfully!"
+        action={action}
+      />
     </Box>
   );
 };

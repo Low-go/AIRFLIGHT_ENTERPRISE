@@ -3,7 +3,7 @@ import { Box, useTheme, Button, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const ContactsView = ({ onBack, onCreateNew }) => {
+const ContactsView = ({ onBack, onCreateNew, onNavigateToContactsInfo }) => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -151,6 +151,7 @@ const ContactsView = ({ onBack, onCreateNew }) => {
                     fontWeight: "bold",
                     padding: "5px 10px",
                   }}
+                  onClick={onNavigateToContactsInfo}
                   >
                   Info
             </Button>

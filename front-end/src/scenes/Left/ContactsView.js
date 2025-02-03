@@ -151,7 +151,7 @@ const ContactsView = ({ onBack, onCreateNew, onNavigateToContactsInfo }) => {
                     fontWeight: "bold",
                     padding: "5px 10px",
                   }}
-                  onClick={onNavigateToContactsInfo}
+                  onClick={() => onNavigateToContactsInfo(contact)} //  Me attempting to pass the company object as prop 
                   >
                   Info
             </Button>

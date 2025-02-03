@@ -3,7 +3,7 @@ import { Box, Typography, Button, useTheme, Skeleton } from "@mui/material";
 import { tokens } from "../../theme";
 import { useCompany } from '../../contexts/CompanyContext';
 
-const FleetView = ({ onBack, onCreateNew }) => {
+const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, companyFleets, fetchCompanyFleets } = useCompany();
@@ -196,6 +196,7 @@ const FleetView = ({ onBack, onCreateNew }) => {
               fontWeight: "bold",
               padding: "5px 10px",
             }}
+            onClick={onNavigateToFleetInfo}
           >
             Info
           </Button>

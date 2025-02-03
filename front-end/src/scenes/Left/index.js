@@ -5,6 +5,7 @@ import CreateFleetView from "./CreateFleetView";
 import ContactsView from "./ContactsView";
 import { useCompany } from "../../contexts/CompanyContext";
 import CreateContactsView from "./CreateContactsView";
+import FleetInfo from "./FleetInfo";
 
 const InfoScreen = () => {
   const {currentView, setCurrentView} = useCompany();
@@ -22,6 +23,7 @@ const InfoScreen = () => {
       <FleetView 
         onBack={() => setCurrentView("main")}
         onCreateNew={() => setCurrentView("create-fleet")}
+        onNavigateToFleetInfo={() => setCurrentView("fleet-info")}
       />
     )}
     {currentView === "create-fleet" && (
@@ -36,6 +38,9 @@ const InfoScreen = () => {
     )}
     {currentView === "create-contact" && (
       <CreateContactsView onBack = {() => setCurrentView("main")}/>
+    )}
+    {currentView === "fleet-info" && (
+      <FleetInfo onBack = {() => setCurrentView("fleet")}/>
     )}
     </>
   );

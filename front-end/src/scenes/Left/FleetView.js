@@ -196,7 +196,7 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
               fontWeight: "bold",
               padding: "5px 10px",
             }}
-            onClick={onNavigateToFleetInfo}
+            onClick={() => onNavigateToFleetInfo(fleet)}
           >
             Info
           </Button>

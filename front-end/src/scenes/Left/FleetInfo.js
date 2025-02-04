@@ -2,7 +2,7 @@ import { Box, Typography, Button, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const ContactInfoDisplay = ({ onBack, fleet }) => {
+const FleetInfoDisplay = ({ onBack, fleet }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -10,11 +10,11 @@ const ContactInfoDisplay = ({ onBack, fleet }) => {
   // just temp for now, will replace with correct crud operations
 
   const handleEdit = () => {
-    console.log('Edit clicked for contact:', fleet.id);
+    console.log('Edit clicked for fleet:', fleet.id);
   };
 
   const handleDelete = () => {
-    console.log('Delete clicked for contact:', fleet.id);
+    console.log('Delete clicked for fleet:', fleet.id);
   };
 
   return (
@@ -178,4 +178,4 @@ const ContactInfoDisplay = ({ onBack, fleet }) => {
   );
 };
 
-export default ContactInfoDisplay;
+export default FleetInfoDisplay;

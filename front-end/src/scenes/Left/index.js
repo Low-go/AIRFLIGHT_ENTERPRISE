@@ -11,6 +11,7 @@ import ContactsInfo from "./ContactsInfo";
 const InfoScreen = () => {
   const {currentView, setCurrentView} = useCompany();
   const [selectedContact, setSelectedContact] = useState(null);
+  const [selectedFleet, setSelectedFleet] = useState(null);
 
   return (
     <>
@@ -25,7 +26,10 @@ const InfoScreen = () => {
       <FleetView 
         onBack={() => setCurrentView("main")}
         onCreateNew={() => setCurrentView("create-fleet")}
-        onNavigateToFleetInfo={() => setCurrentView("fleet-info")}
+        onNavigateToFleetInfo={(fleet) => {
+          setCurrentView("fleet-info");
+          setSelectedFleet(fleet);
+        }}
       />
     )}
     {currentView === "create-fleet" && (
@@ -46,7 +50,9 @@ const InfoScreen = () => {
       <CreateContactsView onBack = {() => setCurrentView("main")}/>
     )}
     {currentView === "fleet-info" && (
-      <FleetInfo onBack = {() => setCurrentView("fleet")}/>
+      <FleetInfo 
+        fleet = {selectedFleet}
+        onBack = {() => setCurrentView("fleet")}/>
     )}
     {currentView === "contact-info" && (
       <ContactsInfo 

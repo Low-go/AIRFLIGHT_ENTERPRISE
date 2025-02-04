@@ -2,7 +2,7 @@ import { Box, Typography, Button, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const ContactInfoDisplay = ({ contact }) => {
+const ContactInfoDisplay = ({ onBack, contact }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -44,6 +44,7 @@ const ContactInfoDisplay = ({ contact }) => {
         </Typography>
       </Box>
 
+      {/* The following is the model fields displayed  */}
       <Box 
         display="flex" 
         flexDirection="column" 
@@ -136,6 +137,25 @@ const ContactInfoDisplay = ({ contact }) => {
         p="15px"
         borderTop={`4px solid ${colors.grey.border}`}
       >
+
+        {/* buttons start here */}
+        <Button
+          onClick={onBack}
+          variant="contained"
+          sx={{
+            backgroundColor: colors.blueAccent[500],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+            '&:hover': {
+              backgroundColor: colors.blueAccent[600],
+            }
+          }}
+        >
+          Back
+        </Button>
+
         <Button
           onClick={handleEdit}
           variant="contained"

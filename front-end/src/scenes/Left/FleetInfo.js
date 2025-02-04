@@ -2,16 +2,12 @@ import { Box, Typography, Button, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const FleetInfoDisplay = ({ onBack, fleet }) => {
+const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
 
   // just temp for now, will replace with correct crud operations
-
-  const handleEdit = () => {
-    console.log('Edit clicked for fleet:', fleet.id);
-  };
 
   const handleDelete = () => {
     console.log('Delete clicked for fleet:', fleet.id);
@@ -141,7 +137,7 @@ const FleetInfoDisplay = ({ onBack, fleet }) => {
         </Button>
 
         <Button
-          onClick={handleEdit}
+          onClick={() => onNavigateToEdit(fleet)}
           variant="contained"
           sx={{
             backgroundColor: colors.blueAccent[500],
@@ -154,7 +150,7 @@ const FleetInfoDisplay = ({ onBack, fleet }) => {
             }
           }}
         >
-          Edit Contact
+          Edit Fleet
         </Button>
 
         <Button

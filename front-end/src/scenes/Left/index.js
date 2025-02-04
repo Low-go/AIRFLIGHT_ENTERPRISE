@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MainView from "./MainView"; // Main content view
 import FleetView from "./FleetView"; // Fleet-specific view
-import CreateFleetView from "./CreateFleetView";
+import FleetForm from "./FleetForm";
 import ContactsView from "./ContactsView";
 import { useCompany } from "../../contexts/CompanyContext";
 import CreateContactsView from "./CreateContactsView";
@@ -33,8 +33,8 @@ const InfoScreen = () => {
       />
     )}
     {currentView === "create-fleet" && (
-      <CreateFleetView 
-        onBack={() => setCurrentView("fleet")} />
+      <FleetForm 
+        mode = "create" onBack={() => setCurrentView("fleet")} />
     )}
     {currentView === "contact" && (
       <ContactsView 
@@ -52,13 +52,24 @@ const InfoScreen = () => {
     {currentView === "fleet-info" && (
       <FleetInfo 
         fleet = {selectedFleet}
-        onBack = {() => setCurrentView("fleet")}/>
+        onBack = {() => setCurrentView("fleet")}
+        onNavigateToEdit={(fleet) => {
+          setCurrentView("edit-fleet")
+        }}
+        />
     )}
     {currentView === "contact-info" && (
       <ContactsInfo 
         contact={selectedContact}
         onBack = {() => setCurrentView("contact")}/>
     )}
+    {currentView === "edit-fleet" && (
+      <FleetForm 
+        mode="edit"
+        fleetData={selectedFleet}
+        onBack={() => setCurrentView("fleet-info")}
+      />
+      )}
     </>
   );
 };

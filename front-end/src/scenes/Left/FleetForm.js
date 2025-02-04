@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import { Box, Button, TextField, Typography, useTheme, Snackbar } from "@mui/material";
 import { tokens } from "../../theme";
@@ -6,7 +6,7 @@ import { useCompany } from '../../contexts/CompanyContext';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-const CreateFleetView = ({ onBack }) => {
+const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyFleets } = useCompany();
@@ -16,6 +16,19 @@ const CreateFleetView = ({ onBack }) => {
     fabrication_date: '',
     notes: ''
   });
+
+
+    // If in edit mode and fleetData is provided, set initial form data
+    useEffect(() => {
+      if (mode === "edit" && fleetData) {
+        setFormData({
+          model: fleetData.model,
+          fabrication_date: fleetData.fabrication_date,
+          notes: fleetData.notes || ''
+        });
+      }
+    }, [mode, fleetData]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -79,7 +92,7 @@ const CreateFleetView = ({ onBack }) => {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to create fleet');
+        throw new Error(`Failed to ${mode} fleet`);
       }
 
       // Success! Navigate back
@@ -99,6 +112,15 @@ const CreateFleetView = ({ onBack }) => {
       setLoading(false);
     }
   };
+
+  // Dynamic text based on mode
+  const formTitle = mode === "edit" ? "Edit Fleet" : "Create New Fleet";
+  const submitButtonText = mode === "edit" 
+    ? (loading ? 'Saving...' : 'Save Changes')
+    : (loading ? 'Creating...' : 'Create Fleet');
+  const successMessage = mode === "edit" 
+    ? "Fleet updated successfully!"
+    : "Fleet created successfully!";
 
   return (
   <Box
@@ -124,7 +146,7 @@ const CreateFleetView = ({ onBack }) => {
           variant="h5"
           fontWeight="600"
         >
-          Create New Fleet
+          {formTitle}
         </Typography>
       </Box>
 
@@ -211,7 +233,8 @@ const CreateFleetView = ({ onBack }) => {
                 padding: "8px 16px",
               }}
             >
-              {loading ? 'Creating...' : 'Create Fleet'}
+              
+              {submitButtonText}
             </Button>
           </Box>
         </Box>
@@ -220,11 +243,11 @@ const CreateFleetView = ({ onBack }) => {
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
-        message="Fleet created successfully!"
+        message={successMessage}
         action={action}
       />
     </Box>
   );
 };
 
-export default CreateFleetView;
+export default FleetForm;

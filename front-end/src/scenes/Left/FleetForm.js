@@ -83,7 +83,7 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
 
     try { // TODO most likely replace this api call in the future
       const response = await fetch(
-        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${isEdit ? fleetData.id : ''}`, // only attatch the id of the specific fleet if its in edit mode
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${isEdit ? fleetData.id + '/': ''}`, // only attatch the id of the specific fleet if its in edit mode
         {
           method,
           headers: {

@@ -72,6 +72,23 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
             fontWeight="600"
             mb="8px"
           >
+            ID:
+          </Typography>
+          <Typography
+            color={colors.grey[100]}
+            variant="h4"
+          >
+            {fleet.id}
+          </Typography>
+        </Box>
+
+        <Box>
+          <Typography
+            color={colors.grey[300]}
+            variant="h5"
+            fontWeight="600"
+            mb="8px"
+          >
             Fabrication Date
           </Typography>
           <Typography

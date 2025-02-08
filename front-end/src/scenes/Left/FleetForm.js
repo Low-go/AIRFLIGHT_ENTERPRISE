@@ -71,16 +71,21 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
 
   //----------------------------------------------
 
+  // Handles either the creation or update of an entity
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    // This will atke care of determining which crud operation we perform
+    const isEdit = mode === 'edit';
+    const method = isEdit ? 'PUT' : 'POST'
+
     try { // TODO most likely replace this api call in the future
       const response = await fetch(
-        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/`,
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${isEdit ? fleetData.id : ''}`, // only attatch the id of the specific fleet if its in edit mode
         {
-          method: 'POST',
+          method,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -92,7 +97,7 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
       );
 
       if (!response.ok) {
-        throw new Error(`Failed to ${mode} fleet`);
+        throw new Error(`Failed to ${isEdit ? 'update' : 'create'} fleet`);
       }
 
       // Success! Navigate back

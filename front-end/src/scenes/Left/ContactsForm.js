@@ -6,7 +6,7 @@ import { useCompany } from '../../contexts/CompanyContext';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-const ContactsForm = ({ onBack, mode="edit", ContactData = "" }) => {
+const ContactsForm = ({ onBack, mode="edit", contactData = "" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
@@ -23,16 +23,17 @@ const ContactsForm = ({ onBack, mode="edit", ContactData = "" }) => {
 
   // If in edit mode and Contact Data is provided, set initial form data
   useEffect(() => {
-    if (mode === "edit" && ContactData) {
+    if (mode === "edit" && contactData) {
       setFormData({
-          first_name: ContactData.first_name,
-          last_name: ContactData.last_name,
-          role: ContactData.role,
-          email: ContactData.email,
-          notes: ContactData.notes || ''
+          first_name: contactData.first_name,
+          last_name: contactData.last_name,
+          role: contactData.role,
+          email: contactData.email,
+          notes: contactData.notes || ''
         });
       }
-    }, [mode, ContactData]);
+    }, [mode, contactData]);
+    if (contactData) { console.log(contactData.first_name)}
 
   // The following section is variables for the Snackbar and its function
   // ------------------------------------------------
@@ -84,7 +85,7 @@ const ContactsForm = ({ onBack, mode="edit", ContactData = "" }) => {
 
     try { // TODO most likely replace this api call in the future
       const response = await fetch(
-        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/contacts/${isEdit ? ContactData.id + '/' : ''}`,
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/contacts/${isEdit ? contactData.id + '/' : ''}`,
         {
           method,
           headers: {

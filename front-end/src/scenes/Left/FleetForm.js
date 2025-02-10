@@ -28,6 +28,7 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
         });
       }
     }, [mode, fleetData]);
+    if (fleetData) { console.log(fleetData.model)}
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

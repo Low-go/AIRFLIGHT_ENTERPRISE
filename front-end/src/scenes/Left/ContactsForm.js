@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import { Box, Button, TextField, Typography, useTheme, Snackbar } from "@mui/material";
 import { tokens } from "../../theme";
@@ -6,7 +6,7 @@ import { useCompany } from '../../contexts/CompanyContext';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-const CreateContactView = ({ onBack }) => {
+const ContactsForm = ({ onBack, mode="edit", ContactData = "" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
@@ -20,6 +20,19 @@ const CreateContactView = ({ onBack }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // If in edit mode and Contact Data is provided, set initial form data
+  useEffect(() => {
+    if (mode === "edit" && ContactData) {
+      setFormData({
+          first_name: ContactData.first_name,
+          last_name: ContactData.last_name,
+          role: ContactData.role,
+          email: ContactData.email,
+          notes: ContactData.notes || ''
+        });
+      }
+    }, [mode, ContactData]);
 
   // The following section is variables for the Snackbar and its function
   // ------------------------------------------------
@@ -65,11 +78,15 @@ const CreateContactView = ({ onBack }) => {
     setLoading(true);
     setError(null);
 
+    // This will atke care of determining which crud operation we perform
+    const isEdit = mode === 'edit';
+    const method = isEdit ? 'PUT' : 'POST'
+
     try { // TODO most likely replace this api call in the future
       const response = await fetch(
-        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/contacts/`,
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/contacts/${isEdit ? ContactData.id + '/' : ''}`,
         {
-          method: 'POST',
+          method,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -101,6 +118,16 @@ const CreateContactView = ({ onBack }) => {
     }
   };
 
+
+  // Dynamic text based on mode
+  const formTitle = mode === "edit" ? "Edit Contact" : "Create New Contact";
+  const submitButtonText = mode === "edit" 
+    ? (loading ? 'Saving...' : 'Save Changes')
+    : (loading ? 'Creating...' : 'Create Contact');
+  const successMessage = mode === "edit" 
+    ? "Contact updated successfully!"
+    : "Contact created successfully!";
+
   return (
     <Box
       gridColumn="span 4"
@@ -125,7 +152,7 @@ const CreateContactView = ({ onBack }) => {
           variant="h5"
           fontWeight="600"
         >
-          Create New Contact
+          {formTitle}
         </Typography>
       </Box>
 
@@ -242,7 +269,7 @@ const CreateContactView = ({ onBack }) => {
                 padding: "8px 16px",
               }}
             >
-              {loading ? 'Creating...' : 'Create Contact'}
+              {submitButtonText}
             </Button>
           </Box>
         </Box>
@@ -251,11 +278,11 @@ const CreateContactView = ({ onBack }) => {
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
-        message="Contact created successfully!"
+        message={successMessage}
         action={action}
       />
     </Box>
   );
 };
 
-export default CreateContactView;
+export default ContactsForm;

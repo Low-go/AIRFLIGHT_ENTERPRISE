@@ -100,6 +100,7 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
         throw new Error(`Failed to ${isEdit ? 'update' : 'create'} fleet`);
       }
 
+
       // Success! Navigate back
       openSnackBar();
 
@@ -256,3 +257,5 @@ const FleetForm = ({ onBack, mode="edit", fleetData = "" }) => {
 };
 
 export default FleetForm;
+
+//TODO find a way to make it update the FleetInfo section when it moves onBack

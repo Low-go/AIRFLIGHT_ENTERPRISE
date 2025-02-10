@@ -4,7 +4,7 @@ import FleetView from "./FleetView"; // Fleet-specific view
 import FleetForm from "./FleetForm";
 import ContactsView from "./ContactsView";
 import { useCompany } from "../../contexts/CompanyContext";
-import CreateContactsView from "./CreateContactsView";
+import ContactsForm from "./ContactsForm";
 import FleetInfo from "./FleetInfo";
 import ContactsInfo from "./ContactsInfo";
 
@@ -47,7 +47,7 @@ const InfoScreen = () => {
       />
     )}
     {currentView === "create-contact" && (
-      <CreateContactsView onBack = {() => setCurrentView("main")}/>
+      <ContactsForm mode = "create" onBack = {() => setCurrentView("main")}/>
     )}
     {currentView === "fleet-info" && (
       <FleetInfo 
@@ -61,7 +61,11 @@ const InfoScreen = () => {
     {currentView === "contact-info" && (
       <ContactsInfo 
         contact={selectedContact}
-        onBack = {() => setCurrentView("contact")}/>
+        onBack = {() => setCurrentView("contact")}
+        onNavigateToEdit={(contact) =>{
+          setCurrentView("edit-contact")
+        }}
+        />
     )}
     {currentView === "edit-fleet" && (
       <FleetForm 
@@ -69,6 +73,13 @@ const InfoScreen = () => {
         fleetData={selectedFleet}
         onBack={() => setCurrentView("fleet-info")}
       />
+      )}
+      {currentView === "edit-contact" && (
+        <ContactsForm 
+          mode="edit"
+          contactData = {selectedContact}
+          onBack={() => setCurrentView("contact-info")}
+        />
       )}
     </>
   );

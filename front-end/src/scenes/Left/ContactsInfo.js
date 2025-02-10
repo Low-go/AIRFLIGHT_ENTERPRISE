@@ -2,16 +2,12 @@ import { Box, Typography, Button, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const ContactInfoDisplay = ({ onBack, contact }) => {
+const ContactInfoDisplay = ({ onBack, contact, onNavigateToEdit }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
 
   // just temp for now, will replace with correct crud operations
-
-  const handleEdit = () => {
-    console.log('Edit clicked for contact:', contact.id);
-  };
 
   const handleDelete = () => {
     console.log('Delete clicked for contact:', contact.id);
@@ -157,7 +153,7 @@ const ContactInfoDisplay = ({ onBack, contact }) => {
         </Button>
 
         <Button
-          onClick={handleEdit}
+          onClick={() => onNavigateToEdit(contact)}
           variant="contained"
           sx={{
             backgroundColor: colors.blueAccent[500],

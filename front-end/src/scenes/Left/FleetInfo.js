@@ -6,7 +6,6 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
   // just temp for now, will replace with correct crud operations
 
   const handleDelete = () => {

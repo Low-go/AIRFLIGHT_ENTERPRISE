@@ -16,6 +16,7 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
     setOpenDialog(true);
   };
 
+  // will replace with correct functionality
   const handleConfirmDelete = () => {
     console.log('Delete confirmed for fleet:', fleet.id);
     onBack();
@@ -196,6 +197,7 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
       </Box>
 
       {/* Delete Confirmation Dialog */}
+      {/* Pops open a model to confirm delete option, uses material UI dialogue*/}
       <Dialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}

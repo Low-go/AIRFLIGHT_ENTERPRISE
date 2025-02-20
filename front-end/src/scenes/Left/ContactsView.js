@@ -31,8 +31,32 @@ const ContactsView = ({ onBack, onCreateNew, onNavigateToContactsInfo }) => {
     fetchData();
   }, [selectedCompany, fetchCompanyContacts]);
 
-  // replace with better look later
-  if (loading) return <div>Loading Contacts..</div>
+  // Quick change to display a proper box while loading, can be changed later
+  if (loading) return (
+    <Box
+      gridColumn="span 4"
+      gridRow="span 2"
+      backgroundColor={colors.primary[400]}
+      overflow="auto"
+      flex="1"
+      p="20px"
+      borderRadius="8px"
+    >
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        height="100%"
+      >
+        <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+          Loading Contacts...
+        </Typography>
+      </Box>
+    </Box>
+  );
+  
+  // this needs to be changed
   if (error) return <div>Error: {error}</div>
 
   if (!companyContacts || companyContacts.length === 0)

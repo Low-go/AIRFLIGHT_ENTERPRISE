@@ -28,56 +28,32 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
     fetchData();
   }, [selectedCompany, fetchCompanyFleets]);
 
-  // mui skeleton loading component
-  const LoadingSkeleton = () => (
+  // Quick change to display a proper box while loading, can be changed later
+  if (loading) return (
       <Box
         gridColumn="span 4"
         gridRow="span 2"
         backgroundColor={colors.primary[400]}
         overflow="auto"
-        display="flex"
-        flex = "1"
-        flexDirection="column"
+        flex="1"
         p="20px"
-        borderRadius="5px"
+        borderRadius="8px"
       >
         <Box
           display="flex"
-          justifyContent="space-between"
+          justifyContent="center"
           alignItems="center"
-          borderBottom={`4px solid ${colors.customAccent.main}`}
-          p="15px"
+          flexDirection="column"
+          height="100%"
         >
-          <Skeleton variant="text" width={120} height={32} />
-        </Box>
-        
-        {/* Skeleton items placeholders */}
-        {[1, 2, 3].map((item) => (
-          <Box
-            key={item}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.grey.border}`}
-            p="15px"
-          >
-            <Box>
-              <Skeleton variant="text" width={150} height={28} />
-              <Skeleton variant="text" width={100} height={24} />
-            </Box>
-            <Skeleton variant="rectangular" width={60} height={36} />
-          </Box>
-        ))}
-        
-        <Box display="flex" justifyContent="center" p="15px">
-          <Skeleton variant="rectangular" width={120} height={40} sx={{ mr: 2 }} />
-          <Skeleton variant="rectangular" width={120} height={40} />
+          <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+            Loading Contacts...
+          </Typography>
         </Box>
       </Box>
   );
 
-
-  if (loading) return <div><LoadingSkeleton/></div>
+  // change this also
   if (error) return <div>Error: {error}</div>
   
   if (!companyFleets || companyFleets.length === 0)

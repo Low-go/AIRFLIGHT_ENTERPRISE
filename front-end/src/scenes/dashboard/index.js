@@ -3,6 +3,7 @@ import Header from "../../Components/Header";
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import InfoScreen from '../Left';
+import RightScreen from '../Right/RightScreen';
 
 const Dashboard = () => {
 
@@ -29,16 +30,7 @@ const Dashboard = () => {
         <InfoScreen/>
 
          {/**Right Box */}
-        <Box 
-          flex="1" 
-          bgcolor={colors.primary[400]}
-          p="20px"
-          borderRadius="4px"
-        >
-          <Typography variant="h6" color={colors.grey[100]}>
-            Right Grid Content
-          </Typography>
-        </Box>
+         <RightScreen/>
       </Box>
     </Box>
   );

@@ -40,9 +40,9 @@ const Sidebar = () => {
 
   // main compliment color to be used
   const sxHoverStyles = { // need to come back to this, its being cut out
-    '&:hover':{
-      outline: `2px solid ${colors.customAccent.main}`, 
-    },
+    // '&:hover':{
+    //   outline: `2px solid ${colors.customAccent.main}`, 
+    // },
   }
 
   return (

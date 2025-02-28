@@ -11,7 +11,7 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
 
-  const MenuCard = ({ icon: Icon, title, onClick, delay }) => (
+  const MenuCard = ({ icon: Icon, title, onClick }) => (
     <Paper
       elevation={3}
       sx={{
@@ -20,6 +20,12 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
         borderRadius: 2,
         cursor: 'pointer',
         transition: 'all 0.3s ease',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        flex: 1,  // Makes the card flexible but still controlled by the parent Box
+        width: '100%',  // Ensures the card fills the container
+        minHeight: 150, // Set a minimum height to prevent over-stretching
         '&:hover': {
           transform: 'scale(1.02)',
           boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
@@ -65,7 +71,7 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
     </Paper>
   );
 
-    // If no company has been selected or is saved as a global variable
+  // If no company has been selected or is saved as a global variable
   if (!selectedCompany) {
     return (
       <Box
@@ -148,18 +154,18 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
         flexDirection="column"
         gap={2}
         mt={2}
+        flex="1"
+        alignItems="stretch"  
       >
         <MenuCard
           icon={ContactsIcon}
           title="Company Contacts"
           onClick={onNavigateToContacts}
-          delay="100ms"
         />
         <MenuCard
           icon={AirplanemodeActiveIcon}
           title="Fleet Management"
           onClick={onNavigateToFleet}
-          delay="200ms"
         />
       </Box>
     </Box>

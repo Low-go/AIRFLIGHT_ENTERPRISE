@@ -7,11 +7,11 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   
 
   borderRadius: "8px",
-  backgroundColor: "#e2e8f0",
+  backgroundColor: isDarkMode ? "#7B8D99" : "#e2e8f0",
   border: "4px solid #3b82f6", // Start with a blue border
   width: "155px",
   position: "relative",
-  animation: isDarkMode ? "glowingBorderDark 3s infinite alternate" : "glowingBorderLight 3s infinite alternate",
+  animation: isDarkMode ? "glowingBorderDark 2.2s infinite alternate" : "glowingBorderLight 3s infinite alternate",
     
   "@keyframes glowingBorderDark": {
     "0%": { borderColor: "#3b82f6", boxShadow: "0 0 5px #3b82f6" },
@@ -35,7 +35,7 @@ const BigNode = ({ data, isDarkMode }) => {
         padding={1.5}
         borderBottom="1px solid #bbbdbf"
       >
-        <Typography variant="body1" fontWeight="bold">
+        <Typography variant="body1" fontWeight="bold" >
           {data.name}
         </Typography>
       </Box>

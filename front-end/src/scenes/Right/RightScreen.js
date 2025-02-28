@@ -9,10 +9,10 @@ const RightScreen = () => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
+    const isDarkMode = theme.palette.mode === "dark";
 
     const nodeTypes = {
-        bigNode: BigNode  // This tells ReactFlow to use BigNode component when type is 'bigNode'
+        bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/> // This tells ReactFlow to use BigNode component when type is 'bigNode'
     };
 
     // test 
@@ -22,7 +22,8 @@ const RightScreen = () => {
           type: 'bigNode',
           position: { x: 100, y: 100 },
           data: {
-            name: 'Company Name'
+            name: 'Company Name',
+            colors: colors,
           }
         }
     ];

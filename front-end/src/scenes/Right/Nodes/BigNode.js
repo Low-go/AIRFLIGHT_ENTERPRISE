@@ -1,44 +1,34 @@
-// import { Box, useTheme, Typography } from "@mui/material";
-
-// import React from 'react'
-
-// const BigNode = ({name}) => {
-//   return (
-//     <Flex
-//         alignItems={"center"}
-//         borderRadius="8px"
-//         bg="#e2e8f0"
-//         border="2px solid #bbbdbf"
-//         p={2}
-//         gap={2}
-//         width = "155px"
-//     >
-//         <Box>
-//             name 
-//         </Box>
-//         <Flex grow="1">
-//             <Box>
-//                 <Text
-//             </Box>
-//         </Flex>
-//     </Flex>
-//   )
-// }
-
-// export default BigNode
-
-
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { styled } from "@mui/material/styles";
+
+// Create a styled Box with the glowing border animation
+const GlowingBox = styled(Box)(({ theme }) => ({
+  borderRadius: "8px",
+  backgroundColor: "#e2e8f0",
+  border: "4px solid #3b82f6", // Start with a blue border
+  width: "155px",
+  position: "relative",
+  animation: "glowingBorder 3s infinite alternate",
+  "@keyframes glowingBorder": {
+    "0%": {
+      borderColor: "#3b82f6", // Dark blue
+      boxShadow: "0 0 5px #3b82f6",
+    },
+    "50%": {
+      borderColor: "#60a5fa", // Medium blue
+      boxShadow: "0 0 15px #60a5fa",
+    },
+    "100%": {
+      borderColor: "#93c5fd", // Soft blue
+      boxShadow: "0 0 10px #93c5fd",
+    },
+  },
+}));
 
 const BigNode = ({ data }) => {
   return (
-    <Box
-      borderRadius="8px"
-      bgcolor="#e2e8f0"
-      border="2px solid #bbbdbf"
-      width="155px"
-    >
+    <GlowingBox>
       <Box
         padding={1.5}
         borderBottom="1px solid #bbbdbf"
@@ -47,8 +37,8 @@ const BigNode = ({ data }) => {
           {data.name}
         </Typography>
       </Box>
-      
-      <Box 
+     
+      <Box
         padding={1.5}
         display="flex"
         alignItems="center"
@@ -58,9 +48,8 @@ const BigNode = ({ data }) => {
           Additional Text
         </Typography>
       </Box>
-    </Box>
+    </GlowingBox>
   );
 };
 
 export default BigNode;
-

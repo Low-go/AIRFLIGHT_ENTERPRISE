@@ -1,6 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
+import { Handle, Position } from "@xyflow/react";
 
 // Create a styled Box with the glowing border animation
 const GlowingBox = styled(Box)(({ isDarkMode }) => ({
@@ -11,7 +12,7 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   border: "4px solid #3b82f6", // Start with a blue border
   width: "155px",
   position: "relative",
-  animation: isDarkMode ? "glowingBorderDark 2.2s infinite alternate" : "glowingBorderLight 3s infinite alternate",
+  animation: isDarkMode ? "glowingBorderDark 2.5s infinite alternate" : "glowingBorderLight 2.5s infinite alternate",
     
   "@keyframes glowingBorderDark": {
     "0%": { borderColor: "#3b82f6", boxShadow: "0 0 5px #3b82f6" },
@@ -31,6 +32,14 @@ const BigNode = ({ data, isDarkMode }) => {
 
   return (
     <GlowingBox isDarkMode={isDarkMode}>
+
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        style={{ background: '#555', width: '10px', height: '10px' }}
+        
+      />
+
       <Box
         padding={1.5}
         borderBottom="1px solid #bbbdbf"
@@ -46,7 +55,7 @@ const BigNode = ({ data, isDarkMode }) => {
         alignItems="center"
         gap={2}
       >
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" color="textSecondary"> {/**I might not use this, leaving for now* */}
           Additional Text
         </Typography>
       </Box>

@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from '../../theme';
-import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Background } from '@xyflow/react';
+import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Background, StraightEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import BigNode from './Nodes/BigNode';
+import SmallNode from './Nodes/Small.Node';
 
 const RightScreen = () => {
 
@@ -12,7 +13,8 @@ const RightScreen = () => {
     const isDarkMode = theme.palette.mode === "dark";
 
     const nodeTypes = {
-        bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/> // This tells ReactFlow to use BigNode component when type is 'bigNode'
+        bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>, // This tells ReactFlow to use BigNode component when type is 'bigNode'
+        smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>
     };
 
     // test 
@@ -25,19 +27,28 @@ const RightScreen = () => {
             name: 'Company Name',
             colors: colors,
           }
+        },
+        {
+            id: '2',
+            type: 'smallNode',
+            position: { x: 300, y: 200 },
+            data: {
+              name: 'Small Node',
+              colors: colors,
+            }
         }
     ];
-    // const initialEdges = [ { id: 'e1-2', source: '1', target: '2'} ];
+    const initialEdges = [ { id: 'e1-2', source: '1', target: '2', style : { stroke: '#f00', strokeWidth: 2}, animated: true } ]; // change the color later
 
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    // const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
 
-    // const onConnect = useCallback(
-    //     (params) => setEdges((eds) => addEdge(params, eds)),
-    //     [setEdges],
-    // );
+    const onConnect = useCallback(
+        (params) => setEdges((eds) => addEdge(params, eds)),
+        [setEdges],
+    );
 
 
     return (
@@ -51,10 +62,10 @@ const RightScreen = () => {
             <ReactFlow 
                 nodes= {nodes} 
                 nodeTypes={nodeTypes}
-                // edges = {edges} 
+                edges = {edges} 
                 onNodesChange={onNodesChange}
-                // onEdgesChange={onEdgesChange}
-                // onConnect={onConnect}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
                
                 >
                 <Controls/>

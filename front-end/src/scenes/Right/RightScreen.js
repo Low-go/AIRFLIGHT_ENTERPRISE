@@ -84,6 +84,7 @@ const RightScreen = () => {
         [setEdges, isDarkMode]
     );
     
+    // same as left screen. Placeholder if no company selected
     if (!selectedCompany) {
         return (
             <Box

@@ -24,8 +24,8 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
         flexDirection: 'column',
         justifyContent: 'center',
         flex: 1,  // Makes the card flexible but still controlled by the parent Box
-        width: '100%',  // Ensures the card fills the container
-        minHeight: 150, // Set a minimum height to prevent over-stretching
+        width: '100%',  // Makes sure the card fills the container
+        minHeight: 150,
         '&:hover': {
           transform: 'scale(1.02)',
           boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',

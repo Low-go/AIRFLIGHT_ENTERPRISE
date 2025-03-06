@@ -5,11 +5,14 @@ import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Ba
 import '@xyflow/react/dist/style.css';
 import BigNode from './Nodes/BigNode';
 import SmallNode from './Nodes/Small.Node';
+import  HubOutlinedIcon  from "@mui/icons-material/HubOutlined";
+import { useCompany } from '../../contexts/CompanyContext';
 
 const RightScreen = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isDarkMode = theme.palette.mode === "dark";
+    const { selectedCompany } = useCompany(); // should i make another variable inside?
     
     const nodeTypes = {
         bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>,
@@ -81,6 +84,43 @@ const RightScreen = () => {
         [setEdges, isDarkMode]
     );
     
+    if (!selectedCompany) {
+        return (
+            <Box
+            gridColumn="span 4"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
+            overflow="auto"
+            flex="1"
+            p="20px"
+            borderRadius="8px"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={2}
+          >
+            <HubOutlinedIcon sx={{ 
+              fontSize: 48, 
+              color: colors.grey[500],
+              animation: 'pulse 2s infinite ease-in-out',
+              '@keyframes pulse': {
+                '0%': { opacity: 0.6 },
+                '50%': { opacity: 1 },
+                '100%': { opacity: 0.6 }
+              }
+            }} />
+            <Typography 
+              variant="h6" 
+              color={colors.grey[100]} 
+              textAlign="center"
+              sx={{ fontWeight: 500 }}
+            >
+              Please select a company to see Node Tree
+            </Typography>
+          </Box>
+        )
+    }
+
     return (
         <Box
             flex="1"

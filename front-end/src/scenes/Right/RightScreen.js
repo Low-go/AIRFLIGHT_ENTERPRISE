@@ -30,7 +30,7 @@ const RightScreen = () => {
         {
             id: '2',
             type: 'smallNode',
-            position: { x: 300, y: 200 },
+            position: { x: 400, y: 50 },
             data: {
               name: 'Small Node',
               colors: colors,
@@ -44,7 +44,9 @@ const RightScreen = () => {
         id: 'e1-2', 
         source: '1', 
         target: '2',
-        animated: true
+        animated: true,
+        sourceHandle: 'top-right-handle', // placing id to specify where it should go
+        targetHandle: 'left-handle',
       } 
     ];
     

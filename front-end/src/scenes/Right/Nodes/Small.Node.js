@@ -8,7 +8,7 @@ const BoxFrame = styled(Box)(({ isDarkMode }) => ({
     borderRadius: "5px",
     backgroundColor: isDarkMode ? "#7B8D99" : "#e2e8f0",
     border: isDarkMode ? "3px solid #3da58a" : "3px solid #ff7e50", // Darker coral for light mode
-    width: "120px",
+    width: "100px",
     height: "70px",
     position: "relative",
     animation: isDarkMode 
@@ -34,6 +34,7 @@ const SmallNode = ({ data, isDarkMode }) => {
         <BoxFrame isDarkMode={isDarkMode}>
 
             <Handle
+                id = "left-handle"
                 type="target"
                 position={Position.Left}
                 style={{ background: '#555', width: '10px', height: '10px' }}

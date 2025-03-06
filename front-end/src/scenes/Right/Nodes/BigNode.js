@@ -1,12 +1,10 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Handle, Position } from "@xyflow/react";
 
 // Create a styled Box with the glowing border animation
 const GlowingBox = styled(Box)(({ isDarkMode }) => ({
-  
-
   borderRadius: "8px",
   backgroundColor: isDarkMode ? "#7B8D99" : "#e2e8f0",
   border: "4px solid #3b82f6", // Start with a blue border
@@ -27,19 +25,70 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   },
 }));
 
-const BigNode = ({ data, isDarkMode }) => {
+// TODO: might wanna make these handles blue later to match the border
+// Custom interactive handle component
+const InteractiveHandle = styled(Handle)(({ isHovered }) => ({
+  background: '#555',
+  width: isHovered ? '14px' : '10px',
+  height: isHovered ? '14px' : '10px',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease-in-out',
+  '&:hover': {
+    background: '#888',
+    boxShadow: '0 0 5px rgba(0,0,0,0.3)',
+  }
+}));
 
+const BigNode = ({ data, isDarkMode }) => {
+  // lol this is stupid but i wanna remember the hover trick for other components
+  const [topHandleHovered, setTopHandleHovered] = useState(false);
+  const [bottomHandleHovered, setBottomHandleHovered] = useState(false);
+
+  const handleTopClick = () => {
+    console.log("Top handle clicked!");
+    console.log("Node data:", data);
+  };
+
+  const handleBottomClick = () => {
+    console.log("Bottom handle clicked!");
+    console.log("Node data:", data);
+    // note to self: add event emit here for the flow designer later
+  };
 
   return (
     <GlowingBox isDarkMode={isDarkMode}>
+      <div 
+        onClick={handleTopClick}
+        onMouseEnter={() => setTopHandleHovered(true)}
+        onMouseLeave={() => setTopHandleHovered(false)}
+        style={{ position: 'absolute', right: -3, top: '30%', width: 20, height: 20, zIndex: 10 }}
+      >
+        <InteractiveHandle
+          id="top-right-handle"
+          type="source"
+          position={Position.Right}
+          isHovered={topHandleHovered}
+          style={{ top: 0 }}
+        />
+      </div>
+      {/* all this just so I can make some dumb circles get large and work as buttons */}
 
-      <Handle
-        type="source"
-        position={Position.Right} // might need to change later, handles where the line starts
-        style={{ background: '#555', width: '10px', height: '10px' }}
-        
-      />
-
+      
+      <div 
+        onClick={handleBottomClick}
+        onMouseEnter={() => setBottomHandleHovered(true)}
+        onMouseLeave={() => setBottomHandleHovered(false)}
+        style={{ position: 'absolute', right: -3, top: '70%', width: 20, height: 20, zIndex: 10 }}
+      >
+        <InteractiveHandle
+          id="bottom-right-handle"
+          type="source"
+          position={Position.Right}
+          isHovered={bottomHandleHovered}
+          style={{ top: 0 }}
+        />
+      </div>
+      
       <Box
         padding={1.5}
         borderBottom="1px solid #bbbdbf"
@@ -55,7 +104,7 @@ const BigNode = ({ data, isDarkMode }) => {
         alignItems="center"
         gap={2}
       >
-        <Typography variant="body2" color="textSecondary"> {/**I might not use this, leaving for now* */}
+        <Typography variant="body2" color="textSecondary">
           Additional Text
         </Typography>
       </Box>

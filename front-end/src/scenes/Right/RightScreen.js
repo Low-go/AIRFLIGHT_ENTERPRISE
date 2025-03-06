@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from '../../theme';
 import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Background, StraightEdge } from '@xyflow/react';
@@ -7,17 +7,16 @@ import BigNode from './Nodes/BigNode';
 import SmallNode from './Nodes/Small.Node';
 
 const RightScreen = () => {
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isDarkMode = theme.palette.mode === "dark";
-
+    
     const nodeTypes = {
-        bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>, // This tells ReactFlow to use BigNode component when type is 'bigNode'
+        bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>,
         smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>
     };
-
-    // test 
+    
+    // still test
     const initialNodes = [
         {
           id: '1',
@@ -38,42 +37,68 @@ const RightScreen = () => {
             }
         }
     ];
-    const initialEdges = [ { id: 'e1-2', source: '1', target: '2', style : { stroke: '#f00', strokeWidth: 2}, animated: true } ]; // change the color later
-
-
+    
+    
+    const initialEdges = [ 
+      { 
+        id: 'e1-2', 
+        source: '1', 
+        target: '2',
+        animated: true
+      } 
+    ];
+    
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-
+    
+    // Literally just for the lines to dynamically change
+    useEffect(() => {
+        setEdges(edges => 
+            edges.map(edge => ({
+                ...edge,
+                style: { 
+                    stroke: isDarkMode ? "#ffffff" : "#000000", 
+                    strokeWidth: 2
+                }
+            }))
+        );
+    }, [isDarkMode, setEdges]);
+    
     const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges],
+        (params) => {
+            const newEdge = {
+                ...params,
+                style: { 
+                    stroke: isDarkMode ? "#ffffff" : "#000000", 
+                    strokeWidth: 2
+                },
+                animated: true
+            };
+            setEdges((eds) => addEdge(newEdge, eds));
+        },
+        [setEdges, isDarkMode]
     );
-
-
+    
     return (
         <Box
-            flex="1" 
+            flex="1"
             bgcolor={colors.primary[400]}
             p="20px"
             borderRadius="4px"
         >
-
-            <ReactFlow 
-                nodes= {nodes} 
+            <ReactFlow
+                nodes={nodes}
                 nodeTypes={nodeTypes}
-                edges = {edges} 
+                edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-               
-                >
+            >
                 <Controls/>
-                {/* <MiniMap/> */}
                 <Background variant="dots" gap={12} size={1} />
             </ReactFlow>
         </Box>
-    )
-}
+    );
+};
 
 export default RightScreen;

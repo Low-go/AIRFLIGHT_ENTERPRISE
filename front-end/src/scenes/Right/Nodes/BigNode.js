@@ -35,7 +35,7 @@ const BigNode = ({ data, isDarkMode }) => {
 
       <Handle
         type="source"
-        position={Position.Bottom}
+        position={Position.Right} // might need to change later, handles where the line starts
         style={{ background: '#555', width: '10px', height: '10px' }}
         
       />

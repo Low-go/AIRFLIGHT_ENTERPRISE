@@ -1,14 +1,16 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Handle, Position } from "@xyflow/react";
+import { Position } from "@xyflow/react";
+import InteractiveHandle from "../../../Components/InteractiveHandle";
 
 // Create a styled Box with the glowing border animation
 const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   borderRadius: "8px",
   backgroundColor: isDarkMode ? "#7B8D99" : "#e2e8f0",
   border: "4px solid #3b82f6", // Start with a blue border
-  width: "155px",
+  width: "165px",
+  height: "110px",
   position: "relative",
   animation: isDarkMode ? "glowingBorderDark 2.5s infinite alternate" : "glowingBorderLight 2.5s infinite alternate",
     
@@ -25,19 +27,7 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   },
 }));
 
-// TODO: might wanna make these handles blue later to match the border
-// Custom interactive handle component
-const InteractiveHandle = styled(Handle)(({ isHovered }) => ({
-  background: '#555',
-  width: isHovered ? '14px' : '10px',
-  height: isHovered ? '14px' : '10px',
-  cursor: 'pointer',
-  transition: 'all 0.2s ease-in-out',
-  '&:hover': {
-    background: '#888',
-    boxShadow: '0 0 5px rgba(0,0,0,0.3)',
-  }
-}));
+
 
 const BigNode = ({ data, isDarkMode }) => {
   // lol this is stupid but i wanna remember the hover trick for other components

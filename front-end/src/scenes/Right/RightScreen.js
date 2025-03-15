@@ -5,6 +5,7 @@ import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Ba
 import '@xyflow/react/dist/style.css';
 import BigNode from './Nodes/BigNode';
 import SmallNode from './Nodes/Small.Node';
+import MediumNode from './Nodes/MediumNode';
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import { useCompany } from '../../contexts/CompanyContext';
 
@@ -17,7 +18,8 @@ const RightScreen = () => {
   // Memoize nodeTypes, no rerenders allowed if nothings changed
   const nodeTypes = useMemo(() => ({
     bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>,
-    smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>
+    smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>,
+    mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode]);
   
   // Initialize states with empty arrays
@@ -47,6 +49,17 @@ const RightScreen = () => {
             name: 'Small Node',
             colors: colors,
           }
+        },
+
+        //this will be to test main node types
+        {
+          id:'3',
+          type: 'mediumNode',
+          position: {x: 600, y: 100},
+          data: {
+            name: 'Medium Node',
+            colors: colors,
+          }
         }
       ];
       
@@ -62,6 +75,11 @@ const RightScreen = () => {
             stroke: isDarkMode ? "#ffffff" : "#000000", 
             strokeWidth: 2
           }
+        },
+        {
+          id: 'e2-3',
+          source: '',
+          animated: true,
         } 
       ];
       

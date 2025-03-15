@@ -41,6 +41,14 @@ const SmallNode = ({ data, isDarkMode }) => {
                 
             />
 
+            <Handle
+                id = "left-handle"
+                type="target"
+                position={Position.Right}
+                style={{ background: '#555', width: '10px', height: '10px' }}
+                
+            />
+
             <Box
                 padding={.5}
                 borderBottom= "1px solid #bbbdbf"

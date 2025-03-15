@@ -10,8 +10,8 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   borderRadius: "8px",
   backgroundColor: isDarkMode ? "#7B8D99" : "#e2e8f0",
   border: "4px solid #3b82f6",
-  width: "155px",
-  height: "100px",
+  width: "130px",
+  height: "90px",
   position: "relative",
   animation: isDarkMode ? "glowingBorderDark 2.5s infinite alternate" : "glowingBorderLight 2.5s infinite alternate",
     

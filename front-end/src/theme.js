@@ -67,6 +67,9 @@ export const tokens = (mode) => ({
           dark: "#4b0082",
           gradient: "linear-gradient(90deg, #4b0082 0%, #00b3b3 50%, #99cccc 100%)"
         },
+        button1: {
+          main: "#4cceac",
+        },
       }
     : {
         grey: {
@@ -131,6 +134,9 @@ export const tokens = (mode) => ({
           dark: "#cc005a",
           gradient: "linear-gradient(90deg, #cc005a 0%, #ff0071 50%, #ff66a1 100%)"
         },
+        button1: {
+          main: "#f8aac8"
+        },
       }),
 });
 
@@ -162,6 +168,10 @@ export const themeSettings = (mode) => {
               light: colors.customAccent.light,
               dark: colors.customAccent.dark,
             },
+            buttons: {
+              main: colors.blueAccent[500],
+              hover: colors.blueAccent[600]
+            }
 
           }
         : {
@@ -185,6 +195,10 @@ export const themeSettings = (mode) => {
               light: colors.customAccent.light,
               dark: colors.customAccent.dark,
             },
+            buttons: {
+              main: "#ff7e50",
+              hover: "#ff9873"
+            }
           }),
     },
     typography: {

@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { Handle, Position } from "@xyflow/react";
 
 // Create a styled Box with the glowing border animation
-const GlowingBox = styled(Box)(({ isDarkMode }) => ({
+const MediumBox = styled(Box)(({ isDarkMode }) => ({
   
 
   borderRadius: "8px",
@@ -13,15 +13,15 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   width: "130px",
   height: "90px",
   position: "relative",
-  animation: isDarkMode ? "glowingBorderDark 2.5s infinite alternate" : "glowingBorderLight 2.5s infinite alternate",
+  animation: isDarkMode ? "mediumglowingBorderDark 2.5s infinite alternate" : "mediumglowingBorderLight 2.5s infinite alternate",
     
-  "@keyframes glowingBorderDark": {
+  "@keyframes mediumglowingBorderDark": {
     "0%": { borderColor: "#3b82f6", boxShadow: "0 0 5px #3b82f6" },
     "50%": { borderColor: "#60a5fa", boxShadow: "0 0 15px #60a5fa" },
     "100%": { borderColor: "#93c5fd", boxShadow: "0 0 10px #93c5fd" },
   },
   
-  "@keyframes glowingBorderLight": {
+  "@keyframes mediumglowingBorderLight": {
     "0%": { borderColor: "#ec4899", boxShadow: "0 0 5px #ec4899" },
     "50%": { borderColor: "#f472b6", boxShadow: "0 0 15px #f472b6" },
     "100%": { borderColor: "#f9a8d4", boxShadow: "0 0 10px #f9a8d4" },
@@ -32,7 +32,7 @@ const MediumNode = ({ data, isDarkMode }) => {
 
 
   return (
-    <GlowingBox isDarkMode={isDarkMode}>
+    <MediumBox isDarkMode={isDarkMode}>
 
       <Handle
         type="source"
@@ -60,7 +60,7 @@ const MediumNode = ({ data, isDarkMode }) => {
           Additional Text
         </Typography>
       </Box>
-    </GlowingBox>
+    </MediumBox>
   );
 };
 

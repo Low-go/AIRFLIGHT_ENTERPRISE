@@ -15,10 +15,11 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
   animation: isDarkMode ? "glowingBorderDark 2.5s infinite alternate" : "glowingBorderLight 2.5s infinite alternate",
     
   "@keyframes glowingBorderDark": {
-    "0%": { borderColor: "#3b82f6", boxShadow: "0 0 5px #3b82f6" },
-    "50%": { borderColor: "#60a5fa", boxShadow: "0 0 15px #60a5fa" },
-    "100%": { borderColor: "#93c5fd", boxShadow: "0 0 10px #93c5fd" },
+    "0%": { borderColor: "#008080", boxShadow: "0 0 8px #008080" },
+    "50%": { borderColor: "#00b3b3", boxShadow: "0 0 20px #00b3b3" },
+    "100%": { borderColor: "#00e6e6", boxShadow: "0 0 15px #00e6e6" },
   },
+  
   
   "@keyframes glowingBorderLight": {
     "0%": { borderColor: "#ec4899", boxShadow: "0 0 5px #ec4899" },

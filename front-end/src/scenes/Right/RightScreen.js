@@ -78,8 +78,15 @@ const RightScreen = () => {
         },
         {
           id: 'e2-3',
-          source: '',
+          source: '2',
+          target: '3',
           animated: true,
+          sourceHandle: 'right-handle',
+          targetHandle: 'medium-handle',
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
         } 
       ];
       

@@ -35,8 +35,9 @@ const MediumNode = ({ data, isDarkMode }) => {
     <MediumBox isDarkMode={isDarkMode}>
 
       <Handle
-        type="source"
-        position={Position.Right} // might need to change later, handles where the line starts
+        id = 'medium-handle'
+        type="target"
+        position={Position.Left} // might need to change later, handles where the line starts
         style={{ background: '#555', width: '10px', height: '10px' }}
         
       />

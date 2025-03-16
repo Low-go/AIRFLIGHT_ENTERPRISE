@@ -17,10 +17,19 @@ const RightScreen = () => {
   
   // Memoize nodeTypes, no rerenders allowed if nothings changed
   const nodeTypes = useMemo(() => ({
-    bigNode: (props) => <BigNode {...props} isDarkMode={isDarkMode}/>,
+    bigNode: (props) => <BigNode 
+      {...props} 
+      isDarkMode={isDarkMode}
+      onHandleClick={(nodeId, handleId) => handleNodeButtonClick(nodeId, handleId)}
+      />,
     smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>,
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode]);
+
+  // this will be my attempt at handling node retractions and creations
+  const handleNodeButtonClick = (nodeId, handleId) => {
+    console.log(`Node ${nodeId} handle ${handleId} clicked`);
+  }
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);

@@ -1,75 +1,16 @@
-import { Box, Typography, Paper, Fade, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { useCompany } from "../../contexts/CompanyContext";
 import { tokens } from "../../theme";
 import BusinessIcon from '@mui/icons-material/Business';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import MenuCard from "../../Components/MenuCard";
+
 
 const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
-
-  const MenuCard = ({ icon: Icon, title, onClick }) => (
-    <Paper
-      elevation={3}
-      sx={{
-        p: 3,
-        bgcolor: colors.primary[400],
-        borderRadius: 2,
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        flex: 1,  // Makes the card flexible but still controlled by the parent Box
-        width: '100%',  // Makes sure the card fills the container
-        minHeight: 150,
-        '&:hover': {
-          transform: 'scale(1.02)',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-        },
-      }}
-      onClick={onClick}
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        color={colors.grey[100]}
-      >
-
-        {/** Header */}
-        <Box display="flex" alignItems="center" gap={2}>
-          <Icon sx={{ 
-            fontSize: 28, 
-            color: colors.customAccent.main,
-            transition: 'transform 0.2s ease',
-            '&:hover': {
-              transform: 'scale(1.1)',
-            }
-          }} />
-          <Typography 
-            variant="h6"
-            sx={{
-              fontWeight: 500,
-              letterSpacing: '0.5px'
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
-        <KeyboardArrowRightIcon sx={{ 
-          color: colors.grey[300],
-          transition: 'transform 0.2s ease',
-          '&:hover': {
-            transform: 'translateX(4px)',
-          }
-        }} />
-      </Box>
-    </Paper>
-  );
 
   // If no company has been selected or is saved as a global variable
   if (!selectedCompany) {
@@ -118,6 +59,10 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
       flex="1"
       p="20px"
       borderRadius="8px"
+      sx={{
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        border: `1px solid ${colors.grey[800]}`,
+      }}
     >
       <Box
         display="flex"
@@ -125,6 +70,11 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
         alignItems="center"
         borderBottom={`4px solid ${colors.customAccent.main}`}
         p="15px"
+        mb={3}
+        sx={{
+          background: `linear-gradient(90deg, ${colors.primary[500]}, ${colors.primary[400]})`,
+          borderRadius: '8px 8px 0 0',
+        }}
       >
         <Box display="flex" alignItems="center" gap={2}>
           <BusinessIcon sx={{ 
@@ -152,7 +102,7 @@ const MainView = ({ onNavigateToFleet, onNavigateToContacts }) => {
       <Box
         display="flex"
         flexDirection="column"
-        gap={2}
+        gap={3}  // increased gap for better spacing
         mt={2}
         flex="1"
         alignItems="stretch"  

@@ -26,10 +26,39 @@ const RightScreen = () => {
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode]);
 
+
+  //---------this will be the magic for retraction, I might pull it out of this file later --------------------
+
   // this will be my attempt at handling node retractions and creations
   const handleNodeButtonClick = (nodeId, handleId) => {
     console.log(`Node ${nodeId} handle ${handleId} clicked`);
+
+    // lets give this bad boy a shot ahhhhhhhh
+
+
+    const contactsNodeId = `${nodeId}-contacts`;
+    const fleetsNodeId = `${nodeId}-fleets`;
+
+    // this is if we already have these existing nodes in out system
+    if (handleId === 'top-right-handle'){ // the contacts button
+      
+      const existingNodeIndex = nodes.findIndex(node => node.id === contactsNodeId);
+      
+      if (existingNodeIndex >= 0){
+
+        // we remove it in this case, its beeing clicked again
+        setNodes(nodes => nodes.filter(node => node.id !== contactsNodeId ));
+        setEdges(edges => edges.filter(edge => edge.source !== nodeId || edge.target !== contactsNodeId));
+      }
+
+      else{
+        // node does not exist we create it
+      }
+    }
   }
+
+
+  //------------End of code retraction stuff -----------------
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);

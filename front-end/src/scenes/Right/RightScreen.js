@@ -27,6 +27,9 @@ const RightScreen = () => {
   }), [isDarkMode]);
 
 
+
+
+
   //---------this will be the magic for retraction, I might pull it out of this file later --------------------
 
   // this will be my attempt at handling node retractions and creations
@@ -53,12 +56,56 @@ const RightScreen = () => {
 
       else{
         // node does not exist we create it
+        const parentNode = nodes.find(node => node.id === nodeId);
+        if(!parentNode) return;
+
+        // create and position, might pass this as a parameter later
+        const contactsNode = {
+          id: contactsNodeId,
+          type: 'smallNode',
+          position: {
+            x: parentNode.position.x + 150,
+            y: parentNode.position.y - 50,
+          },
+          data: {
+            name: 'Contacts',
+            colors: colors
+          }
+        };
+
+        // create edge
+        const newEdge = {
+          id: `e${nodeId}-${contactsNodeId}`,
+          source: nodeId,
+          target: contactsNodeId,
+          sourceHandle: 'top-right-handle',
+          targetHandle: 'left-handle',
+          animated: true,
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
+        };
+
+        setNodes(nodes => [...nodes, contactsNode]);
+        setEdges(edges => [...edges, newEdge]);
       }
+    }
+
+    // there has to be a way to repeat this withought writing everything out again
+    // same stuff as the top
+    else if (handleId === 'bottom-right-handle'){
+
     }
   }
 
 
   //------------End of code retraction stuff -----------------
+
+
+
+
+
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);

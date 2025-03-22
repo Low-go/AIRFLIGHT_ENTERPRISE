@@ -225,7 +225,10 @@ const RightScreen = () => {
       setNodes([]);
       setEdges([]);
     }
-  }, [selectedCompany, isDarkMode]); 
+  }, [selectedCompany]); 
+  //note to self, I removed isDarkMode here, it was causing nodes to reset 
+  // But do keep watch, I dont even remember why it was there but nothing seems off
+  // without it so It will stay gone until something breaks or looks off
   
   // Memoize the connect callback, so no rerenders
   const onConnect = useCallback(

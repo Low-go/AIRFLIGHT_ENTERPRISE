@@ -30,7 +30,7 @@ const GlowingBox = styled(Box)(({ isDarkMode }) => ({
 
 
 
-const BigNode = ({ data, isDarkMode }) => {
+const BigNode = ({ data, isDarkMode, id, onHandleClick }) => {
   // lol this is stupid but i wanna remember the hover trick for other components
   const [topHandleHovered, setTopHandleHovered] = useState(false);
   const [bottomHandleHovered, setBottomHandleHovered] = useState(false);
@@ -38,12 +38,16 @@ const BigNode = ({ data, isDarkMode }) => {
   const handleTopClick = () => {
     console.log("Top handle clicked!");
     console.log("Node data:", data);
+
+    onHandleClick(id, "top-right-handle");
   };
 
   const handleBottomClick = () => {
     console.log("Bottom handle clicked!");
     console.log("Node data:", data);
     // note to self: add event emit here for the flow designer later
+
+    onHandleClick(id, "bottom-right-handle");
   };
 
   return (

@@ -30,7 +30,7 @@ const RightScreen = () => {
 
 
 
-  //---------this will be the magic for retraction, I might pull it out of this file later --------------------
+  //---------this will be the magic for retraction, I might pull it out of this file later ----------------------------------------------------
 
   // this will be my attempt at handling node retractions and creations
   const handleNodeButtonClick = (nodeId, handleId) => {
@@ -95,12 +95,55 @@ const RightScreen = () => {
     // there has to be a way to repeat this withought writing everything out again
     // same stuff as the top
     else if (handleId === 'bottom-right-handle'){
-
+      const existingNodeIndex = nodes.findIndex(node => node.id === fleetsNodeId);
+    
+      if (existingNodeIndex >= 0) {
+        // Node exists, remove it and its edges just as before
+        setNodes(nodes => nodes.filter(node => node.id !== fleetsNodeId));
+        setEdges(edges => edges.filter(edge => 
+          edge.source !== nodeId || edge.target !== fleetsNodeId
+        ));
+      } else {
+        
+        const parentNode = nodes.find(node => node.id === nodeId);
+        if (!parentNode) return;
+        
+        
+        const fleetsNode = {
+          id: fleetsNodeId,
+          type: 'smallNode',
+          position: { 
+            x: parentNode.position.x + 250, 
+            y: parentNode.position.y + 100 
+          },
+          data: {
+            name: 'Fleets',
+            colors: parentNode.data.colors,
+          }
+        };
+        
+        // Create an edge from parent to new node
+        const newEdge = {
+          id: `e${nodeId}-${fleetsNodeId}`,
+          source: nodeId,
+          target: fleetsNodeId,
+          sourceHandle: 'bottom-right-handle',
+          targetHandle: 'left-handle',
+          animated: true,
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
+        };
+        
+        setNodes(nodes => [...nodes, fleetsNode]);
+        setEdges(edges => [...edges, newEdge]);
+      }
     }
-  }
+  };
 
 
-  //------------End of code retraction stuff -----------------
+  //------------End of code retraction stuff ----------------------------------------------------------
 
 
 
@@ -126,53 +169,53 @@ const RightScreen = () => {
             colors: colors,
           },
         },
-        {
-          id: '2',
-          type: 'smallNode',
-          position: { x: 400, y: 50 },
-          data: {
-            name: 'Small Node',
-            colors: colors,
-          }
-        },
+      //   {
+      //     id: '2',
+      //     type: 'smallNode',
+      //     position: { x: 400, y: 50 },
+      //     data: {
+      //       name: 'Small Node',
+      //       colors: colors,
+      //     }
+      //   },
 
-        //this will be to test main node types
-        {
-          id:'3',
-          type: 'mediumNode',
-          position: {x: 600, y: 100},
-          data: {
-            name: 'Medium Node',
-            colors: colors,
-          }
-        }
+      //   //this will be to test main node types
+      //   {
+      //     id:'3',
+      //     type: 'mediumNode',
+      //     position: {x: 600, y: 100},
+      //     data: {
+      //       name: 'Medium Node',
+      //       colors: colors,
+      //     }
+      //   }
       ];
       
       const initialEdges = [ 
-        { 
-          id: 'e1-2', 
-          source: '1', 
-          target: '2',
-          animated: true,
-          sourceHandle: 'top-right-handle',
-          targetHandle: 'left-handle',
-          style: { 
-            stroke: isDarkMode ? "#ffffff" : "#000000", 
-            strokeWidth: 2
-          }
-        },
-        {
-          id: 'e2-3',
-          source: '2',
-          target: '3',
-          animated: true,
-          sourceHandle: 'right-handle',
-          targetHandle: 'medium-handle',
-          style: { 
-            stroke: isDarkMode ? "#ffffff" : "#000000", 
-            strokeWidth: 2
-          }
-        } 
+        // { 
+        //   id: 'e1-2', 
+        //   source: '1', 
+        //   target: '2',
+        //   animated: true,
+        //   sourceHandle: 'top-right-handle',
+        //   targetHandle: 'left-handle',
+        //   style: { 
+        //     stroke: isDarkMode ? "#ffffff" : "#000000", 
+        //     strokeWidth: 2
+        //   }
+        // },
+        // {
+        //   id: 'e2-3',
+        //   source: '2',
+        //   target: '3',
+        //   animated: true,
+        //   sourceHandle: 'right-handle',
+        //   targetHandle: 'medium-handle',
+        //   style: { 
+        //     stroke: isDarkMode ? "#ffffff" : "#000000", 
+        //     strokeWidth: 2
+        //   }
+        // } 
       ];
       
       setNodes(initialNodes);

@@ -27,137 +27,147 @@ const RightScreen = () => {
   }), [isDarkMode]);
 
 
-
-
-
   //---------this will be the magic for retraction, I might pull it out of this file later ----------------------------------------------------
 
   // this will be my attempt at handling node retractions and creations
   const handleNodeButtonClick = (nodeId, handleId) => {
-    console.log(`Node ${nodeId} handle ${handleId} clicked`);
+    setNodes((currentNodes) => {
 
-    // lets give this bad boy a shot ahhhhhhhh
-
-
-    const contactsNodeId = `${nodeId}-contacts`;
-    const fleetsNodeId = `${nodeId}-fleets`;
-
-    // this is if we already have these existing nodes in out system
-    if (handleId === 'top-right-handle'){ // the contacts button
+      // lets give this bad boy a shot ahhhhhhhh
       
-      const existingNodeIndex = nodes.findIndex(node => node.id === contactsNodeId);
+      // instead of checking by array index number or id lets just assign an id or name. i don't know how practical this is
+      const existingContactsNodeIndex = currentNodes.findIndex(
+        node => node.data.name === 'Contacts'
+      );
+      const existingFleetsNodeIndex = currentNodes.findIndex(
+        node => node.data.name === 'Fleets'
+      );
+
+      const contactsNodeId = `${nodeId}-contacts`;
+      const fleetsNodeId = `${nodeId}-fleets`;
+  
+      // this is if we already have these existing nodes in out system
+      if (handleId === 'top-right-handle') {
+
+        //const existingNodeIndex = nodes.findIndex(node => node.id === contactsNodeId);
+        // If no contacts node exists, create one
+        if (existingContactsNodeIndex === -1) {
+          const contactsNodeId = `contacts-${Date.now()}`;
+          const contactsNode = {
+            id: contactsNodeId,
+            type: 'smallNode',
+            position: { 
+              x: currentNodes[0].position.x + 250, 
+              y: currentNodes[0].position.y - 150 
+            },
+            data: {
+              name: 'Contacts',
+            },
+          };
+  
+          // Create a new edge connecting the original node to the contacts node
+          const newEdge = {
+            id: `e${nodeId}-${contactsNodeId}`,
+            source: nodeId,
+            target: contactsNodeId,
+            sourceHandle: 'top-right-handle',
+            targetHandle: 'left-handle',
+            animated: true,
+            style: { 
+              stroke: isDarkMode ? "#ffffff" : "#000000", 
+              strokeWidth: 2
+            }
+          };
+  
+          // Update both nodes and edges
+          setEdges(edges => [...edges, newEdge]);
+          return [...currentNodes, contactsNode];
+        } 
+        // If contacts node exists, remove it
+        else {
+          // Remove edges
+          setEdges(edges => 
+            edges.filter(edge => 
+              edge.source !== currentNodes[existingContactsNodeIndex].id && 
+              edge.target !== currentNodes[existingContactsNodeIndex].id
+            )
+          );
+          return currentNodes.filter(node => node.data.name !== 'Contacts');
+        }
+      }
       
-      if (existingNodeIndex >= 0){
-
-        // we remove it in this case, its beeing clicked again
-        setNodes(nodes => nodes.filter(node => node.id !== contactsNodeId ));
-        setEdges(edges => edges.filter(edge => edge.source !== nodeId || edge.target !== contactsNodeId));
+      // If bottom-right handle is clicked (for Fleets)
+      if (handleId === 'bottom-right-handle') {
+        // If no fleets node exists, create one
+        if (existingFleetsNodeIndex === -1) {
+         
+          const fleetsNode = {
+            id: fleetsNodeId,
+            type: 'smallNode',
+            position: { 
+              x: currentNodes[0].position.x + 250, 
+              y: currentNodes[0].position.y + 150 
+            },
+            data: {
+              name: 'Fleets',
+            },
+          };
+  
+          // Create a new edge connecting the original node to the fleets node
+          const newEdge = {
+            id: `e${nodeId}-${fleetsNodeId}`,
+            source: nodeId,
+            target: fleetsNodeId,
+            sourceHandle: 'bottom-right-handle',
+            targetHandle: 'left-handle',
+            animated: true,
+            style: { 
+              stroke: isDarkMode ? "#ffffff" : "#000000", 
+              strokeWidth: 2
+            }
+          };
+  
+          // Update both nodes and edges
+          setEdges(edges => [...edges, newEdge]);
+          return [...currentNodes, fleetsNode];
+        } 
+        // If fleets node exists, remove it
+        else {
+          // Remove edges
+          setEdges(edges => 
+            edges.filter(edge => 
+              edge.source !== currentNodes[existingFleetsNodeIndex].id && 
+              edge.target !== currentNodes[existingFleetsNodeIndex].id
+            )
+          );
+          return currentNodes.filter(node => node.data.name !== 'Fleets');
+        }
       }
+      
+      // If no matching handle, return current nodes
+      return currentNodes;
+  })}
 
-      else{
-        // node does not exist we create it
-        const parentNode = nodes.find(node => node.id === nodeId);
-        if(!parentNode) return;
-
-        // create and position, might pass this as a parameter later
-        const contactsNode = {
-          id: contactsNodeId,
-          type: 'smallNode',
-          position: {
-            x: parentNode.position.x + 150,
-            y: parentNode.position.y - 50,
-          },
-          data: {
-            name: 'Contacts',
-            colors: colors
-          }
-        };
-
-        // create edge
-        const newEdge = {
-          id: `e${nodeId}-${contactsNodeId}`,
-          source: nodeId,
-          target: contactsNodeId,
-          sourceHandle: 'top-right-handle',
-          targetHandle: 'left-handle',
-          animated: true,
-          style: { 
-            stroke: isDarkMode ? "#ffffff" : "#000000", 
-            strokeWidth: 2
-          }
-        };
-
-        setNodes(nodes => [...nodes, contactsNode]);
-        setEdges(edges => [...edges, newEdge]);
-      }
-    }
-
-    // there has to be a way to repeat this withought writing everything out again
-    // same stuff as the top
-    else if (handleId === 'bottom-right-handle'){
-      const existingNodeIndex = nodes.findIndex(node => node.id === fleetsNodeId);
-    
-      if (existingNodeIndex >= 0) {
-        // Node exists, remove it and its edges just as before
-        setNodes(nodes => nodes.filter(node => node.id !== fleetsNodeId));
-        setEdges(edges => edges.filter(edge => 
-          edge.source !== nodeId || edge.target !== fleetsNodeId
-        ));
-      } else {
-        
-        const parentNode = nodes.find(node => node.id === nodeId);
-        if (!parentNode) return;
-        
-        
-        const fleetsNode = {
-          id: fleetsNodeId,
-          type: 'smallNode',
-          position: { 
-            x: parentNode.position.x + 250, 
-            y: parentNode.position.y + 100 
-          },
-          data: {
-            name: 'Fleets',
-            colors: parentNode.data.colors,
-          }
-        };
-        
-        // Create an edge from parent to new node
-        const newEdge = {
-          id: `e${nodeId}-${fleetsNodeId}`,
-          source: nodeId,
-          target: fleetsNodeId,
-          sourceHandle: 'bottom-right-handle',
-          targetHandle: 'left-handle',
-          animated: true,
-          style: { 
-            stroke: isDarkMode ? "#ffffff" : "#000000", 
-            strokeWidth: 2
-          }
-        };
-        
-        setNodes(nodes => [...nodes, fleetsNode]);
-        setEdges(edges => [...edges, newEdge]);
-      }
-    }
-  };
 
 
   //------------End of code retraction stuff ----------------------------------------------------------
-
-
-
 
 
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  useEffect(() => {
+    console.log('Nodes changed:', nodes);
+  }, [nodes]);
+
   
   // Set up nodes and edges when selectedCompany changes
   useEffect(() => {
     if (selectedCompany) {
       console.log("Selected company updated:", selectedCompany.company_name);
+      console.log("Current Mode during initialization:", isDarkMode);
       
       const initialNodes = [
         {
@@ -169,63 +179,20 @@ const RightScreen = () => {
             colors: colors,
           },
         },
-      //   {
-      //     id: '2',
-      //     type: 'smallNode',
-      //     position: { x: 400, y: 50 },
-      //     data: {
-      //       name: 'Small Node',
-      //       colors: colors,
-      //     }
-      //   },
-
-      //   //this will be to test main node types
-      //   {
-      //     id:'3',
-      //     type: 'mediumNode',
-      //     position: {x: 600, y: 100},
-      //     data: {
-      //       name: 'Medium Node',
-      //       colors: colors,
-      //     }
-      //   }
       ];
+      const initialEdges = []
       
-      const initialEdges = [ 
-        // { 
-        //   id: 'e1-2', 
-        //   source: '1', 
-        //   target: '2',
-        //   animated: true,
-        //   sourceHandle: 'top-right-handle',
-        //   targetHandle: 'left-handle',
-        //   style: { 
-        //     stroke: isDarkMode ? "#ffffff" : "#000000", 
-        //     strokeWidth: 2
-        //   }
-        // },
-        // {
-        //   id: 'e2-3',
-        //   source: '2',
-        //   target: '3',
-        //   animated: true,
-        //   sourceHandle: 'right-handle',
-        //   targetHandle: 'medium-handle',
-        //   style: { 
-        //     stroke: isDarkMode ? "#ffffff" : "#000000", 
-        //     strokeWidth: 2
-        //   }
-        // } 
-      ];
+      console.log("Initial Nodes:", initialNodes);
+      console.log("Will set nodes to:", initialNodes);
       
       setNodes(initialNodes);
       setEdges(initialEdges);
     } else {
-      // Clears nodes and edges if no company is selected
+      console.log("No company selected - clearing nodes");
       setNodes([]);
       setEdges([]);
     }
-  }, [selectedCompany]); 
+  }, [selectedCompany]);
   //note to self, I removed isDarkMode here, it was causing nodes to reset 
   // But do keep watch, I dont even remember why it was there but nothing seems off
   // without it so It will stay gone until something breaks or looks off

@@ -36,15 +36,16 @@ const BigNode = ({ data, isDarkMode, id, onHandleClick }) => {
   const [bottomHandleHovered, setBottomHandleHovered] = useState(false);
 
   const handleTopClick = () => {
-    console.log("Top handle clicked!");
-    console.log("Node data:", data);
-
+    console.log(`Top Handle Click - Mode: ${isDarkMode}`);
+    
+    console.log("Node ID:", id);
     onHandleClick(id, "top-right-handle");
   };
 
   const handleBottomClick = () => {
-    console.log("Bottom handle clicked!");
+    console.log(`Bottom Handle Click - Mode: ${isDarkMode}`);
     console.log("Node data:", data);
+    console.log("Node ID:", id);
     // note to self: add event emit here for the flow designer later
 
     onHandleClick(id, "bottom-right-handle");

@@ -27,7 +27,7 @@ const BoxFrame = styled(Box)(({ isDarkMode }) => ({
     },
 }));
 
-const SmallNode = ({ data, isDarkMode }) => {
+const SmallNode = ({ data, isDarkMode, onHandleClick, id }) => {
     // lol this is stupid but i wanna remember the hover trick for other components
     const [leftHandleHovered, setLeftHandleHovered] = useState(false);
     const [rightHandleHovered, setRightHandleHovered] = useState(false);
@@ -61,7 +61,7 @@ const SmallNode = ({ data, isDarkMode }) => {
             </div>
             
             <div
-                onClick={handleRightClick}
+                onClick={() => onHandleClick(id, "right-handle")}
                 onMouseEnter={() => setRightHandleHovered(true)}
                 onMouseLeave={() => setRightHandleHovered(false)}
                 style={{ position: 'absolute', right: -3, top: '50%', width: 20, height: 20, zIndex: 10 }}

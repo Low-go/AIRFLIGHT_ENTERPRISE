@@ -16,6 +16,10 @@ const RightScreen = () => {
   const colors = tokens(theme.palette.mode);
   const isDarkMode = theme.palette.mode === "dark";
   const { selectedCompany } = useCompany();
+
+  const test = () => {
+    console.log("test");
+  }
   
   
   // Memoize nodeTypes, no rerenders allowed if nothings changed
@@ -31,7 +35,11 @@ const RightScreen = () => {
         isDarkMode
       )}
       />,
-    smallNode: (props) => <SmallNode {...props} isDarkMode={isDarkMode}/>,
+    smallNode: (props) => <SmallNode 
+      {...props} 
+      isDarkMode={isDarkMode}
+      onHandleClick={(nodeId, handleId) => test()}
+      />,
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode]);
 

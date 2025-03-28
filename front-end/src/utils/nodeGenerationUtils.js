@@ -1,4 +1,4 @@
-const handleNodeButtonClick = (
+export const handleNodeButtonClick = (
     nodeId, 
     handleId,
     setEdges,
@@ -124,5 +124,13 @@ const handleNodeButtonClick = (
       return currentNodes;
 })}
 
-export default handleNodeButtonClick;
+// export default handleNodeButtonClick;
+
+
+
+export const test = () => {
+  console.log("test");
+}
+
+
 

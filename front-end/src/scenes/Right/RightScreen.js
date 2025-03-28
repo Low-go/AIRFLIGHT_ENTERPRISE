@@ -8,7 +8,7 @@ import SmallNode from './Nodes/Small.Node';
 import MediumNode from './Nodes/MediumNode';
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import { useCompany } from '../../contexts/CompanyContext';
-import handleNodeButtonClick from '../../utils/nodeGenerationUtils';
+import { handleNodeButtonClick, test } from '../../utils/nodeGenerationUtils';
 
 
 const RightScreen = () => {
@@ -16,10 +16,6 @@ const RightScreen = () => {
   const colors = tokens(theme.palette.mode);
   const isDarkMode = theme.palette.mode === "dark";
   const { selectedCompany } = useCompany();
-
-  const test = () => {
-    console.log("test");
-  }
   
   
   // Memoize nodeTypes, no rerenders allowed if nothings changed

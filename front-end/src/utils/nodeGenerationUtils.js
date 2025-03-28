@@ -121,3 +121,6 @@ const handleNodeButtonClick = (
       // If no matching handle, return current nodes
       return currentNodes;
 })}
+
+export default handleNodeButtonClick;
+

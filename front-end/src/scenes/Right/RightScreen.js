@@ -26,8 +26,8 @@ const RightScreen = () => {
       onHandleClick={(nodeId, handleId) => handleNodeButtonClick(
         nodeId, 
         handleId, 
+        setEdges,
         setNodes, 
-        setEdges, 
         isDarkMode
       )}
       />,

@@ -56,6 +56,7 @@ const handleNodeButtonClick = (
           // Update both nodes and edges
           setEdges(edges => [...edges, newEdge]);
           return [...currentNodes, contactsNode];
+          
         } 
         // If contacts node exists, remove it
         else {
@@ -104,6 +105,7 @@ const handleNodeButtonClick = (
           // Update both nodes and edges
           setEdges(edges => [...edges, newEdge]);
           return [...currentNodes, fleetsNode];
+          
         } 
         // If fleets node exists, remove it
         else {

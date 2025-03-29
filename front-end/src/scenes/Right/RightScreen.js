@@ -8,14 +8,21 @@ import SmallNode from './Nodes/Small.Node';
 import MediumNode from './Nodes/MediumNode';
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import { useCompany } from '../../contexts/CompanyContext';
-import { handleNodeButtonClick, test } from '../../utils/nodeGenerationUtils';
+import { handleNodeButtonClick, handleSmallNodeButtonClick } from '../../utils/nodeGenerationUtils';
 
 
 const RightScreen = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isDarkMode = theme.palette.mode === "dark";
-  const { selectedCompany } = useCompany();
+  const { 
+    selectedCompany, 
+    companyContacts, 
+    companyFleets,
+    fetchCompanyContacts,
+    fetchCompanyFleets
+  } = useCompany();
+  // functions from company contact to make api requests
   
   
   // Memoize nodeTypes, no rerenders allowed if nothings changed
@@ -34,8 +41,19 @@ const RightScreen = () => {
     smallNode: (props) => <SmallNode 
       {...props} 
       isDarkMode={isDarkMode}
-      onHandleClick={(nodeId, handleId) => test()}
-      />,
+      onHandleClick={(nodeId, handleId) => handleSmallNodeButtonClick(
+        nodeId, 
+        handleId, 
+        setNodes,
+        setEdges, 
+        isDarkMode,
+        fetchCompanyContacts,
+        fetchCompanyFleets,
+        selectedCompany,
+        companyContacts,
+        companyFleets
+      )}
+    />,
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode]);
 

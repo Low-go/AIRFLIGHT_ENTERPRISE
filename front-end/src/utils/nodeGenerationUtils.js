@@ -128,9 +128,119 @@ export const handleNodeButtonClick = (
 
 
 
-export const test = () => {
-  console.log("test");
-}
-
-
+export const handleSmallNodeButtonClick = async (
+  nodeId,   
+  handleId,
+  setNodes, 
+  setEdges, 
+  isDarkMode,
+  fetchCompanyContacts,
+  fetchCompanyFleets,
+  selectedCompany,
+  companyContacts,
+  companyFleets
+) => {
+  console.log(`Small node button clicked: ${nodeId}, handle: ${handleId}`);
+  
+  const parentNodeType = nodeId.includes('contacts') ? 'contacts' : 'fleets';
+  
+  // First, check if we already have child nodes for this parent
+  let childNodesExist = false;
+  
+  setNodes((currentNodes) => {
+    const existingChildNodes = currentNodes.filter(node => 
+      node.id.startsWith(`${nodeId}-item-`)
+    );
+    
+    // If child nodes exist, remove them and their edges
+    if (existingChildNodes.length > 0) {
+      childNodesExist = true;
+      setEdges(edges => 
+        edges.filter(edge => 
+          !edge.source.startsWith(`${nodeId}-item-`) && 
+          !edge.target.startsWith(`${nodeId}-item-`)
+        )
+      );
+      return currentNodes.filter(node => !node.id.startsWith(`${nodeId}-item-`));
+    }
+    
+    // If no child nodes, continue with normal flow
+    return currentNodes;
+  });
+  
+  // If we removed nodes, we're done
+  if (childNodesExist) {
+    return;
+  }
+  
+  // Fetch data if needed
+  if (parentNodeType === 'contacts' && !companyContacts) {
+    await fetchCompanyContacts(selectedCompany.id); // not working for some reason
+  } else if (parentNodeType === 'fleets' && !companyFleets) {
+    await fetchCompanyFleets(selectedCompany.id);
+  }
+  
+  //update nodes with the data
+  setNodes((currentNodes) => {
+    const parentNode = currentNodes.find(node => node.id === nodeId);
+    if (!parentNode) return currentNodes;
+    
+    const parentPosition = parentNode.position;
+    const items = parentNodeType === 'contacts' ? companyContacts : companyFleets;
+    
+    if (!items || items.length === 0) {
+      console.log(`No ${parentNodeType} data available`);
+      return currentNodes;
+    }
+    
+    // Create a medium node for each item
+    const newNodes = items.map((item, index) => {
+      const itemId = `${nodeId}-item-${index}`;
+      
+      // Get the correct name based on model type
+      let displayName = '';
+      if (parentNodeType === 'contacts') {
+        // For contacts, use first_name + last_name
+        displayName = `${item.first_name} ${item.last_name}`;
+      } else {
+        // For fleets, use model
+        displayName = item.model;
+      }
+      
+      // Probably want to randomize its placement later on in the future
+      return {
+        id: itemId,
+        type: 'mediumNode',
+        position: { 
+          x: parentPosition.x + 200, 
+          y: parentPosition.y - 150 + (index * 100) // Stack nodes vertically
+        },
+        data: {
+          name: displayName,
+          details: item,
+          type: parentNodeType // Store the type for reference
+        },
+      };
+    });
+    
+    // Create edges from parent to each child
+    newNodes.forEach((node) => {
+      const newEdge = {
+        id: `e${nodeId}-${node.id}`,
+        source: nodeId,
+        target: node.id,
+        sourceHandle: 'right-handle', 
+        targetHandle: 'medium-handle',  
+        animated: true,
+        style: { 
+          stroke: isDarkMode ? "#ffffff" : "#000000", 
+          strokeWidth: 2
+        }
+      };
+      setEdges(edges => [...edges, newEdge]);
+    });
+    
+    return [...currentNodes, ...newNodes];
+  });
+};
 

@@ -54,7 +54,38 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
   );
 
   // change this also
-  if (error) return <div>Error: {error}</div>
+   if (error) return (
+      <Box
+        gridColumn="span 4"
+        gridRow="span 2"
+        backgroundColor={colors.primary[400]}
+        overflow="auto"
+        flex="1"
+        p="20px"
+        borderRadius="8px"
+      >
+        <Typography color={colors.grey[100]} variant="h5">
+          Error: {error}
+        </Typography>
+        <Button
+          onClick={onBack}
+          variant="contained"
+          sx={{
+            backgroundColor: colors.customAccent.main,
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "8px 16px",
+            mt: 2,
+            '&:hover': {
+              backgroundColor: colors.customAccent.dark,
+            }
+          }}
+        >
+          Back to Main
+        </Button>
+      </Box>
+  );
   
   if (!companyFleets || companyFleets.length === 0)
     return ( 
@@ -67,11 +98,14 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
         flex = "1"
         flexDirection="column"
         p="20px"
-        borderRadius="5px"
-
+        borderRadius="8px"
+        sx={{
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          border: `1px solid ${colors.grey[800]}`,
+        }}
       >
         <Typography color={colors.grey[100]}>
-          No fleets available for this company.
+          No Fleets.
         </Typography>
 
         <Box 
@@ -85,12 +119,18 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
             onClick={onBack}
             variant="contained"
             sx={{
-              backgroundColor: colors.greenAccent[500],
+              backgroundColor: colors.customAccent.main,
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "8px 16px",
               mr: 2,
+              transition: 'all 0.2s',
+              '&:hover': {
+                backgroundColor: colors.customAccent.dark,
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+              }
             }}
           >
             Back to Main
@@ -100,15 +140,21 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
             onClick={onCreateNew}
             variant="contained"
             sx={{
-              backgroundColor: colors.blueAccent[500],
+              backgroundColor: colors.blueAccent[600],
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "8px 16px",
+              transition: 'all 0.2s',
+              '&:hover': {
+                backgroundColor: colors.blueAccent[700],
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+              }
             }}
           >
             New Fleet
-        </Button>
+          </Button>
         </Box>
       </Box>
     )
@@ -116,14 +162,19 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
   return (
    
     <Box
-      gridColumn="span 4"
-      gridRow="span 2"
-      backgroundColor={colors.primary[400]}
-      overflow="auto"
-      flex = "1"
-      p ="20px"
-      borderRadius= "5px"
+        gridColumn="span 4"
+        gridRow="span 2"
+        backgroundColor={colors.primary[400]}
+        overflow="auto"
+        flex = "1"
+        p ="20px"
+        borderRadius= "8px"
+        sx={{
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          border: `1px solid ${colors.grey[800]}`,
+        }}
     >
+
       <Box
         display="flex"
         justifyContent="space-between"
@@ -131,7 +182,12 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
         borderBottom={`4px solid ${colors.customAccent.main}`}
         colors={colors.grey[100]}
         p="15px"
+        sx={{
+          background: `linear-gradient(90deg, ${colors.primary[500]}, ${colors.primary[400]})`,
+          borderRadius: '8px 8px 0 0',
+        }}
       >
+
         <Typography
           color={colors.grey[100]}
           variant="h5"
@@ -149,7 +205,19 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
           alignItems="center"
           borderBottom={`4px solid ${colors.grey.border}`}
           p="15px"
-        >
+          sx={{
+            transition: 'all 0.2s',
+            '&:hover': {
+              backgroundColor: theme.palette.mode === 'dark' 
+                ? colors.primary[500] 
+                : 'rgba(240, 240, 250, 0.6)',  
+              transform: 'translateX(4px)',
+              boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+              borderRadius: '4px',
+              borderLeft: `2px solid ${colors.customAccent.main}`
+            }
+          }}
+          >
           <Box>
             <Typography
               color={colors.customAccent.light}
@@ -166,33 +234,45 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: colors.greenAccent[500],
+              backgroundColor: colors.customAccent.main,
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "5px 10px",
+              transition: 'all 0.2s',
+              '&:hover': {
+                backgroundColor: colors.customAccent.dark,
+                transform: 'translateY(-2px)',
+                boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+              }
             }}
-            onClick={() => onNavigateToFleetInfo(fleet)}
+            onClick={() => onNavigateToFleetInfo(fleet)} //  Me attempting to pass the company object as prop 
           >
             Info
           </Button>
-        </Box>
+        </Box>  
       ))}
       
-      <Box display="flex" justifyContent="center" p="15px">
+      <Box display="flex" justifyContent={"center"} p="15px">
         <Button
           onClick={onBack}
           variant="contained"
           sx={{
-            backgroundColor: colors.greenAccent[500],
+            backgroundColor: colors.customAccent.main,
             color: colors.grey[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "8px 16px",
             mr: 2,
+            transition: 'all 0.2s',
+            '&:hover': {
+              backgroundColor: colors.customAccent.dark,
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            }
           }}
         >
-          Back to Main
+          BACK TO MAIN
         </Button>
 
         {/* create fleet button */}
@@ -200,11 +280,17 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
           onClick={onCreateNew}
           variant="contained"
           sx={{
-            backgroundColor: colors.blueAccent[500],
+            backgroundColor: colors.blueAccent[600],
             color: colors.grey[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "8px 16px",
+            transition: 'all 0.2s',
+            '&:hover': {
+              backgroundColor: colors.blueAccent[700],
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            }
           }}
         >
           New Fleet

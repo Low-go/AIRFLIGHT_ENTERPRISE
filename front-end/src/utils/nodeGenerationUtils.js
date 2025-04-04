@@ -1,129 +1,172 @@
 export const handleNodeButtonClick = (
-    nodeId, 
-    handleId,
-    setEdges,
-    setNodes,
-    isDarkMode
-    ) => {
-    setNodes((currentNodes) => {
+  nodeId, 
+  handleId,
+  setEdges,
+  setNodes,
+  isDarkMode
+  ) => {
+  setNodes((currentNodes) => {
 
-      // lets give this bad boy a shot ahhhhhhhh
-      
-      // instead of checking by array index number or id lets just assign an id or name. i don't know how practical this is
-      const existingContactsNodeIndex = currentNodes.findIndex(
-        node => node.data.name === 'Contacts'
+    // lets give this bad boy a shot ahhhhhhhh
+    
+    // Helper function to recursively find all descendant node IDs - this one is fancy
+    const findAllDescendantNodeIds = (parentId, allNodes) => {
+      // Find direct children first
+      const directChildren = allNodes.filter(node => 
+        node.id.startsWith(`${parentId}-`)
       );
-      const existingFleetsNodeIndex = currentNodes.findIndex(
-        node => node.data.name === 'Fleets'
-      );
-
-      const contactsNodeId = `${nodeId}-contacts`;
-      const fleetsNodeId = `${nodeId}-fleets`;
-  
-      // this is if we already have these existing nodes in out system
-      if (handleId === 'top-right-handle') {
-
-        //const existingNodeIndex = nodes.findIndex(node => node.id === contactsNodeId);
-        // If no contacts node exists, create one
-        if (existingContactsNodeIndex === -1) {
-          
-          const contactsNode = {
-            id: contactsNodeId,
-            type: 'smallNode',
-            position: { 
-              x: currentNodes[0].position.x + 250, 
-              y: currentNodes[0].position.y - 150 
-            },
-            data: {
-              name: 'Contacts',
-            },
-          };
-  
-          // Create a new edge connecting the original node to the contacts node
-          const newEdge = {
-            id: `e${nodeId}-${contactsNodeId}`,
-            source: nodeId,
-            target: contactsNodeId,
-            sourceHandle: 'top-right-handle',
-            targetHandle: 'left-handle',
-            animated: true,
-            style: { 
-              stroke: isDarkMode ? "#ffffff" : "#000000", 
-              strokeWidth: 2
-            }
-          };
-  
-          // Update both nodes and edges
-          setEdges(edges => [...edges, newEdge]);
-          return [...currentNodes, contactsNode];
-          
-        } 
-        // If contacts node exists, remove it
-        else {
-          // Remove edges
-          setEdges(edges => 
-            edges.filter(edge => 
-              edge.source !== currentNodes[existingContactsNodeIndex].id && 
-              edge.target !== currentNodes[existingContactsNodeIndex].id
-            )
-          );
-          return currentNodes.filter(node => node.data.name !== 'Contacts');
-        }
-      }
       
-      // If bottom-right handle is clicked (for Fleets)
-      if (handleId === 'bottom-right-handle') {
-        // If no fleets node exists, create one
-        if (existingFleetsNodeIndex === -1) {
-         
-          const fleetsNode = {
-            id: fleetsNodeId,
-            type: 'smallNode',
-            position: { 
-              x: currentNodes[0].position.x + 250, 
-              y: currentNodes[0].position.y + 150 
-            },
-            data: {
-              name: 'Fleets',
-            },
-          };
-  
-          // Create a new edge connecting the original node to the fleets node
-          const newEdge = {
-            id: `e${nodeId}-${fleetsNodeId}`,
-            source: nodeId,
-            target: fleetsNodeId,
-            sourceHandle: 'bottom-right-handle',
-            targetHandle: 'left-handle',
-            animated: true,
-            style: { 
-              stroke: isDarkMode ? "#ffffff" : "#000000", 
-              strokeWidth: 2
-            }
-          };
-  
-          // Update both nodes and edges
-          setEdges(edges => [...edges, newEdge]);
-          return [...currentNodes, fleetsNode];
-          
-        } 
-        // If fleets node exists, remove it
-        else {
-          // Remove edges
-          setEdges(edges => 
-            edges.filter(edge => 
-              edge.source !== currentNodes[existingFleetsNodeIndex].id && 
-              edge.target !== currentNodes[existingFleetsNodeIndex].id
-            )
-          );
-          return currentNodes.filter(node => node.data.name !== 'Fleets');
-        }
-      }
+      let allDescendants = directChildren.map(node => node.id);
       
-      // If no matching handle, return current nodes
-      return currentNodes;
-})}
+      // For each direct child, find their descendants recursively
+      // recursion is like inception but with code lol
+      directChildren.forEach(childNode => {
+        const childDescendants = findAllDescendantNodeIds(childNode.id, allNodes);
+        allDescendants = [...allDescendants, ...childDescendants];
+      });
+      
+      return allDescendants;
+    };
 
+    // instead of checking by array index number or id lets just assign an id or name. i don't know how practical this is
+    const existingContactsNodeIndex = currentNodes.findIndex(
+      node => node.data.name === 'Contacts'
+    );
+    const existingFleetsNodeIndex = currentNodes.findIndex(
+      node => node.data.name === 'Fleets'
+    );
+
+    const contactsNodeId = `${nodeId}-contacts`;
+    const fleetsNodeId = `${nodeId}-fleets`;
+
+    // this is if we already have these existing nodes in out system
+    if (handleId === 'top-right-handle') {
+
+      //const existingNodeIndex = nodes.findIndex(node => node.id === contactsNodeId);
+      // If no contacts node exists, create one
+      if (existingContactsNodeIndex === -1) {
+        
+        const contactsNode = {
+          id: contactsNodeId,
+          type: 'smallNode',
+          position: { 
+            x: currentNodes[0].position.x + 250, 
+            y: currentNodes[0].position.y - 150 
+          },
+          data: {
+            name: 'Contacts',
+          },
+        };
+
+        // Create a new edge connecting the original node to the contacts node
+        const newEdge = {
+          id: `e${nodeId}-${contactsNodeId}`,
+          source: nodeId,
+          target: contactsNodeId,
+          sourceHandle: 'top-right-handle',
+          targetHandle: 'left-handle',
+          animated: true,
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
+        };
+
+        // Update both nodes and edges
+        setEdges(edges => [...edges, newEdge]);
+        return [...currentNodes, contactsNode];
+        
+      } 
+      // If contacts node exists, remove it and all its children - scorched earth policy
+      else {
+        const contactsNode = currentNodes[existingContactsNodeIndex];
+        
+        // Get all descendant node IDs - the whole family tree
+        const descendantIds = findAllDescendantNodeIds(contactsNode.id, currentNodes);
+        
+        // All node IDs to remove (contacts node + all descendants)
+        const allNodesToRemove = [contactsNode.id, ...descendantIds];
+        
+        // Remove all edges connected to these nodes
+        setEdges(edges => 
+          edges.filter(edge => 
+            !allNodesToRemove.includes(edge.source) && 
+            !allNodesToRemove.includes(edge.target)
+          )
+        );
+        
+        // Remove the nodes - poof gone
+        return currentNodes.filter(node => 
+          !allNodesToRemove.includes(node.id)
+        );
+      }
+    }
+    
+    // If bottom-right handle is clicked (for Fleets)
+    if (handleId === 'bottom-right-handle') {
+      // If no fleets node exists, create one
+      if (existingFleetsNodeIndex === -1) {
+       
+        const fleetsNode = {
+          id: fleetsNodeId,
+          type: 'smallNode',
+          position: { 
+            x: currentNodes[0].position.x + 250, 
+            y: currentNodes[0].position.y + 150 
+          },
+          data: {
+            name: 'Fleets',
+          },
+        };
+
+        // Create a new edge connecting the original node to the fleets node
+        const newEdge = {
+          id: `e${nodeId}-${fleetsNodeId}`,
+          source: nodeId,
+          target: fleetsNodeId,
+          sourceHandle: 'bottom-right-handle',
+          targetHandle: 'left-handle',
+          animated: true,
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
+        };
+
+        // Update both nodes and edges
+        setEdges(edges => [...edges, newEdge]);
+        return [...currentNodes, fleetsNode];
+        
+      } 
+      // If fleets node exists, remove it and all its descendants - full house cleaning
+      else {
+        const fleetsNode = currentNodes[existingFleetsNodeIndex];
+        
+        // Get all descendant node IDs
+        const descendantIds = findAllDescendantNodeIds(fleetsNode.id, currentNodes);
+        
+        // All node IDs to remove (fleets node + all descendants)
+        const allNodesToRemove = [fleetsNode.id, ...descendantIds];
+        
+        // Remove all edges connected to these nodes
+        setEdges(edges => 
+          edges.filter(edge => 
+            !allNodesToRemove.includes(edge.source) && 
+            !allNodesToRemove.includes(edge.target)
+          )
+        );
+        
+        // Remove the nodes - delete delete delete
+        return currentNodes.filter(node => 
+          !allNodesToRemove.includes(node.id)
+        );
+      }
+    }
+    
+    // If no matching handle, return current nodes
+    return currentNodes;
+  });
+}
 // export default handleNodeButtonClick;
 
 export const handleSmallNodeButtonClick = (
@@ -147,6 +190,26 @@ export const handleSmallNodeButtonClick = (
     
     const currentNode = currentNodes[currentNodeIndex];
     
+    // Helper function to recursively find all descendant node IDs
+    // lets give this bad boy a shot ahhhhhhhh
+    const findAllDescendantNodeIds = (parentId, allNodes) => {
+      // Find direct children first
+      const directChildren = allNodes.filter(node => 
+        node.id.startsWith(`${parentId}-`)
+      );
+      
+      let allDescendants = directChildren.map(node => node.id);
+      
+      // For each direct child, find their descendants recursively
+      // this is where the recursion magic happens wooooo
+      directChildren.forEach(childNode => {
+        const childDescendants = findAllDescendantNodeIds(childNode.id, allNodes);
+        allDescendants = [...allDescendants, ...childDescendants];
+      });
+      
+      return allDescendants;
+    };
+    
     // Check if this is a Contacts node
     if (currentNode.data.name === 'Contacts') {
       // Check if we already have nodes for contacts (including loading nodes)
@@ -154,21 +217,25 @@ export const handleSmallNodeButtonClick = (
         node => node.id.startsWith(`${nodeId}-contact-`) || node.id === `${nodeId}-loading-contacts`
       );
       
-      // If we already have contact nodes, remove them
+      // If we already have contact nodes, remove them and their descendants
       if (existingContactNodes.length > 0) {
-        // Remove all edges connected to these nodes
+        // Get all node IDs to remove (including descendants)
+        // this should nuke all child nodes recursively
+        const nodeIdsToRemove = existingContactNodes.flatMap(node => 
+          [node.id, ...findAllDescendantNodeIds(node.id, currentNodes)]
+        );
+        
+        // Remove all edges connected to these nodes and their descendants
         setEdges(edges => 
           edges.filter(edge => 
-            !edge.source.startsWith(`${nodeId}-contact-`) && 
-            !edge.target.startsWith(`${nodeId}-contact-`) &&
-            edge.target !== `${nodeId}-loading-contacts`
+            !nodeIdsToRemove.includes(edge.source) && 
+            !nodeIdsToRemove.includes(edge.target)
           )
         );
         
-        // Remove the nodes
+        // Remove the nodes and their descendants
         return currentNodes.filter(node => 
-          !node.id.startsWith(`${nodeId}-contact-`) &&
-          node.id !== `${nodeId}-loading-contacts`
+          !nodeIdsToRemove.includes(node.id)
         );
       } 
       // Otherwise, initiate loading or create nodes
@@ -274,21 +341,25 @@ export const handleSmallNodeButtonClick = (
         node => node.id.startsWith(`${nodeId}-fleet-`) || node.id === `${nodeId}-loading-fleets`
       );
       
-      // If we already have fleet nodes, remove them
+      // If we already have fleet nodes, remove them and their descendants
       if (existingFleetNodes.length > 0) {
-        // Remove all edges connected to these nodes
+        // Get all node IDs to remove (including descendants)
+        // same nuke strategy as contacts - BOOM gone
+        const nodeIdsToRemove = existingFleetNodes.flatMap(node => 
+          [node.id, ...findAllDescendantNodeIds(node.id, currentNodes)]
+        );
+        
+        // Remove all edges connected to these nodes and their descendants
         setEdges(edges => 
           edges.filter(edge => 
-            !edge.source.startsWith(`${nodeId}-fleet-`) && 
-            !edge.target.startsWith(`${nodeId}-fleet-`) &&
-            edge.target !== `${nodeId}-loading-fleets`
+            !nodeIdsToRemove.includes(edge.source) && 
+            !nodeIdsToRemove.includes(edge.target)
           )
         );
         
-        // Remove the nodes
+        // Remove the nodes and their descendants
         return currentNodes.filter(node => 
-          !node.id.startsWith(`${nodeId}-fleet-`) &&
-          node.id !== `${nodeId}-loading-fleets`
+          !nodeIdsToRemove.includes(node.id)
         );
       } 
       // Otherwise, initiate loading or create nodes

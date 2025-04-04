@@ -2,6 +2,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Handle, Position } from "@xyflow/react";
+import InteractiveHandle from "../../../Components/InteractiveHandle";
 
 // Create a styled Box with the glowing border animation
 const MediumBox = styled(Box)(({ isDarkMode }) => ({
@@ -42,6 +43,13 @@ const MediumNode = ({ data, isDarkMode }) => {
         
       />
 
+      <InteractiveHandle
+        id="medium-handle-right"
+        type="source"
+        position={Position.Right}
+        style={{ background: '#555', width: '10px', height: '10px' }}
+      />
+      
       <Box
         padding={1.5}
         borderBottom="1px solid #bbbdbf"

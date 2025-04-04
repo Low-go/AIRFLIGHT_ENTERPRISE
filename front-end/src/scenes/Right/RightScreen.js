@@ -7,6 +7,7 @@ import BigNode from './Nodes/BigNode';
 import SmallNode from './Nodes/Small.Node';
 import MediumNode from './Nodes/MediumNode';
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
+import LoadingNode from './Nodes/LoadingNode';
 import { useCompany } from '../../contexts/CompanyContext';
 import { handleNodeButtonClick, handleSmallNodeButtonClick } from '../../utils/nodeGenerationUtils';
 
@@ -19,6 +20,8 @@ const RightScreen = () => {
     selectedCompany, 
     companyContacts, 
     companyFleets,
+    isLoadingContacts,
+    isLoadingFleets,
     fetchCompanyContacts,
     fetchCompanyFleets
   } = useCompany();
@@ -49,13 +52,16 @@ const RightScreen = () => {
         isDarkMode,
         companyContacts,
         companyFleets,
+        isLoadingContacts,
+        isLoadingFleets,
         fetchCompanyContacts,
         fetchCompanyFleets,
         selectedCompany
       )}
     />,
-    mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
-  }), [isDarkMode, companyContacts, companyFleets, selectedCompany]);
+    mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>,
+    loadingNode: (props) => <LoadingNode {...props} isDarkMode={isDarkMode}/>
+  }), [isDarkMode, companyContacts, companyFleets, isLoadingContacts, isLoadingFleets, selectedCompany]);
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);

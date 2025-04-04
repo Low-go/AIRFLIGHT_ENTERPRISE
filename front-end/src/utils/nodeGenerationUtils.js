@@ -134,21 +134,12 @@ export const handleSmallNodeButtonClick = (
   isDarkMode,
   companyContacts,
   companyFleets,
+  isLoadingContacts,
+  isLoadingFleets,
   fetchCompanyContacts,
   fetchCompanyFleets,
   selectedCompany
 ) => {
-  console.log(`Small node button clicked: ${nodeId}, handle: ${handleId}`);
-  
-  // First check if we need to fetch data
-  if (nodeId.includes('contacts') && !companyContacts && selectedCompany) {
-    fetchCompanyContacts(selectedCompany.id); // Not working for some reason
-  }
-  
-  if (nodeId.includes('fleets') && !companyFleets && selectedCompany) {
-    fetchCompanyFleets(selectedCompany.id);
-  }
-  
   setNodes((currentNodes) => {
     // Find the current node to get its position
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
@@ -158,57 +149,57 @@ export const handleSmallNodeButtonClick = (
     
     // Check if this is a Contacts node
     if (currentNode.data.name === 'Contacts') {
-      // Check if we already have medium nodes for contacts
-      const existingContactMediumNodes = currentNodes.filter(
-        node => node.id.startsWith(`${nodeId}-contact-`)
+      // Check if we already have nodes for contacts (including loading nodes)
+      const existingContactNodes = currentNodes.filter(
+        node => node.id.startsWith(`${nodeId}-contact-`) || node.id === `${nodeId}-loading-contacts`
       );
       
-      // If we already have contact medium nodes, remove them
-      if (existingContactMediumNodes.length > 0) {
+      // If we already have contact nodes, remove them
+      if (existingContactNodes.length > 0) {
         // Remove all edges connected to these nodes
         setEdges(edges => 
           edges.filter(edge => 
             !edge.source.startsWith(`${nodeId}-contact-`) && 
-            !edge.target.startsWith(`${nodeId}-contact-`)
+            !edge.target.startsWith(`${nodeId}-contact-`) &&
+            edge.target !== `${nodeId}-loading-contacts`
           )
         );
         
-        // Remove the medium nodes
-        return currentNodes.filter(node => !node.id.startsWith(`${nodeId}-contact-`));
+        // Remove the nodes
+        return currentNodes.filter(node => 
+          !node.id.startsWith(`${nodeId}-contact-`) &&
+          node.id !== `${nodeId}-loading-contacts`
+        );
       } 
-      // Otherwise, create new medium nodes for contacts
+      // Otherwise, initiate loading or create nodes
       else {
-        // Create dummy data if no contacts available yet
-        const contacts = companyContacts || [
-          { id: 1, first_name: 'Test Contact 1' },
-          { id: 2, first_name: 'Test Contact 2' },
-          { id: 3, first_name: 'Test Contact 3' }
-        ];
+        // If not loading and no data, fetch the data
+        if (!isLoadingContacts && !companyContacts && selectedCompany) {
+          fetchCompanyContacts(selectedCompany.id);
+        }
         
-        const newNodes = [];
-        const newEdges = [];
-        
-        contacts.forEach((contact, index) => {
-          const contactNodeId = `${nodeId}-contact-${contact.id}`;
+        // If loading, create a loading node
+        if (isLoadingContacts) {
+          const loadingNodeId = `${nodeId}-loading-contacts`;
           
-          // Create a medium node for the contact
-          const contactNode = {
-            id: contactNodeId,
-            type: 'mediumNode',
+          // Create a loading node
+          const loadingNode = {
+            id: loadingNodeId,
+            type: 'loadingNode',
             position: { 
               x: currentNode.position.x + 250, 
-              y: currentNode.position.y - 150 + (index * 100) 
+              y: currentNode.position.y 
             },
             data: {
-              name: contact.first_name || `Contact ${index + 1}`,
+              type: 'Contacts',
             },
           };
           
-          // Create an edge connecting the small node to the medium node
-          const newEdge = {
-            id: `e${nodeId}-${contactNodeId}`,
+          // Create an edge connecting to the loading node
+          const loadingEdge = {
+            id: `e${nodeId}-${loadingNodeId}`,
             source: nodeId,
-            target: contactNodeId,
+            target: loadingNodeId,
             sourceHandle: 'right-handle',
             targetHandle: 'medium-handle',
             animated: true,
@@ -218,71 +209,117 @@ export const handleSmallNodeButtonClick = (
             }
           };
           
-          newNodes.push(contactNode);
-          newEdges.push(newEdge);
-        });
+          // Update edges
+          setEdges(edges => [...edges, loadingEdge]);
+          
+          // Return with the loading node
+          return [...currentNodes, loadingNode];
+        }
         
-        // Update edges
-        setEdges(edges => [...edges, ...newEdges]);
+        // If data is loaded, create actual nodes
+        if (companyContacts) {
+          const newNodes = [];
+          const newEdges = [];
+          
+          companyContacts.forEach((contact, index) => {
+            const contactNodeId = `${nodeId}-contact-${contact.id}`;
+            
+            // Create a medium node for the contact
+            const contactNode = {
+              id: contactNodeId,
+              type: 'mediumNode',
+              position: { 
+                x: currentNode.position.x + 250, 
+                y: currentNode.position.y - 150 + (index * 100) 
+              },
+              data: {
+                name: contact.first_name || `Contact ${index + 1}`,
+              },
+            };
+            
+            // Create an edge connecting the small node to the medium node
+            const newEdge = {
+              id: `e${nodeId}-${contactNodeId}`,
+              source: nodeId,
+              target: contactNodeId,
+              sourceHandle: 'right-handle',
+              targetHandle: 'medium-handle',
+              animated: true,
+              style: { 
+                stroke: isDarkMode ? "#ffffff" : "#000000", 
+                strokeWidth: 2
+              }
+            };
+            
+            newNodes.push(contactNode);
+            newEdges.push(newEdge);
+          });
+          
+          // Update edges
+          setEdges(edges => [...edges, ...newEdges]);
+          
+          // Return updated nodes
+          return [...currentNodes, ...newNodes];
+        }
         
-        // Return updated nodes
-        return [...currentNodes, ...newNodes];
+        // If we get here, something went wrong - return current nodes
+        return currentNodes;
       }
     }
     
     // Check if this is a Fleets node
     if (currentNode.data.name === 'Fleets') {
-      // Check if we already have medium nodes for fleets
-      const existingFleetMediumNodes = currentNodes.filter(
-        node => node.id.startsWith(`${nodeId}-fleet-`)
+      // Check if we already have nodes for fleets (including loading nodes)
+      const existingFleetNodes = currentNodes.filter(
+        node => node.id.startsWith(`${nodeId}-fleet-`) || node.id === `${nodeId}-loading-fleets`
       );
       
-      // If we already have fleet medium nodes, remove them
-      if (existingFleetMediumNodes.length > 0) {
+      // If we already have fleet nodes, remove them
+      if (existingFleetNodes.length > 0) {
         // Remove all edges connected to these nodes
         setEdges(edges => 
           edges.filter(edge => 
             !edge.source.startsWith(`${nodeId}-fleet-`) && 
-            !edge.target.startsWith(`${nodeId}-fleet-`)
+            !edge.target.startsWith(`${nodeId}-fleet-`) &&
+            edge.target !== `${nodeId}-loading-fleets`
           )
         );
         
-        // Remove the medium nodes
-        return currentNodes.filter(node => !node.id.startsWith(`${nodeId}-fleet-`));
+        // Remove the nodes
+        return currentNodes.filter(node => 
+          !node.id.startsWith(`${nodeId}-fleet-`) &&
+          node.id !== `${nodeId}-loading-fleets`
+        );
       } 
-      // Otherwise, create new medium nodes for fleets
+      // Otherwise, initiate loading or create nodes
       else {
-        // Create dummy data if no fleets available yet
-        const fleets = companyFleets || [
-          { id: 1, model: 'Test Fleet 1' },
-          { id: 2, model: 'Test Fleet 2' },
-          { id: 3, model: 'Test Fleet 3' }
-        ];
+        // If not loading and no data, fetch the data
+        if (!isLoadingFleets && !companyFleets && selectedCompany) {
+          fetchCompanyFleets(selectedCompany.id);
+        }
         
-        const newNodes = [];
-        const newEdges = [];
-        
-        fleets.forEach((fleet, index) => {
-          const fleetNodeId = `${nodeId}-fleet-${fleet.id}`;
+        // If loading, create a loading node
+        if (isLoadingFleets) {
+          const loadingNodeId = `${nodeId}-loading-fleets`;
           
-          // Create a medium node for the fleet
-          const fleetNode = {
-            id: fleetNodeId,
-            type: 'mediumNode',
+          // Create a loading node
+          const loadingNode = {
+            id: loadingNodeId,
+            type: 'loadingNode',
             position: { 
               x: currentNode.position.x + 250, 
-              y: currentNode.position.y - 150 + (index * 100) 
+              y: currentNode.position.y 
             },
             data: {
-              name: fleet.model || `Fleet ${index + 1}`,
+              type: 'Fleets',
             },
           };
           
-          // Create an edge connecting the small node to the medium node
-          const newEdge = {
-            id: `e${nodeId}-${fleetNodeId}`,
+          // Create an edge connecting to the loading node
+          const loadingEdge = {
+            id: `e${nodeId}-${loadingNodeId}`,
             source: nodeId,
-            target: fleetNodeId,
+            target: loadingNodeId,
             sourceHandle: 'right-handle',
             targetHandle: 'medium-handle',
             animated: true,
@@ -292,15 +329,61 @@ export const handleSmallNodeButtonClick = (
             }
           };
           
-          newNodes.push(fleetNode);
-          newEdges.push(newEdge);
-        });
+          // Update edges
+          setEdges(edges => [...edges, loadingEdge]);
+          
+          // Return with the loading node
+          return [...currentNodes, loadingNode];
+        }
         
-        // Update edges
-        setEdges(edges => [...edges, ...newEdges]);
+        // If data is loaded, create actual nodes
+        if (companyFleets) {
+          const newNodes = [];
+          const newEdges = [];
+          
+          companyFleets.forEach((fleet, index) => {
+            const fleetNodeId = `${nodeId}-fleet-${fleet.id}`;
+            
+            // Create a medium node for the fleet
+            const fleetNode = {
+              id: fleetNodeId,
+              type: 'mediumNode',
+              position: { 
+                x: currentNode.position.x + 250, 
+                y: currentNode.position.y - 150 + (index * 100) 
+              },
+              data: {
+                name: fleet.model || `Fleet ${index + 1}`,
+              },
+            };
+            
+            // Create an edge connecting the small node to the medium node
+            const newEdge = {
+              id: `e${nodeId}-${fleetNodeId}`,
+              source: nodeId,
+              target: fleetNodeId,
+              sourceHandle: 'right-handle',
+              targetHandle: 'medium-handle',
+              animated: true,
+              style: { 
+                stroke: isDarkMode ? "#ffffff" : "#000000", 
+                strokeWidth: 2
+              }
+            };
+            
+            newNodes.push(fleetNode);
+            newEdges.push(newEdge);
+          });
+          
+          // Update edges
+          setEdges(edges => [...edges, ...newEdges]);
+          
+          // Return updated nodes
+          return [...currentNodes, ...newNodes];
+        }
         
-        // Return updated nodes
-        return [...currentNodes, ...newNodes];
+        // If we get here, something went wrong - return current nodes
+        return currentNodes;
       }
     }
     
@@ -308,121 +391,3 @@ export const handleSmallNodeButtonClick = (
     return currentNodes;
   });
 };
-
-
-// export const handleSmallNodeButtonClick = async (
-//   nodeId,   
-//   handleId,
-//   setNodes, 
-//   setEdges, 
-//   isDarkMode,
-//   fetchCompanyContacts,
-//   fetchCompanyFleets,
-//   selectedCompany,
-//   companyContacts,
-//   companyFleets
-// ) => {
-//   console.log(`Small node button clicked: ${nodeId}, handle: ${handleId}`);
-  
-//   const parentNodeType = nodeId.includes('contacts') ? 'contacts' : 'fleets';
-  
-//   // First, check if we already have child nodes for this parent
-//   let childNodesExist = false;
-  
-//   setNodes((currentNodes) => {
-//     const existingChildNodes = currentNodes.filter(node => 
-//       node.id.startsWith(`${nodeId}-item-`)
-//     );
-    
-//     // If child nodes exist, remove them and their edges
-//     if (existingChildNodes.length > 0) {
-//       childNodesExist = true;
-//       setEdges(edges => 
-//         edges.filter(edge => 
-//           !edge.source.startsWith(`${nodeId}-item-`) && 
-//           !edge.target.startsWith(`${nodeId}-item-`)
-//         )
-//       );
-//       return currentNodes.filter(node => !node.id.startsWith(`${nodeId}-item-`));
-//     }
-    
-//     // If no child nodes, continue with normal flow
-//     return currentNodes;
-//   });
-  
-//   // If we removed nodes, we're done
-//   if (childNodesExist) {
-//     return;
-//   }
-  
-//   // Fetch data if needed
-//   if (parentNodeType === 'contacts' && !companyContacts) {
-//     await fetchCompanyContacts(selectedCompany.id); // not working for some reason
-//   } else if (parentNodeType === 'fleets' && !companyFleets) {
-//     await fetchCompanyFleets(selectedCompany.id);
-//   }
-  
-//   //update nodes with the data
-//   setNodes((currentNodes) => {
-//     const parentNode = currentNodes.find(node => node.id === nodeId);
-//     if (!parentNode) return currentNodes;
-    
-//     const parentPosition = parentNode.position;
-//     const items = parentNodeType === 'contacts' ? companyContacts : companyFleets;
-    
-//     if (!items || items.length === 0) {
-//       console.log(`No ${parentNodeType} data available`);
-//       return currentNodes;
-//     }
-    
-//     // Create a medium node for each item
-//     const newNodes = items.map((item, index) => {
-//       const itemId = `${nodeId}-item-${index}`;
-      
-//       // Get the correct name based on model type
-//       let displayName = '';
-//       if (parentNodeType === 'contacts') {
-//         // For contacts, use first_name + last_name
-//         displayName = `${item.first_name} ${item.last_name}`;
-//       } else {
-//         // For fleets, use model
-//         displayName = item.model;
-//       }
-      
-//       // Probably want to randomize its placement later on in the future
-//       return {
-//         id: itemId,
-//         type: 'mediumNode',
-//         position: { 
-//           x: parentPosition.x + 200, 
-//           y: parentPosition.y - 150 + (index * 100) // Stack nodes vertically
-//         },
-//         data: {
-//           name: displayName,
-//           details: item,
-//           type: parentNodeType // Store the type for reference
-//         },
-//       };
-//     });
-    
-//     // Create edges from parent to each child
-//     newNodes.forEach((node) => {
-//       const newEdge = {
-//         id: `e${nodeId}-${node.id}`,
-//         source: nodeId,
-//         target: node.id,
-//         sourceHandle: 'right-handle', 
-//         targetHandle: 'medium-handle',  
-//         animated: true,
-//         style: { 
-//           stroke: isDarkMode ? "#ffffff" : "#000000", 
-//           strokeWidth: 2
-//         }
-//       };
-//       setEdges(edges => [...edges, newEdge]);
-//     });
-    
-//     return [...currentNodes, ...newNodes];
-//   });
-// };
-

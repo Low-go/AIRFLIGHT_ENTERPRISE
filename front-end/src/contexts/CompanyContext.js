@@ -8,6 +8,10 @@ export const CompanyProvider = ({ children }) => {
     const [companyContacts, setCompanyContacts] = useState(null);
     const [companyFleets, setCompanyFleets] = useState(null);
 
+    //loading stuff
+    const [isLoadingContacts, setIsLoadingContacts] = useState(false);
+    const [isLoadingFleets, setIsLoadingFleets] = useState(false);
+
     // the current view state of info screen is also saved and maintained
     const [currentView, setCurrentView] = useState("main");
 
@@ -24,6 +28,8 @@ export const CompanyProvider = ({ children }) => {
         // Reset Children when new company selected
         setCompanyContacts(null);
         setCompanyFleets(null);
+        setIsLoadingContacts(false);
+        setIsLoadingFleets(false);
 
         //set info screen back to main
         setCurrentView('main');
@@ -31,16 +37,29 @@ export const CompanyProvider = ({ children }) => {
 
 
     const fetchCompanyContacts = useCallback(async (companyId) => {
-    
-            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/contacts`); // double check this
+        try {
+            setIsLoadingContacts(true);
+            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/contacts`);
             const data = await response.json();
             setCompanyContacts(data);
+        } catch (error) {
+            console.error("Error fetching contacts:", error);
+        } finally {
+            setIsLoadingContacts(false);
+        }
     }, []);
 
     const fetchCompanyFleets = useCallback(async (companyId) => {
-        const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets`);
-        const data = await response.json();
-        setCompanyFleets(data);
+        try {
+            setIsLoadingFleets(true);
+            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets`);
+            const data = await response.json();
+            setCompanyFleets(data);
+        } catch (error) {
+            console.error("Error fetching fleets:", error);
+        } finally {
+            setIsLoadingFleets(false);
+        }
     }, []);
 
     return (
@@ -48,6 +67,8 @@ export const CompanyProvider = ({ children }) => {
             selectedCompany,
             companyContacts,
             companyFleets,
+            isLoadingContacts,
+            isLoadingFleets,
             currentView,
             setCurrentView,
             handleCompanySelect,

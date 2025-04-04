@@ -37,26 +37,25 @@ const RightScreen = () => {
         setNodes, 
         isDarkMode
       )}
-      />,
+    />,
     smallNode: (props) => <SmallNode 
       {...props} 
       isDarkMode={isDarkMode}
       onHandleClick={(nodeId, handleId) => handleSmallNodeButtonClick(
         nodeId, 
         handleId, 
+        setEdges,
         setNodes,
-        setEdges, 
         isDarkMode,
+        companyContacts,
+        companyFleets,
         fetchCompanyContacts,
         fetchCompanyFleets,
-        selectedCompany,
-        companyContacts,
-        companyFleets
+        selectedCompany
       )}
     />,
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>
-  }), [isDarkMode]);
-
+  }), [isDarkMode, companyContacts, companyFleets, selectedCompany]);
   
   // Initialize states with empty arrays
   const [nodes, setNodes, onNodesChange] = useNodesState([]);

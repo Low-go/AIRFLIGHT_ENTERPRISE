@@ -15,6 +15,10 @@ export const CompanyProvider = ({ children }) => {
     // the current view state of info screen is also saved and maintained
     const [currentView, setCurrentView] = useState("main");
 
+    // Right screen nodes, saving their state so state persists
+    const [flowNodes, setFlowNodes] = useState([]);
+    const [flowEdges, setFlowEdges] = useState([]);
+
     const handleCompanySelect = (company) => {
         setSelectedCompany(company); // current comapany user has selected
 
@@ -70,6 +74,10 @@ export const CompanyProvider = ({ children }) => {
             isLoadingContacts,
             isLoadingFleets,
             currentView,
+            flowNodes,
+            flowEdges,
+            setFlowNodes,
+            setFlowEdges,
             setCurrentView,
             handleCompanySelect,
             fetchCompanyContacts,

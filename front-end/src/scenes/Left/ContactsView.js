@@ -15,6 +15,7 @@ const ContactsView = ({ onBack, onCreateNew, onNavigateToContactsInfo }) => {
   //sets loading to be tru and utilizes the global company id we have
   // saved and passes it into our global function for making api calls for contacts
   
+
   useEffect(() =>{
     const fetchData = async () => {
       if (selectedCompany){

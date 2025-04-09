@@ -35,6 +35,10 @@ export const CompanyProvider = ({ children }) => {
         setIsLoadingContacts(false);
         setIsLoadingFleets(false);
 
+        //reset the nodes and edges to 0
+        setFlowNodes([]);
+        setFlowEdges([]);
+
         //set info screen back to main
         setCurrentView('main');
     };

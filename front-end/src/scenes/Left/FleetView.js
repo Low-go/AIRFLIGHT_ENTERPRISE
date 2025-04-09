@@ -303,3 +303,4 @@ const FleetView = ({ onBack, onCreateNew, onNavigateToFleetInfo }) => {
 export default FleetView;
 
 // TODO change button colors in light mode
+

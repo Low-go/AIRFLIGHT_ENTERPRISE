@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Box, useTheme, Typography } from "@mui/material";
 import { tokens } from '../../theme';
-import { ReactFlow, useNodesState, useEdgesState, addEdge, MiniMap, Controls, Background, StraightEdge } from '@xyflow/react';
+import { ReactFlow, addEdge, MiniMap, Controls, Background, StraightEdge, applyNodeChanges, applyEdgeChanges } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import BigNode from './Nodes/BigNode';
 import SmallNode from './Nodes/Small.Node';
@@ -23,7 +23,11 @@ const RightScreen = () => {
     isLoadingContacts,
     isLoadingFleets,
     fetchCompanyContacts,
-    fetchCompanyFleets
+    fetchCompanyFleets,
+    flowNodes,
+    setFlowNodes,
+    flowEdges,
+    setFlowEdges
   } = useCompany();
   // functions from company contact to make api requests
   
@@ -36,8 +40,8 @@ const RightScreen = () => {
       onHandleClick={(nodeId, handleId) => handleNodeButtonClick(
         nodeId, 
         handleId, 
-        setEdges,
-        setNodes, 
+        setFlowEdges,
+        setFlowNodes, 
         isDarkMode
       )}
     />,
@@ -47,8 +51,8 @@ const RightScreen = () => {
       onHandleClick={(nodeId, handleId) => handleSmallNodeButtonClick(
         nodeId, 
         handleId, 
-        setEdges,
-        setNodes,
+        setFlowEdges,
+        setFlowNodes,
         isDarkMode,
         companyContacts,
         companyFleets,
@@ -61,15 +65,28 @@ const RightScreen = () => {
     />,
     mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>,
     loadingNode: (props) => <LoadingNode {...props} isDarkMode={isDarkMode}/>
-  }), [isDarkMode, companyContacts, companyFleets, isLoadingContacts, isLoadingFleets, selectedCompany]);
+  }), [isDarkMode, companyContacts, companyFleets, isLoadingContacts, isLoadingFleets, selectedCompany, setFlowEdges, setFlowNodes]);
   
-  // Initialize states with empty arrays
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  // custome handlers to track node positions
+  // I get the idea but i don't get it
+  const onNodesChange = useCallback(
+    (changes) => {
+      setFlowNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    [setFlowNodes]
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      setFlowEdges((eds) => applyEdgeChanges(changes, eds))
+    },
+    [setFlowEdges]
+  );
+  
 
   useEffect(() => {
-    console.log('Nodes changed:', nodes);
-  }, [nodes]);
+    console.log('Nodes changed:', flowNodes);
+  }, [flowNodes]);
 
   
   // Set up nodes and edges when selectedCompany changes
@@ -78,30 +95,37 @@ const RightScreen = () => {
       console.log("Selected company updated:", selectedCompany.company_name);
       console.log("Current Mode during initialization:", isDarkMode);
       
-      const initialNodes = [
-        {
-          id: '1',
-          type: 'bigNode',
-          position: { x: 100, y: 100 },
-          data: {
-            name: selectedCompany.company_name,
-            colors: colors,
+      // Check if we already have nodes for this company
+      if (flowNodes.length > 0) {
+        console.log("Using existing nodes for:", selectedCompany.company_name);
+        // No need to set nodes if we're already using the context values
+      } else {
+        console.log("Creating new nodes for:", selectedCompany.company_name);
+        const initialNodes = [
+          {
+            id: '1',
+            type: 'bigNode',
+            position: { x: 100, y: 100 },
+            data: {
+              name: selectedCompany.company_name,
+              colors: colors,
+            },
           },
-        },
-      ];
-      const initialEdges = []
-      
-      console.log("Initial Nodes:", initialNodes);
-      console.log("Will set nodes to:", initialNodes);
-      
-      setNodes(initialNodes);
-      setEdges(initialEdges);
+        ];
+        const initialEdges = []
+        
+        console.log("Initial Nodes:", initialNodes);
+        console.log("Will set nodes to:", initialNodes);
+        
+        setFlowNodes(initialNodes);
+        setFlowEdges(initialEdges);
+      }
     } else {
       console.log("No company selected - clearing nodes");
-      setNodes([]);
-      setEdges([]);
+      setFlowNodes([]);
+      setFlowEdges([]);
     }
-  }, [selectedCompany]);
+  }, [selectedCompany, colors, setFlowNodes, setFlowEdges, flowNodes]);
   //note to self, I removed isDarkMode here, it was causing nodes to reset 
   // But do keep watch, I dont even remember why it was there but nothing seems off
   // without it so It will stay gone until something breaks or looks off
@@ -117,15 +141,15 @@ const RightScreen = () => {
         },
         animated: true
       };
-      setEdges((eds) => addEdge(newEdge, eds));
+      setFlowEdges((eds) => addEdge(newEdge, eds));
     },
-    [setEdges, isDarkMode]
+    [setFlowEdges, isDarkMode]
   );
   
   // Edge style update effect ->>> only needed if isDarkMode changes after edges exist
   useEffect(() => {
-    if (edges.length > 0) {
-      setEdges(edges => 
+    if (flowEdges.length > 0) {
+      setFlowEdges(edges => 
         edges.map(edge => ({
           ...edge,
           style: { 
@@ -135,7 +159,7 @@ const RightScreen = () => {
         }))
       );
     }
-  }, [isDarkMode, setEdges]);
+  }, [isDarkMode, setFlowEdges]);
   
   // Placeholder if no company selected
   if (!selectedCompany) {
@@ -184,9 +208,9 @@ const RightScreen = () => {
       
     >
       <ReactFlow
-        nodes={nodes}
+        nodes={flowNodes}
         nodeTypes={nodeTypes}
-        edges={edges}
+        edges={flowEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}

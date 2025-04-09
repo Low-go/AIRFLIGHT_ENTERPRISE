@@ -6,6 +6,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import { SidebarProvider } from "./contexts/SidebarContext";
 import { CompanyProvider } from "./contexts/CompanyContext";
+import MainInfo from "./routes/mainInfo";
 //import Geography from "./scenes/Geography";
 // do their respective imports here
 
@@ -22,8 +23,8 @@ function App() {
                 <Topbar/>
                 <Routes>
                   <Route path="/" element={<Dashboard/>} /> 
-                  {/* <Route path="/mainInfo" element={<MainInfo/>} />
-                  <Route path="/nodesPage" element={ <NodePage/>} />
+                  <Route path="/reports" element={<MainInfo/>} />
+                  { /* <Route path="/nodesPage" element={ <NodePage/>} />
                   <Route path="/geography" element={<Geography/>} />
                   <Route path="/faq" element={ <FAQ/>} /> */}
                 </Routes>

@@ -17,10 +17,10 @@ const ContactInfoDisplay = ({ onBack, contact, onNavigateToEdit }) => {
    setOpenDialog(true);
  };
 
- const handleConfirmDelete = () => {
-   console.log('Delete confirmed for contact:', contact.id);
-   onBack();
- };
+//  const handleConfirmDelete = () => {
+//    console.log('Delete confirmed for contact:', contact.id);
+//    onBack();
+//  };
 
  return (
    <>
@@ -200,8 +200,11 @@ const ContactInfoDisplay = ({ onBack, contact, onNavigateToEdit }) => {
     <DeleteModal 
       open={openDialog}
       onClose={() => setOpenDialog(false)}
-      onConfirm={handleConfirmDelete}
       word = "contact"
+      object={contact}
+      onDeleteConfirm = {() => onBack()}
+      // this is the weirdest thing, if this has a wrapper function it works
+      // if it dosennt it wont even allow users to enter contacts info 
     />
    </>
  );

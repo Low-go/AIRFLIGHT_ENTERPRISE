@@ -2,9 +2,16 @@ import React from 'react';
 import { Button, Dialog, useTheme, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { tokens } from '../theme';
 
-const DeleteModal = ({ open, onClose, onConfirm, word }) => {
+const DeleteModal = ({ open, onClose, word, object, onDeleteConfirm }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+
+    const handleConfirmDelete = () => {
+        console.log('Delete confirmed for contact:', object.id);
+        onDeleteConfirm();
+    };
+     
     
     return (
         <Dialog
@@ -63,7 +70,7 @@ const DeleteModal = ({ open, onClose, onConfirm, word }) => {
                     Cancel
                 </Button>
                 <Button
-                    onClick={onConfirm}
+                    onClick={handleConfirmDelete}
                     variant="contained"
                     sx={{
                         backgroundColor: colors.redAccent[500],
@@ -84,3 +91,7 @@ const DeleteModal = ({ open, onClose, onConfirm, word }) => {
 };
 
 export default DeleteModal;
+
+
+
+

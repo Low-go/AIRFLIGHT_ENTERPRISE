@@ -1,47 +1,88 @@
-import { Box, Typography, Button, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Typography, Button, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 import { useState } from 'react';  // Make sure to add this import
 import DeleteModal from '../../Components/DeleteModal';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import React from 'react';
 
 const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
-
-  // just temp for now, will replace with correct crud operations
   
   // dialogue control for delete option
   const [openDialog, setOpenDialog] = useState(false);
-
+  
+  // Snackbar state
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  
   const handleDelete = () => {
     setOpenDialog(true);
   };
-
-  // will replace with correct functionality
-  const handleConfirmDelete = async (e) => {
-    
+  
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+  
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+  
+  
+  const handleConfirmDelete = async () => {
     try {
       const response = await fetch(
         `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${fleet.id}/`,
         {
-          method : 'DELETE',
+          method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
-
         }
       );
-
-      if (!response.ok){
-        throw new Error('Failed to delete Fleet');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to delete fleet: ${response.status}`);
       }
+      
+      // Successsss
+      showSnackbar('Fleet deleted successfully');
+      console.log('Delete confirmed for fleet:', fleet.id);
+      
+      // Navigate back after a short delay to show the snackbar
+      setTimeout(() => {
+        onBack();
+      }, 700);
+    } 
+    catch (err) {
+      console.error('Error deleting fleet:', err);
+      showSnackbar(`Error: ${err.message}`, 'error');
+      setOpenDialog(false);
     }
-    catch (err){}
-
-    console.log('Delete confirmed for fleet:', fleet.id);
-    onBack();
   };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
 
   return (
     <>
@@ -222,6 +263,13 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
       onClose={() => setOpenDialog(false)}
       onConfirm={handleConfirmDelete}
       word = "fleet"
+    />
+    <Snackbar
+      open={snackbarOpen}
+      autoHideDuration={6000}
+      onClose={handleSnackbarClose}
+      message={snackbarMessage}
+      action={snackbarAction}
     />
       
 

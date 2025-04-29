@@ -7,6 +7,7 @@ import DeleteModal from '../../Components/DeleteModal';
 const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { selectedCompany, fetchCompanyContacts } = useCompany();
 
   // just temp for now, will replace with correct crud operations
   
@@ -18,7 +19,26 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
   };
 
   // will replace with correct functionality
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async (e) => {
+    
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${fleet.id}`,
+        {
+          method : 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+        }
+      );
+
+      if (!response.ok){
+        throw new Error('Failed to delete Fleet');
+      }
+    }
+    catch (err){}
+
     console.log('Delete confirmed for fleet:', fleet.id);
     onBack();
   };

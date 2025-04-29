@@ -58,7 +58,6 @@ const ContactsForm = ({ onBack, mode="edit", contactData = "" }) => {
 
   const action = (
     <React.Fragment>
-
       <IconButton
         size="small"
         aria-label="close"

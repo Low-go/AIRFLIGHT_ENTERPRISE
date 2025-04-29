@@ -23,7 +23,7 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
     
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${fleet.id}`,
+        `http://127.0.0.1:8000/api/companies/${selectedCompany.id}/fleets/${fleet.id}/`,
         {
           method : 'DELETE',
           headers: {

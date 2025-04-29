@@ -13,11 +13,7 @@ class CompanyViewSet(mixins.CreateModelMixin,
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-class FleetViewSet(mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.ListModelMixin,
-                   GenericViewSet):
+class FleetViewSet(viewsets.ModelViewSet):
     serializer_class = FleetSerializer
 
     def get_queryset(self):

@@ -70,6 +70,7 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
     }
   };
 
+  //fragment thingy
   const snackbarAction = (
     <React.Fragment>
       <IconButton
@@ -255,6 +256,23 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
           >
             Delete Fleet
           </Button>
+
+          <Button
+            
+            variant="contained"
+            sx={{
+              backgroundColor: colors.blueAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              '&:hover': {
+                backgroundColor: colors.blueAccent[600],
+              }
+            }}
+          >
+            PARTS
+          </Button>
         </Box>
       </Box>
 
@@ -263,7 +281,9 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
       onClose={() => setOpenDialog(false)}
       onConfirm={handleConfirmDelete}
       word = "fleet"
-    />
+      />
+
+      
     <Snackbar
       open={snackbarOpen}
       autoHideDuration={6000}
@@ -272,9 +292,12 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
       action={snackbarAction}
     />
       
-
     </>
   );
 };
 
 export default FleetInfoDisplay;
+
+
+// Note I do not like where the part button is located, when
+// we have fixed the functioonality lets move it

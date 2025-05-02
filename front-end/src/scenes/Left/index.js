@@ -57,6 +57,7 @@ const InfoScreen = () => {
         onNavigateToEdit={(fleet) => {
           setCurrentView("edit-fleet")
         }}
+        onNavigateToPartView={() => setCurrentView("part")}
         />
     )}
     {currentView === "contact-info" && (

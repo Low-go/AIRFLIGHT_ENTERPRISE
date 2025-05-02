@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 
-const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
+const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit, onNavigateToPartView }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyContacts } = useCompany();
@@ -258,7 +258,7 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit }) => {
           </Button>
 
           <Button
-            
+            onClick={() => onNavigateToPartView()}
             variant="contained"
             sx={{
               backgroundColor: colors.blueAccent[500],

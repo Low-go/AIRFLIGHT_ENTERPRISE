@@ -6,6 +6,7 @@ import DeleteModal from '../../Components/DeleteModal';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
+import SettingsIcon from '@mui/icons-material/Settings'; // Added gear icon import
 
 const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit, onNavigateToPartView }) => {
   const theme = useTheme();
@@ -111,6 +112,25 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit, onNavigateToPartVie
           >
             Fleet Information
           </Typography>
+          
+          {/* Parts navigation button*/}
+          <Button
+            onClick={() => onNavigateToPartView()}
+            variant="contained"
+            startIcon={<SettingsIcon />}
+            sx={{
+              backgroundColor: colors.blueAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+              '&:hover': {
+                backgroundColor: colors.blueAccent[600],
+              }
+            }}
+          >
+            PARTS
+          </Button>
         </Box>
 
         {/* The following is the model fields displayed  */}
@@ -255,23 +275,6 @@ const FleetInfoDisplay = ({ onBack, fleet, onNavigateToEdit, onNavigateToPartVie
             }}
           >
             Delete Fleet
-          </Button>
-
-          <Button
-            onClick={() => onNavigateToPartView()}
-            variant="contained"
-            sx={{
-              backgroundColor: colors.blueAccent[500],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              '&:hover': {
-                backgroundColor: colors.blueAccent[600],
-              }
-            }}
-          >
-            PARTS
           </Button>
         </Box>
       </Box>

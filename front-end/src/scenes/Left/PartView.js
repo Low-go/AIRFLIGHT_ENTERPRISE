@@ -3,7 +3,7 @@ import { tokens } from '../../theme';
 import {React, useState, useEffect} from 'react';
 import { useCompany } from '../../contexts/CompanyContext';
 
-const PartView = () => {
+const PartView = ({onBack}) => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -25,6 +25,25 @@ const PartView = () => {
             }}       
         >
             test
+
+
+
+            <Button
+            onClick={onBack}
+            variant="contained"
+            sx={{
+              backgroundColor: colors.blueAccent[500],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "8px 16px",
+              '&:hover': {
+                backgroundColor: colors.blueAccent[600],
+              }
+            }}
+          >
+            Back
+          </Button>
         </Box>
     )
 }

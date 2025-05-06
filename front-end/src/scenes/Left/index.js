@@ -84,7 +84,9 @@ const InfoScreen = () => {
         />
       )}
       {currentView === 'part' && (
-        <PartView/>
+        <PartView
+          onBack = {() => setCurrentView("fleet-info")}
+        />
       )}
     </>
   );

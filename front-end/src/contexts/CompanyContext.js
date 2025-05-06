@@ -7,10 +7,12 @@ export const CompanyProvider = ({ children }) => {
     const [selectedCompany, setSelectedCompany ] = useState(null);
     const [companyContacts, setCompanyContacts] = useState(null);
     const [companyFleets, setCompanyFleets] = useState(null);
+    const [fleetParts, setFleetParts] = useState(null);
 
     //loading stuff
     const [isLoadingContacts, setIsLoadingContacts] = useState(false);
     const [isLoadingFleets, setIsLoadingFleets] = useState(false);
+    const [isLoadingParts, setIsLoadingParts] = useState(false);
 
     // the current view state of info screen is also saved and maintained
     const [currentView, setCurrentView] = useState("main");
@@ -32,8 +34,10 @@ export const CompanyProvider = ({ children }) => {
         // Reset Children when new company selected
         setCompanyContacts(null);
         setCompanyFleets(null);
+        setFleetParts(null);
         setIsLoadingContacts(false);
         setIsLoadingFleets(false);
+        setIsLoadingParts(false);
 
         //reset the nodes and edges to 0
         setFlowNodes([]);
@@ -70,13 +74,30 @@ export const CompanyProvider = ({ children }) => {
         }
     }, []);
 
+
+    const fetchFleetParts = useCallback(async (companyId, fleetId) => {
+        try{
+            setIsLoadingParts(true);
+            const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets/${fleetId}/parts`);
+            const data = await response.json();
+            setFleetParts(data);
+        } catch (error){
+            console.error("Error fetching parts:", error);
+        } finally {
+            setIsLoadingParts(false);
+        }
+    })
+
+
     return (
         <CompanyContext.Provider value={{
             selectedCompany,
             companyContacts,
             companyFleets,
+            fleetParts,
             isLoadingContacts,
             isLoadingFleets,
+            isLoadingParts,
             currentView,
             flowNodes,
             flowEdges,
@@ -86,6 +107,7 @@ export const CompanyProvider = ({ children }) => {
             handleCompanySelect,
             fetchCompanyContacts,
             fetchCompanyFleets,
+            fetchFleetParts
         }}>
             {children}
         </CompanyContext.Provider>

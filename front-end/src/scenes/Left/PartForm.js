@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
+  console.log("fleetid is : ", fleetId)
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedCompany, fetchCompanyFleets } = useCompany();
@@ -79,6 +80,12 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
     // Determine which CRUD operation to perform
     const isEdit = mode === 'edit';
     const method = isEdit ? 'PUT' : 'POST';
+
+
+    console.log('Request payload:', {
+      ...formData,
+      fleet: fleetId
+    });
     
     try {
       const response = await fetch(
@@ -95,6 +102,13 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
         }
       );
 
+
+      // Add these lines to debug the response
+      const responseText = await response.text();
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      console.log('Response body:', responseText);
+
       if (!response.ok) {
         throw new Error(`Failed to ${isEdit ? 'update' : 'create'} part`);
       }
@@ -110,6 +124,7 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
         onBack();
       }, 700);
     } catch (err) {
+      console.error('Error details:', err);
       setError(err.message);
     } finally {
       setLoading(false);

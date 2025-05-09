@@ -201,7 +201,7 @@ const RightScreen = () => {
 
   return (
     <Box
-      flex="1"
+      flex= {1}
       bgcolor={colors.primary[400]}
       p="20px"
       borderRadius="4px"

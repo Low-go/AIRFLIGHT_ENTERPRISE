@@ -80,6 +80,8 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
     // Determine which CRUD operation to perform
     const isEdit = mode === 'edit';
     const method = isEdit ? 'PUT' : 'POST';
+    
+    const companyId = selectedCompany.id;
 
 
     console.log('Request payload:', {
@@ -88,8 +90,10 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
     });
     
     try {
+
+      // wrong api request
       const response = await fetch(
-        `http://127.0.0.1:8000/api/fleets/${fleetId}/parts/${isEdit ? partData.id + '/' : ''}`,
+        `http://127.0.0.1:8000/api/companies/${companyId}/fleets/${fleetId}/parts/${isEdit ? partData.id + '/' : ''}`,
         {
           method,
           headers: {

@@ -91,7 +91,7 @@ const PartForm = ({ onBack, mode="edit", partData = "", fleetId }) => {
     
     try {
 
-      // wrong api request
+ 
       const response = await fetch(
         `http://127.0.0.1:8000/api/companies/${companyId}/fleets/${fleetId}/parts/${isEdit ? partData.id + '/' : ''}`,
         {

@@ -86,7 +86,7 @@ export const CompanyProvider = ({ children }) => {
         } finally {
             setIsLoadingParts(false);
         }
-    })
+    }, []);
 
 
     return (

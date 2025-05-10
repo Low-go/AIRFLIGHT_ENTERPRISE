@@ -15,6 +15,12 @@ const PartsView = ({ onBack, onCreateNew, onNavigateToPartInfo, fleetId }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (selectedCompany && fleetId) {
+
+        console.log("About to fetch parts data for:", { 
+          companyId: selectedCompany.id, 
+          fleetId 
+        });
+
         try {
           setLoading(true);
           await fetchFleetParts(selectedCompany.id, fleetId);

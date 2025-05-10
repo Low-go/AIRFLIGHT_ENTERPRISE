@@ -9,6 +9,7 @@ import FleetInfo from "./FleetInfo";
 import ContactsInfo from "./ContactsInfo";
 import PartView from "./PartView";
 import PartForm from "./PartForm";
+import PartInfo from "./PartInfo";
 
 const InfoScreen = () => {
   const {currentView, setCurrentView} = useCompany();
@@ -97,6 +98,9 @@ const InfoScreen = () => {
           onBack={() => setCurrentView("part")}
           fleetId={selectedFleet.id}
         />
+      )}
+      {currentView === 'part-info' && (
+        <PartInfo/>
       )}
     </>
   );

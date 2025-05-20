@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PartInfo = () => {
+const PartInfo = ({part}) => {
   return (
     <div>
       test

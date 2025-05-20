@@ -90,13 +90,15 @@ const InfoScreen = () => {
           onBack = {() => setCurrentView("fleet-info")}
           onCreateNew={() => setCurrentView("create-part")}
           fleetId={selectedFleet.id}
+          onNavigateToPartInfo={() => setCurrentView("part-info")}
         />
       )}
       {currentView === 'create-part' && (
         <PartForm
-          mode="create" 
+          mode="create"
           onBack={() => setCurrentView("part")}
           fleetId={selectedFleet.id}
+          
         />
       )}
       {currentView === 'part-info' && (

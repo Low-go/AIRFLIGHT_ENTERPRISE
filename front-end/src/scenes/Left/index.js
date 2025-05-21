@@ -110,7 +110,17 @@ const InfoScreen = () => {
           part={selectedPart}
           fleet={selectedFleet}
           onBack={() => setCurrentView("part")}
-          
+          onNavigateToEdit={(part) => {
+            setCurrentView("edit-part")
+          }}
+        />
+      )}
+      {currentView === "edit-part" && (
+        <PartForm
+          onBack={() => setCurrentView("part-info")}
+          mode="edit"
+          partData={selectedPart}
+          fleetId={selectedFleet.id}
         />
       )}
     </>

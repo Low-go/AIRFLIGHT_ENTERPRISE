@@ -15,6 +15,7 @@ const InfoScreen = () => {
   const {currentView, setCurrentView} = useCompany();
   const [selectedContact, setSelectedContact] = useState(null);
   const [selectedFleet, setSelectedFleet] = useState(null);
+  const [selectedPart, setSelectedPart ] = useState(null);
 
   return (
     <>
@@ -90,7 +91,10 @@ const InfoScreen = () => {
           onBack = {() => setCurrentView("fleet-info")}
           onCreateNew={() => setCurrentView("create-part")}
           fleetId={selectedFleet.id}
-          onNavigateToPartInfo={() => setCurrentView("part-info")}
+          onNavigateToPartInfo={(part) => {
+            setSelectedPart(part);
+            setCurrentView("part-info");
+          }}
         />
       )}
       {currentView === 'create-part' && (
@@ -102,7 +106,12 @@ const InfoScreen = () => {
         />
       )}
       {currentView === 'part-info' && (
-        <PartInfo/>
+        <PartInfo
+          part={selectedPart}
+          fleet={selectedFleet}
+          onBack={() => setCurrentView("part")}
+          
+        />
       )}
     </>
   );

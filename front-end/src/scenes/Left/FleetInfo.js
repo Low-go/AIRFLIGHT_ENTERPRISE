@@ -1,4 +1,4 @@
-import { Box, Typography, Button, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
+import { Box, Typography, Button, useTheme, Snackbar } from '@mui/material';
 import { tokens } from '../../theme';
 import { useCompany } from '../../contexts/CompanyContext';
 import { useState } from 'react';  // Make sure to add this import

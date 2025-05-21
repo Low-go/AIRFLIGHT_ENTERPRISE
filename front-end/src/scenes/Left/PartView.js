@@ -252,7 +252,8 @@ const PartsView = ({ onBack, onCreateNew, onNavigateToPartInfo, fleetId }) => {
                 boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
               }
             }}
-            onClick={() => onNavigateToPartInfo(part)} //  Me attempting to pass the part object as prop 
+            onClick={() => {console.log(part); onNavigateToPartInfo(part)}} //  Me attempting to pass the part object as prop 
+
           >
             Info
           </Button>

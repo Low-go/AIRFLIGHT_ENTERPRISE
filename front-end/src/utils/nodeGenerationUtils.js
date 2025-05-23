@@ -182,7 +182,7 @@ export const handleSmallNodeButtonClick = (
   fetchCompanyContacts,
   fetchCompanyFleets,
   selectedCompany
-) => {
+  ) => {
   setNodes((currentNodes) => {
     // Find the current node to get its position
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
@@ -462,3 +462,46 @@ export const handleSmallNodeButtonClick = (
     return currentNodes;
   });
 };
+
+// I am legit just copying handleNodeButtonClick to mimic its functionality
+// I don't even remember how I built it at this point
+export const handleFleetButtonClick = (
+  nodeId,
+  handleId,
+  setEdges,
+  setNodes,
+  isDarkMode
+  ) => {
+    setNodes((currentNodes) => {
+
+
+      //Missing the find all descendants to recusviely go back, don't know if need it
+      //let me think
+
+      const existingPartsNodeIndex = currentNodes.findIndex(
+        node => node.data.name === 'Parts'
+      );
+
+      const partsNodeId = `${nodeId}-parts`;
+
+      if(handleId === 'medium-handle-right'){
+
+        if (existingPartsNodeIndex === -1){
+          
+          const partsNode = {
+            id: partsNodeId,
+            type: 'smallNode',
+            position: {
+              x: currentNodes[0].position.x + 200,
+              y: currentNodes[0].position.y - 130
+            },
+            data: {
+              name: 'Parts',
+            },
+          };
+
+        }
+
+      }
+    })
+  }

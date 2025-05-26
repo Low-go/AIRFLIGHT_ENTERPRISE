@@ -9,7 +9,7 @@ import MediumNode from './Nodes/MediumNode';
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import LoadingNode from './Nodes/LoadingNode';
 import { useCompany } from '../../contexts/CompanyContext';
-import { handleNodeButtonClick, handleSmallNodeButtonClick } from '../../utils/nodeGenerationUtils';
+import { handleNodeButtonClick, handleSmallNodeButtonClick, handleFleetButtonClick } from '../../utils/nodeGenerationUtils';
 
 
 const RightScreen = () => {

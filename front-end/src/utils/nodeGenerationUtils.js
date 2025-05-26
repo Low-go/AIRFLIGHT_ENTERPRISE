@@ -471,37 +471,98 @@ export const handleFleetButtonClick = (
   setEdges,
   setNodes,
   isDarkMode
-  ) => {
-    setNodes((currentNodes) => {
+) => {
+  setNodes((currentNodes) => {
 
-
-      //Missing the find all descendants to recusviely go back, don't know if need it
-      //let me think
-
-      const existingPartsNodeIndex = currentNodes.findIndex(
-        node => node.data.name === 'Parts'
+    // Helper function to recursively find all descendant node IDs 
+    const findAllDescendantNodeIds = (parentId, allNodes) => {
+      // Find direct children first
+      const directChildren = allNodes.filter(node => 
+        node.id.startsWith(`${parentId}-`)
       );
+      
+      let allDescendants = directChildren.map(node => node.id);
+      
+      // For each direct child, find their descendants recursively
+      // recursion strikes again!
+      directChildren.forEach(childNode => {
+        const childDescendants = findAllDescendantNodeIds(childNode.id, allNodes);
+        allDescendants = [...allDescendants, ...childDescendants];
+      });
+      
+      return allDescendants;
+    };
 
-      const partsNodeId = `${nodeId}-parts`;
+    // Find existing parts node by name
+    const existingPartsNodeIndex = currentNodes.findIndex(
+      node => node.data.name === 'Parts'
+    );
 
-      if(handleId === 'medium-handle-right'){
+    const partsNodeId = `${nodeId}-parts`;
 
-        if (existingPartsNodeIndex === -1){
-          
-          const partsNode = {
-            id: partsNodeId,
-            type: 'smallNode',
-            position: {
-              x: currentNodes[0].position.x + 200,
-              y: currentNodes[0].position.y - 130
-            },
-            data: {
-              name: 'Parts',
-            },
-          };
+    // Handle the medium-handle-right click
+    if (handleId === 'medium-handle-right') {
+      
+      // If no parts node exists, create one
+      if (existingPartsNodeIndex === -1) {
+        
+        const partsNode = {
+          id: partsNodeId,
+          type: 'smallNode',
+          position: {
+            x: currentNodes[0].position.x + 200,
+            y: currentNodes[0].position.y - 130
+          },
+          data: {
+            name: 'Parts',
+          },
+        };
 
-        }
+        // Create a new edge connecting the original node to the parts node
+        const newEdge = {
+          id: `e${nodeId}-${partsNodeId}`,
+          source: nodeId,
+          target: partsNodeId,
+          sourceHandle: 'medium-handle-right',
+          targetHandle: 'left-handle',
+          animated: true,
+          style: { 
+            stroke: isDarkMode ? "#ffffff" : "#000000", 
+            strokeWidth: 2
+          }
+        };
 
+        // Update both nodes and edges
+        setEdges(edges => [...edges, newEdge]);
+        return [...currentNodes, partsNode];
+        
+      } 
+      // If parts node exists, remove it and all its descendants - cleanup crew
+      else {
+        const partsNode = currentNodes[existingPartsNodeIndex];
+        
+        // Get all descendant node IDs - the whole branch
+        const descendantIds = findAllDescendantNodeIds(partsNode.id, currentNodes);
+        
+        // All node IDs to remove (parts node + all descendants)
+        const allNodesToRemove = [partsNode.id, ...descendantIds];
+        
+        // Remove all edges connected to these nodes
+        setEdges(edges => 
+          edges.filter(edge => 
+            !allNodesToRemove.includes(edge.source) && 
+            !allNodesToRemove.includes(edge.target)
+          )
+        );
+        
+        // Remove the nodes - bye bye!
+        return currentNodes.filter(node => 
+          !allNodesToRemove.includes(node.id)
+        );
       }
-    })
-  }
+    }
+    
+    // If no matching handle, return current nodes unchanged
+    return currentNodes;
+  });
+};

@@ -51,7 +51,7 @@ export const handleNodeButtonClick = (
           type: 'smallNode',
           position: { 
             x: currentNodes[0].position.x + 250, 
-            y: currentNodes[0].position.y - 150 
+            y: currentNodes[0].position.y - 120
           },
           data: {
             name: 'Contacts',
@@ -296,8 +296,8 @@ export const handleSmallNodeButtonClick = (
               id: contactNodeId,
               type: 'mediumNode',
               position: { 
-                x: currentNode.position.x + 250, 
-                y: currentNode.position.y - 150 + (index * 100) 
+                x: currentNode.position.x + 250 + (Math.random() * 80 - 40),
+                y: currentNode.position.y - 150 + (index * 118) 
               },
               data: {
                 name: contact.first_name || `Contact ${index + 1}`,
@@ -420,8 +420,8 @@ export const handleSmallNodeButtonClick = (
               id: fleetNodeId,
               type: 'mediumNode',
               position: { 
-                x: currentNode.position.x + 250, 
-                y: currentNode.position.y - 150 + (index * 100) 
+                x: currentNode.position.x + 250 + (Math.random() * 80 - 40),
+                y: currentNode.position.y - 150 + (index * 118) 
               },
               data: {
                 name: fleet.model || `Fleet ${index + 1}`,
@@ -516,7 +516,7 @@ export const handleFleetButtonClick = (
           id: partsNodeId,
           type: 'smallNode',
           position: {
-            x: currentNode.position.x + 350,
+            x: currentNode.position.x + 310,
             y: currentNode.position.y 
           },
           data: {

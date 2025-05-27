@@ -184,7 +184,7 @@ export const handleSmallNodeButtonClick = (
   selectedCompany
   ) => {
   setNodes((currentNodes) => {
-    // Find the current node to get its position
+    // Find the current node to get its position. Basically the parent
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
     if (currentNodeIndex === -1) return currentNodes;
     
@@ -474,6 +474,12 @@ export const handleFleetButtonClick = (
 ) => {
   setNodes((currentNodes) => {
 
+    // Find the current node to get its position. Basically the parent
+    const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
+    if (currentNodeIndex === -1) return currentNodes;
+    
+    const currentNode = currentNodes[currentNodeIndex];
+
     // Helper function to recursively find all descendant node IDs 
     const findAllDescendantNodeIds = (parentId, allNodes) => {
       // Find direct children first
@@ -510,8 +516,8 @@ export const handleFleetButtonClick = (
           id: partsNodeId,
           type: 'smallNode',
           position: {
-            x: currentNodes[0].position.x + 200,
-            y: currentNodes[0].position.y - 130
+            x: currentNode.position.x + 350,
+            y: currentNode.position.y 
           },
           data: {
             name: 'Parts',

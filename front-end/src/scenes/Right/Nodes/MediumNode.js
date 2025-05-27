@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Handle, Position } from "@xyflow/react";
 import InteractiveHandle from "../../../Components/InteractiveHandle";
@@ -29,12 +29,13 @@ const MediumBox = styled(Box)(({ isDarkMode }) => ({
   },
 }));
 
-const MediumNode = ({ data, isDarkMode }) => {
+const MediumNode = ({ data, isDarkMode, onHandleClick, id }) => {
+
+   const [mediumHandleHovered, setMediumHandleHovered] = useState(false);
 
 
   return (
     <MediumBox isDarkMode={isDarkMode}>
-
       <Handle
         id = 'medium-handle'
         type="target"
@@ -42,14 +43,21 @@ const MediumNode = ({ data, isDarkMode }) => {
         style={{ background: '#555', width: '10px', height: '10px' }}
         
       />
+      <div
+        onClick={() => onHandleClick(id, "medium-handle-right")}
+        onMouseEnter={() => setMediumHandleHovered(true)}
+        onMouseLeave={() => setMediumHandleHovered(false)}
+         style={{ position: 'absolute', right: -3, top: '38%', width: 20, height: 20, zIndex: 10 }}
+      >
 
-      <InteractiveHandle
-        id="medium-handle-right"
-        type="source"
-        position={Position.Right}
-        style={{ background: '#555', width: '10px', height: '10px' }}
-      />
-      
+        <InteractiveHandle
+          id="medium-handle-right"
+          type="source"
+          position={Position.Right}
+          style={{ background: '#555', width: '10px', height: '10px' }}
+        />
+
+      </div> 
       <Box
         padding={1.5}
         borderBottom="1px solid #bbbdbf"

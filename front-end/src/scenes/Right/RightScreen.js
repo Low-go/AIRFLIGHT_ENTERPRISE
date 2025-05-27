@@ -63,7 +63,18 @@ const RightScreen = () => {
         selectedCompany
       )}
     />,
-    mediumNode: (props) => <MediumNode {...props} isDarkMode={isDarkMode}/>,
+    mediumNode: (props) => <MediumNode 
+      {...props} 
+      isDarkMode={isDarkMode}
+      onHandleClick={(nodeId, handleId) => handleFleetButtonClick(
+        nodeId,
+        handleId,
+        setFlowEdges,
+        setFlowNodes,
+        isDarkMode
+      )}
+      
+      />,
     loadingNode: (props) => <LoadingNode {...props} isDarkMode={isDarkMode}/>
   }), [isDarkMode, companyContacts, companyFleets, isLoadingContacts, isLoadingFleets, selectedCompany, setFlowEdges, setFlowNodes]);
   

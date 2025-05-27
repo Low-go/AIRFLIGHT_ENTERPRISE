@@ -495,7 +495,7 @@ export const handleFleetButtonClick = (
 
     // Find existing parts node by name
     const existingPartsNodeIndex = currentNodes.findIndex(
-      node => node.data.name === 'Parts'
+      node => node.id.startsWith(`${nodeId}-parts`)
     );
 
     const partsNodeId = `${nodeId}-parts`;

@@ -177,10 +177,13 @@ export const handleSmallNodeButtonClick = (
   isDarkMode,
   companyContacts,
   companyFleets,
+  companyParts,
   isLoadingContacts,
   isLoadingFleets,
+  isLoadingParts,
   fetchCompanyContacts,
   fetchCompanyFleets,
+  fetchFleetParts,
   selectedCompany
   ) => {
   setNodes((currentNodes) => {
@@ -457,6 +460,47 @@ export const handleSmallNodeButtonClick = (
         // If we get here, something went wrong - return current nodes
         return currentNodes;
       }
+    }
+
+    //checks if this is a Parts node
+    if (currentNode.data.name === 'Parts'){
+      
+      // Check if we already have nodes for parts (including loading nodes)
+      const existingPartNodes = currentNodes.filter(
+        node => node.id.startsWith(`${nodeId}-part-`) || node.id === `${nodeId}-loading-parts`
+      );
+
+
+      if (existingPartNodes.length > 0) {
+        // Get all node IDs to remove (including descendants)
+        const nodeIdsToRemove = existingPartNodes.flatMap(node => 
+          [node.id, ...findAllDescendantNodeIds(node.id, currentNodes)]
+        );
+
+
+        setEdges(edges => 
+          edges.filter(edge => 
+            !nodeIdsToRemove.includes(edge.source) && 
+            !nodeIdsToRemove.includes(edge.target)
+          )
+        );
+        
+        // Remove the nodes and their descendants
+        return currentNodes.filter(node => 
+          !nodeIdsToRemove.includes(node.id)
+        );
+      }
+      
+      // load and create nodes
+      else {
+
+        // if not loading fetch data
+        if (!isLoadingParts && !companyParts && fleetId) {
+          fetchFleetParts(fleetId); // Fetch parts for this specific fleet
+        }
+      }
+
+
     }
     
     // If no matching condition, return current nodes

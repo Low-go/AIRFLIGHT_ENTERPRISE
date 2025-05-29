@@ -184,6 +184,7 @@ export const handleSmallNodeButtonClick = (
   selectedCompany
   ) => {
   setNodes((currentNodes) => {
+
     // Find the current node to get its position. Basically the parent
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
     if (currentNodeIndex === -1) return currentNodes;
@@ -473,6 +474,12 @@ export const handleFleetButtonClick = (
   isDarkMode
 ) => {
   setNodes((currentNodes) => {
+
+    // whoops contacts should not make parts so lets do a check
+    // to see if they are a part
+    if (nodeId.includes('-contact-')){
+      return currentNodes;
+    }
 
     // Find the current node to get its position. Basically the parent
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);

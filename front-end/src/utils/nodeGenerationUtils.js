@@ -177,13 +177,13 @@ export const handleSmallNodeButtonClick = (
   isDarkMode,
   companyContacts,
   companyFleets,
-  companyParts,
+  // companyParts,
   isLoadingContacts,
   isLoadingFleets,
-  isLoadingParts,
+  // isLoadingParts,
   fetchCompanyContacts,
   fetchCompanyFleets,
-  fetchFleetParts,
+  // fetchFleetParts,
   selectedCompany
   ) => {
   setNodes((currentNodes) => {
@@ -495,9 +495,11 @@ export const handleSmallNodeButtonClick = (
       else {
 
         // if not loading fetch data
-        if (!isLoadingParts && !companyParts && fleetId) {
-          fetchFleetParts(fleetId); // Fetch parts for this specific fleet
-        }
+        // if (!isLoadingParts && !companyParts && fleetId) {
+        //   fetchFleetParts(fleetId); // Fetch parts for this specific fleet
+        // }
+
+        // return currentNodes
       }
 
 

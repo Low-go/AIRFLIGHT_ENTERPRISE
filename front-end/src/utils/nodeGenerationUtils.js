@@ -177,17 +177,16 @@ export const handleSmallNodeButtonClick = (
   isDarkMode,
   companyContacts,
   companyFleets,
-  // companyParts,
+  fleetParts,  
   isLoadingContacts,
   isLoadingFleets,
-  // isLoadingParts,
+  isLoadingParts,  
   fetchCompanyContacts,
   fetchCompanyFleets,
-  // fetchFleetParts,
+  fetchFleetParts, 
   selectedCompany
   ) => {
   setNodes((currentNodes) => {
-
     // Find the current node to get its position. Basically the parent
     const currentNodeIndex = currentNodes.findIndex(node => node.id === nodeId);
     if (currentNodeIndex === -1) return currentNodes;
@@ -461,23 +460,40 @@ export const handleSmallNodeButtonClick = (
         return currentNodes;
       }
     }
+    
+    // Check if this is a Parts node
+    if (currentNode.data.name === 'Parts') {
+      // Extract fleet ID from the node ID hierarchy
+      // Assuming Parts nodes are children of fleet nodes with IDs like "x-fleet-123-y-parts"
+      const fleetIdMatch = nodeId.match(/-fleet-(\d+)/);
+      const fleetId = fleetIdMatch ? fleetIdMatch[1] : null;
 
-    //checks if this is a Parts node
-    if (currentNode.data.name === 'Parts'){
+
+      console.log("Creating nodes for parts:", fleetParts);
+      console.log("Parts clicked, fleetId:", fleetId);
+      console.log("isLoadingParts:", isLoadingParts);
+      console.log("fleetParts:", fleetParts);
+      console.log("selectedCompany:", selectedCompany);
+
+      
+      if (!fleetId) {
+        console.error("Could not extract fleet ID from node ID:", nodeId);
+        return currentNodes;
+      }
       
       // Check if we already have nodes for parts (including loading nodes)
       const existingPartNodes = currentNodes.filter(
         node => node.id.startsWith(`${nodeId}-part-`) || node.id === `${nodeId}-loading-parts`
       );
-
-
+      
+      // If we already have part nodes, remove them and their descendants
       if (existingPartNodes.length > 0) {
         // Get all node IDs to remove (including descendants)
         const nodeIdsToRemove = existingPartNodes.flatMap(node => 
           [node.id, ...findAllDescendantNodeIds(node.id, currentNodes)]
         );
-
-
+        
+        // Remove all edges connected to these nodes and their descendants
         setEdges(edges => 
           edges.filter(edge => 
             !nodeIdsToRemove.includes(edge.source) && 
@@ -489,20 +505,102 @@ export const handleSmallNodeButtonClick = (
         return currentNodes.filter(node => 
           !nodeIdsToRemove.includes(node.id)
         );
-      }
-      
-      // load and create nodes
+      } 
+      // Otherwise, initiate loading or create nodes
       else {
-
-        // if not loading fetch data
-        // if (!isLoadingParts && !companyParts && fleetId) {
-        //   fetchFleetParts(fleetId); // Fetch parts for this specific fleet
-        // }
-
-        // return currentNodes
+        // If not loading and no data, fetch the data
+        if (!isLoadingParts && !fleetParts && selectedCompany && fleetId) {
+          fetchFleetParts(selectedCompany.id, fleetId);
+          return currentNodes;
+        }
+        
+        // If loading, create a loading node
+        if (isLoadingParts) {
+          const loadingNodeId = `${nodeId}-loading-parts`;
+          
+          // Create a loading node
+          const loadingNode = {
+            id: loadingNodeId,
+            type: 'loadingNode',
+            position: { 
+              x: currentNode.position.x + 250, 
+              y: currentNode.position.y 
+            },
+            data: {
+              type: 'Parts',
+            },
+          };
+          
+          // Create an edge connecting to the loading node
+          const loadingEdge = {
+            id: `e${nodeId}-${loadingNodeId}`,
+            source: nodeId,
+            target: loadingNodeId,
+            sourceHandle: 'right-handle',
+            targetHandle: 'medium-handle',
+            animated: true,
+            style: { 
+              stroke: isDarkMode ? "#ffffff" : "#000000", 
+              strokeWidth: 2
+            }
+          };
+          
+          // Update edges
+          setEdges(edges => [...edges, loadingEdge]);
+          
+          // Return with the loading node
+          return [...currentNodes, loadingNode];
+        }
+        
+        // If data is loaded, create actual nodes
+        if (fleetParts) {
+          const newNodes = [];
+          const newEdges = [];
+          
+          fleetParts.forEach((part, index) => {
+            const partNodeId = `${nodeId}-part-${part.id}`;
+            
+            // Create a medium node for the part
+            const partNode = {
+              id: partNodeId,
+              type: 'mediumNode',
+              position: { 
+                x: currentNode.position.x + 250 + (Math.random() * 80 - 40),
+                y: currentNode.position.y - 150 + (index * 118) 
+              },
+              data: {
+                name: part.name || part.part_number_identifier || `Part ${index + 1}`,
+              },
+            };
+            
+            // Create an edge connecting the small node to the medium node
+            const newEdge = {
+              id: `e${nodeId}-${partNodeId}`,
+              source: nodeId,
+              target: partNodeId,
+              sourceHandle: 'right-handle',
+              targetHandle: 'medium-handle',
+              animated: true,
+              style: { 
+                stroke: isDarkMode ? "#ffffff" : "#000000", 
+                strokeWidth: 2
+              }
+            };
+            
+            newNodes.push(partNode);
+            newEdges.push(newEdge);
+          });
+          
+          // Update edges
+          setEdges(edges => [...edges, ...newEdges]);
+          
+          // Return updated nodes
+          return [...currentNodes, ...newNodes];
+        }
+        
+        // If we get here, something went wrong - return current nodes
+        return currentNodes;
       }
-
-
     }
     
     // If no matching condition, return current nodes
@@ -523,7 +621,7 @@ export const handleFleetButtonClick = (
 
     // whoops contacts should not make parts so lets do a check
     // to see if they are a part
-    if (nodeId.includes('-contact-')){
+    if (nodeId.includes('-contact-') || nodeId.includes('parts')){
       return currentNodes;
     }
 

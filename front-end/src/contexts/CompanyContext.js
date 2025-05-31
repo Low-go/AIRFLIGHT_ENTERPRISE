@@ -80,6 +80,8 @@ export const CompanyProvider = ({ children }) => {
             setIsLoadingParts(true);
             const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets/${fleetId}/parts`);
             const data = await response.json();
+            console.log("Response status:", response.status); // test
+            console.log("API Response data:", data); // test
             setFleetParts(data);
         } catch (error){
             console.error("Error fetching parts:", error);

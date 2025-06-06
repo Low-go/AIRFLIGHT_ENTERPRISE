@@ -177,7 +177,7 @@ export const handleSmallNodeButtonClick = (
   isDarkMode,
   companyContacts,
   companyFleets,
-  fleetParts,  
+  fleetPartsMap,  
   isLoadingContacts,
   isLoadingFleets,
   isLoadingParts,  
@@ -467,14 +467,16 @@ export const handleSmallNodeButtonClick = (
       // Assuming Parts nodes are children of fleet nodes with IDs like "x-fleet-123-y-parts"
       const fleetIdMatch = nodeId.match(/-fleet-(\d+)/);
       const fleetId = fleetIdMatch ? fleetIdMatch[1] : null;
+      const partsForThisFleet = fleetPartsMap[fleetId];
 
-
-      console.log("Creating nodes for parts:", fleetParts);
-      console.log("Parts clicked, fleetId:", fleetId);
-      console.log("isLoadingParts:", isLoadingParts);
-      console.log("fleetParts:", fleetParts);
-      console.log("selectedCompany:", selectedCompany);
-
+      // test
+      console.log("Parts node clicked!");
+      console.log("Node ID:", nodeId);
+      console.log("Fleet ID extracted:", fleetId);
+      console.log("Fleet parts map:", fleetPartsMap);
+      console.log("Parts for this fleet:", partsForThisFleet);
+      console.log("Is loading parts:", isLoadingParts);
+      console.log("Selected company:", selectedCompany);
       
       if (!fleetId) {
         console.error("Could not extract fleet ID from node ID:", nodeId);
@@ -509,7 +511,7 @@ export const handleSmallNodeButtonClick = (
       // Otherwise, initiate loading or create nodes
       else {
         // If not loading and no data, fetch the data
-        if (!isLoadingParts && !fleetParts && selectedCompany && fleetId) {
+        if (!isLoadingParts && !partsForThisFleet && selectedCompany && fleetId) {
           fetchFleetParts(selectedCompany.id, fleetId);
           return currentNodes;
         }
@@ -552,12 +554,13 @@ export const handleSmallNodeButtonClick = (
           return [...currentNodes, loadingNode];
         }
         
+
         // If data is loaded, create actual nodes
-        if (fleetParts) {
+        if (partsForThisFleet) {
           const newNodes = [];
           const newEdges = [];
           
-          fleetParts.forEach((part, index) => {
+          partsForThisFleet.forEach((part, index) => {
             const partNodeId = `${nodeId}-part-${part.id}`;
             
             // Create a medium node for the part

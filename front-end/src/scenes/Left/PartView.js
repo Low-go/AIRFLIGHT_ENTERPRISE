@@ -6,9 +6,12 @@ import { useCompany } from '../../contexts/CompanyContext';
 const PartsView = ({ onBack, onCreateNew, onNavigateToPartInfo, fleetId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedCompany, fleetParts, fetchFleetParts } = useCompany();
+  const { selectedCompany, fleetPartsMap, fetchFleetParts } = useCompany();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+
+  const fleetParts = fleetPartsMap[fleetId] || [];
 
   //sets loading to be true and utilizes the global company id and fleet id
   // saved and passes it into our global function for making api calls for parts

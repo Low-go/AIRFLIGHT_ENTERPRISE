@@ -7,7 +7,7 @@ export const CompanyProvider = ({ children }) => {
     const [selectedCompany, setSelectedCompany ] = useState(null);
     const [companyContacts, setCompanyContacts] = useState(null);
     const [companyFleets, setCompanyFleets] = useState(null);
-    const [fleetParts, setFleetParts] = useState(null);
+    const [fleetPartsMap, setFleetPartsMap] = useState({}); // hashmap to track each fleets parts
 
     //loading stuff
     const [isLoadingContacts, setIsLoadingContacts] = useState(false);
@@ -34,7 +34,7 @@ export const CompanyProvider = ({ children }) => {
         // Reset Children when new company selected
         setCompanyContacts(null);
         setCompanyFleets(null);
-        setFleetParts(null);
+        setFleetPartsMap({});
         setIsLoadingContacts(false);
         setIsLoadingFleets(false);
         setIsLoadingParts(false);
@@ -80,9 +80,11 @@ export const CompanyProvider = ({ children }) => {
             setIsLoadingParts(true);
             const response = await fetch(`http://127.0.0.1:8000/api/companies/${companyId}/fleets/${fleetId}/parts`);
             const data = await response.json();
-            console.log("Response status:", response.status); // test
-            console.log("API Response data:", data); // test
-            setFleetParts(data);
+          
+            setFleetPartsMap(prev => ({ // setting info like a hashmap, fleet id to parts
+                ...prev,
+                [fleetId]: data
+            }));
         } catch (error){
             console.error("Error fetching parts:", error);
         } finally {
@@ -96,7 +98,7 @@ export const CompanyProvider = ({ children }) => {
             selectedCompany,
             companyContacts,
             companyFleets,
-            fleetParts,
+            fleetPartsMap,
             isLoadingContacts,
             isLoadingFleets,
             isLoadingParts,
